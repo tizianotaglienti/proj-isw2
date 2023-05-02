@@ -1,14 +1,18 @@
-package main.java.entities;
+package entities;
 
 import java.time.LocalDateTime;
 
 public class Version {
     private String name;
     private LocalDateTime releaseDate;
+    private String versionId;
+    private int index;
 
-    public Version(String name, LocalDateTime releaseDate){
+    public Version(String name, LocalDateTime releaseDate, String versionId, int index){
         this.name = name;
         this.releaseDate = releaseDate;
+        this.versionId = versionId;
+        this.index = index;
     }
 
     public String getName(){
@@ -25,5 +29,13 @@ public class Version {
 
     public void setReleaseDate(LocalDateTime releaseDate){
         this.releaseDate = releaseDate;
+    }
+
+    public int getIndex(){
+        return index;
+    }
+
+    public void setIndex(int index){
+        this.index = index;
     }
 }
