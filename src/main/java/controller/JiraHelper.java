@@ -105,7 +105,11 @@ public class JiraHelper {
             total = json.getInt("total");
 
             for (; lowerBound < total && lowerBound < upperBound; lowerBound++) {
-
+                String key = bugsList.getJSONObject(lowerBound%MAX_RESULTS).get("key").toString();
+                String version = bugsList.getJSONObject(lowerBound%MAX_RESULTS).getJSONObject("fields").get("versions").toString();
+                String fv = bugsList.getJSONObject(lowerBound%MAX_RESULTS).getJSONObject("fields").get("fixVersions").toString();
+                String resolutionDate = bugsList.getJSONObject(lowerBound%MAX_RESULTS).getJSONObject("fields").get("resolutiondate").toString();
+                String creationDate = bugsList.getJSONObject(lowerBound%MAX_RESULTS).getJSONObject("fields").get("created").toString();
             }
         } while(lowerBound < total);
         return bugs;
