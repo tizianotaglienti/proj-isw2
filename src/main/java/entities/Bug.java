@@ -9,6 +9,11 @@ public class Bug {
     private Version iv;
     private List<Version> av;
 
+    private double proportion;
+    private String resolutionDate;
+    private String creationDate;
+    private int id;
+
     public Bug(String key, Version fv, Version ov, Version iv, List<Version> av){
         this.key = key;
         this.fv = fv;

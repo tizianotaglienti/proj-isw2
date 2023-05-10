@@ -28,10 +28,10 @@ public class ComputeVersions {
         return bug;
     }
 
-    private List<Version> affectedVersions(JSONArray avJSON){
-
-
-    }
+//    private List<Version> affectedVersions(JSONArray avJSON){
+//
+//
+//    }
 
     public Version versionComputer(List<Version> versions, String date){
         Version version = null;
@@ -41,7 +41,9 @@ public class ComputeVersions {
             if (datetime.compareTo(v.getReleaseDate()) < 0) {
                 version = v;
             }
-            return version;
         }
+
+        return version;
+
     }
 }
