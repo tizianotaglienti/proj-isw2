@@ -2,7 +2,7 @@ package entities;
 
 public class File {
     private String fileName;
-    private int versionIndex;
+    private String version;
 
     private int locTouched;
     private int numberRevisions;
@@ -34,14 +34,6 @@ public class File {
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
-    }
-
-    public int getVersionIndex() {
-        return versionIndex;
-    }
-
-    public void setVersionIndex(int versionIndex) {
-        this.versionIndex = versionIndex;
     }
 
     public int getLocTouched() {
@@ -125,4 +117,11 @@ public class File {
     }
 
 
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
 }

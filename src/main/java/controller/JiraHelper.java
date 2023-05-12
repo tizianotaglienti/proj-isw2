@@ -83,12 +83,12 @@ public class JiraHelper {
         return versions;
     }
 
-    public List<Bug> getBugs() throws IOException {
+    public List<Bug> getBugs(List<Version> versions) throws IOException {
 
         final int MAX_RESULTS = 1000;
 
         int total = 0;
-        List<Version> versions = this.getAllVersions();
+        //List<Version> versions = this.getAllVersions();
         List<Bug> bugs = new ArrayList<>();
         int upperBound = 0;
         int lowerBound = 0;

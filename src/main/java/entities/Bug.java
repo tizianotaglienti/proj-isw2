@@ -70,4 +70,35 @@ public class Bug {
         this.av = av;
     }
 
+    public double getProportion() {
+        return proportion;
+    }
+
+    public void setProportion(double proportion) {
+        this.proportion = proportion;
+    }
+
+    public String getResolutionDate() {
+        return resolutionDate;
+    }
+
+    public void setResolutionDate(String resolutionDate) {
+        this.resolutionDate = resolutionDate;
+    }
+
+    public String getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(String creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }
