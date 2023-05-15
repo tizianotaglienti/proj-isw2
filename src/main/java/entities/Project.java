@@ -6,6 +6,7 @@ import java.util.List;
 public class Project {
     private String name;
 
+    private Integer halfVersion;
 
     private List<File> fileList = new ArrayList<>();
     private List<String> version = new ArrayList<>();
@@ -94,5 +95,13 @@ public class Project {
 
     public void addBugWithoutAV(Bug bug){
         this.bugWithoutAV.add(bug);
+    }
+
+    public Integer getHalfVersion() {
+        return halfVersion;
+    }
+
+    public void setHalfVersion(Integer halfVersion) {
+        this.halfVersion = halfVersion;
     }
 }

@@ -9,6 +9,10 @@ public class Bug {
     private Version iv;
     private List<Version> av;
 
+    private int fvIndex;
+    private int ovIndex;
+    private int ivIndex;
+
     private double proportion;
     private String resolutionDate;
     private String creationDate;
@@ -100,5 +104,29 @@ public class Bug {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getFvIndex() {
+        return fvIndex;
+    }
+
+    public void setFvIndex(int fvIndex) {
+        this.fvIndex = fvIndex;
+    }
+
+    public int getOvIndex() {
+        return ovIndex;
+    }
+
+    public void setOvIndex(int ovIndex) {
+        this.ovIndex = ovIndex;
+    }
+
+    public int getIvIndex() {
+        return ivIndex;
+    }
+
+    public void setIvIndex(int ivIndex) {
+        this.ivIndex = ivIndex;
     }
 }

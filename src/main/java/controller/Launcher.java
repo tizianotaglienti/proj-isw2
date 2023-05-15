@@ -39,6 +39,7 @@ public class Launcher {
                 System.out.println(" IV: " + b.getIv().getIndex());
             }
         }
+        MetricsController prop = new MetricsController();
 
 
 

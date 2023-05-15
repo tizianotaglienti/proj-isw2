@@ -12,6 +12,10 @@ import java.util.List;
 public class MetricsController {
 
 
+    public void getMetrics(){
+
+    }
+
 
     public void proportion(Bug bug, Project project){
         if(bug.getIv().getIndex() == 0){
@@ -42,7 +46,7 @@ public class MetricsController {
 
             if(proportion >= 0){
                 ivIndex = fvIndex - proportion*(fvIndex-ovIndex);
-                bug.setIv(ivIndex);
+                bug.setIvIndex(ivIndex);
                 // cambiare iv, ov, fv in Bug in tutti index (int) con rispettivi get e set
                 // e poi cambiare tutti i getV.getindex in getVindex...
                 project.getBugWithoutAV().remove(k);
