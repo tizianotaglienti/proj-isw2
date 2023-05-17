@@ -15,7 +15,7 @@ public class ComputeVersions {
         Version ov = versionComputer(versions, openingDate);
         Version fv = versionComputer(versions, fixDate);
         Version iv = null;
-        List<Version> av = affectedVersions(avJSON);
+        List<Version> av = affectedVersions(avJSON, versions);
 
         if(!av.isEmpty()){
             av.sort(Comparator.comparing(Version::getReleaseDate));
@@ -26,6 +26,34 @@ public class ComputeVersions {
             bug = new Bug(key, fv, ov, av);
         }
         return bug;
+    }
+
+    private List<Version> affectedVersions(JSONArray avJSON, List<Version> versions) {
+        List<Version> av = new ArrayList<>();
+        int length = avJSON.length();
+        boolean released;
+        for(int i = 0; i < length; i++){
+            released = avJSON.getJSONObject(i).getBoolean("released");
+            if(released){
+                String releaseName = avJSON.getJSONObject(i).get("name").toString();
+                LocalDateTime releaseDate = null;
+                int index = 0;
+                for(Version v : versions){
+                    if(v.getName().equals(releaseName)){
+                        releaseDate = v.getReleaseDate();
+                        index = v.getIndex();
+                    }
+                }
+                String releaseId = avJSON.getJSONObject(i).get("id").toString();
+
+                Version version = new Version(releaseName, releaseDate, releaseId, index);
+                if(releaseDate != null){
+                    av.add(version);
+                }
+            }
+
+        }
+        return av;
     }
 
 //    private List<Version> affectedVersions(JSONArray avJSON){
@@ -45,5 +73,31 @@ public class ComputeVersions {
 
         return version;
 
+    }
+
+    public List<Bug> discardBugs(List<Bug> bugList){
+        List<Bug> discardBugsList = new ArrayList<>();
+        for(Bug b : bugList){
+            // esistono bug che non hanno FV o OV
+            // bug che non rispettano FV > OV e OV > IV
+            // e bug che hanno IV = OV = FV
+            boolean discard = false;
+            if(b.getFv() == null || b.getOv() == null){
+                discard = true;
+            }
+            else if(b.getOv().getReleaseDate().compareTo(b.getFv().getReleaseDate()) > 0){
+                discard = true;
+            }
+            else if(b.getIv() != null && b.getOv().getReleaseDate().compareTo(b.getFv().getReleaseDate()) == 0 && b.getIv().getReleaseDate().compareTo(b.getOv().getReleaseDate()) == 0){
+                discard = true;
+            }
+            else if(b.getIv() != null && b.getIv().getReleaseDate().compareTo(b.getOv().getReleaseDate()) >= 0){
+                discard = true;
+            }
+            if(!discard){
+                discardBugsList.add(b);
+            }
+        }
+        return discardBugsList;
     }
 }

@@ -38,6 +38,7 @@ public class JiraHelper {
         try (InputStream is = new URL(url).openStream()) {
             BufferedReader rd = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
             String jsonText = readAll(rd);
+            //System.out.println(jsonText);
             return new JSONObject(jsonText);
         }
     }
@@ -46,6 +47,8 @@ public class JiraHelper {
         try (InputStream is = new URL(url).openStream()) {
             BufferedReader rd = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
             String jsonText = readAll(rd);
+            System.out.println(jsonText.substring(0,20));
+            System.out.println(jsonText.substring(jsonText.length()-20));
             return new JSONArray(jsonText);
         }
     }
@@ -56,11 +59,12 @@ public class JiraHelper {
 
         String url = "https://issues.apache.org/jira/rest/api/2/project/"+this.projectName+"/versions";
         JSONArray json = readJsonArrayFromUrl(url);
-        int tot =json.length();
+        int tot = json.length();
         int i;
         int count = 0;
         for (i = 0; i < tot; i++){
             String nameRelease = json.getJSONObject(i).get("name").toString();
+            //System.out.println(nameRelease);
             String released = json.getJSONObject(i).get("released").toString();
             String releaseId = json.getJSONObject(i).get("id").toString();
             if(released.equalsIgnoreCase("true")){
@@ -72,9 +76,9 @@ public class JiraHelper {
                     count++;
                     Version element = new Version(nameRelease, dateRelease, releaseId, count);
                     versions.add(element);
-                }catch (JSONException e){
+                } catch (JSONException e){
                     Logger logger = Logger.getLogger(JiraHelper.class.getName());
-                    String out ="["+this.projectName+"] - una release non possiede la data di rilascio. Release saltata.";
+                    String out ="["+this.projectName+"] - una release non ha la release date. Release saltata.";
                     logger.log(Level.INFO, out);
                 }
             }
@@ -89,9 +93,13 @@ public class JiraHelper {
 
         int total = 0;
         //List<Version> versions = this.getAllVersions();
-        List<Bug> bugs = new ArrayList<>();
+        List<Bug> bugsList = new ArrayList<>();
         int upperBound = 0;
         int lowerBound = 0;
+
+        JSONArray avJSON;
+
+        ComputeVersions cv = new ComputeVersions();
 
         do {
             upperBound = lowerBound + MAX_RESULTS;
@@ -101,18 +109,28 @@ public class JiraHelper {
                     "%22%20%3D%20%22closed%22)%20AND%20%20%22resolution%22%20%3D%20%22fixed%22%20&fields=key," +
                     "resolutiondate,versions,created,fixVersions&startAt=" + lowerBound + "&maxResults=" + upperBound;
             JSONObject json = readJsonFromUrl(url);
-            JSONArray bugsList = readJsonArrayFromUrl(url);
+            //System.out.println(json.toString());
+            //JSONArray bugsList = readJsonArrayFromUrl(url);
+            JSONArray bugs = json.getJSONArray("issues");
             total = json.getInt("total");
 
             for (; lowerBound < total && lowerBound < upperBound; lowerBound++) {
-                String key = bugsList.getJSONObject(lowerBound%MAX_RESULTS).get("key").toString();
-                String version = bugsList.getJSONObject(lowerBound%MAX_RESULTS).getJSONObject("fields").get("versions").toString();
-                String fv = bugsList.getJSONObject(lowerBound%MAX_RESULTS).getJSONObject("fields").get("fixVersions").toString();
-                String resolutionDate = bugsList.getJSONObject(lowerBound%MAX_RESULTS).getJSONObject("fields").get("resolutiondate").toString();
-                String creationDate = bugsList.getJSONObject(lowerBound%MAX_RESULTS).getJSONObject("fields").get("created").toString();
+
+                // WARNING CONTROLLARE COME SONO FATTI
+                String key = bugs.getJSONObject(lowerBound%MAX_RESULTS).get("key").toString();
+                String version = bugs.getJSONObject(lowerBound%MAX_RESULTS).getJSONObject("fields").get("versions").toString();
+                String fv = bugs.getJSONObject(lowerBound%MAX_RESULTS).getJSONObject("fields").get("fixVersions").toString();
+                String resolutionDate = bugs.getJSONObject(lowerBound%MAX_RESULTS).getJSONObject("fields").get("resolutiondate").toString();
+                String creationDate = bugs.getJSONObject(lowerBound%MAX_RESULTS).getJSONObject("fields").get("created").toString();
+                avJSON = bugs.getJSONObject(lowerBound%MAX_RESULTS).getJSONObject("fields").getJSONArray("versions");
+
+                Bug bug = cv.bugBuilder(versions, creationDate, resolutionDate, avJSON, key);
+                bugsList.add(bug);
             }
         } while(lowerBound < total);
-        return bugs;
+
+        List<Bug> undiscardedBugs = cv.discardBugs(bugsList);
+        return undiscardedBugs;
     }
 
 }

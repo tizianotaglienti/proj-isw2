@@ -3,6 +3,7 @@ package entities;
 public class File {
     private String fileName;
     private String version;
+    private int versionIndex;
 
     private int locTouched;
     private int numberRevisions;
@@ -16,6 +17,9 @@ public class File {
     private boolean buggy;
 
     public File(){
+        this.fileName = "";
+        this.versionIndex = 0;
+
         this.locTouched = 0;
         this.numberRevisions = 0;
         this.numberBugFix = 0;
@@ -123,5 +127,13 @@ public class File {
 
     public void setVersion(String version) {
         this.version = version;
+    }
+
+    public int getVersionIndex() {
+        return versionIndex;
+    }
+
+    public void setVersionIndex(int versionIndex) {
+        this.versionIndex = versionIndex;
     }
 }

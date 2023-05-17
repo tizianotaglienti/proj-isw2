@@ -12,7 +12,7 @@ public class csvController {
     private FileWriter csv;
     private Project project;
 
-    public csvController(){
+    public csvController(Project project){
 
         try {
             csv = initializeCSVResult();
