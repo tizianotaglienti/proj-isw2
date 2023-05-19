@@ -19,7 +19,8 @@ public class ComputeVersions {
 
         if(!av.isEmpty()){
             av.sort(Comparator.comparing(Version::getReleaseDate));
-            iv = av.get(av.size()-1);
+            //iv = av.get(av.size()-1);
+            iv = av.get(0);
             bug = new Bug(key, fv, ov, iv, av);
         }
         else {
@@ -34,44 +35,39 @@ public class ComputeVersions {
         boolean released;
         for(int i = 0; i < length; i++){
             released = avJSON.getJSONObject(i).getBoolean("released");
-            if(released){
+            if(released) {
                 String releaseName = avJSON.getJSONObject(i).get("name").toString();
                 LocalDateTime releaseDate = null;
                 int index = 0;
-                for(Version v : versions){
-                    if(v.getName().equals(releaseName)){
+                for (Version v : versions) {
+                    if (v.getName().equals(releaseName)) {
                         releaseDate = v.getReleaseDate();
                         index = v.getIndex();
                     }
-                }
-                String releaseId = avJSON.getJSONObject(i).get("id").toString();
 
-                Version version = new Version(releaseName, releaseDate, releaseId, index);
-                if(releaseDate != null){
-                    av.add(version);
+                    if (releaseDate != null) {
+                        String releaseId = avJSON.getJSONObject(i).get("id").toString();
+                        Version newAffectedVersion = new Version(releaseName, releaseDate, releaseId, index);
+                        av.add(newAffectedVersion);
+                    }
                 }
             }
-
         }
         return av;
     }
 
-//    private List<Version> affectedVersions(JSONArray avJSON){
-//
-//
-//    }
-
     public Version versionComputer(List<Version> versions, String date){
-        Version version = null;
+        Version computedVersion = null;
         String newDate = date.substring(0, date.length() - 9); //discard last 9 characters
         LocalDateTime datetime = LocalDateTime.parse(newDate);
         for(Version v : versions) {
             if (datetime.compareTo(v.getReleaseDate()) < 0) {
-                version = v;
+                computedVersion = v;
+                break;
             }
         }
 
-        return version;
+        return computedVersion;
 
     }
 

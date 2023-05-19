@@ -37,19 +37,33 @@ public class Launcher {
         Project project = new Project();
 
         for (Version v : versionList) {
-            System.out.println(v.getIndex() + " " + v.getName() + " date:" + v.getReleaseDate());
+            //    System.out.println(v.getIndex() + " " + v.getName() + " date:" + v.getReleaseDate());
         }
         for (Bug b : bugList){
-            System.out.println(b.getResolutionDate());
+
+            //System.out.println(b.getOvIndex()); // 0
+            System.out.println("CIAO: OV");
+            System.out.println(b.getOv().getIndex()); // 11
+            //System.out.println(b.getFvIndex()); // 0
+            System.out.println("\n");
+            System.out.println("CIAO: FV");
+            System.out.println(b.getFv().getIndex()); // 11
+
+            // problema: tutte le OV e FV sono o la prima o l'ultima versione (11 bk, 29 storm).
+
+
+            //System.out.println(b.getResolutionDate());
             //System.out.println(b);
-            System.out.println("key " + b.getKey() + " OV: " + b.getOv().getIndex() + " FV: " + b.getFv().getIndex());
+
+            //     System.out.println("key " + b.getKey() + " OV: " + b.getOv().getIndex() + " FV: " + b.getFv().getIndex());
             if(b.getIv() != null){
-                System.out.println(" IV: " + b.getIv().getIndex());
+                //       System.out.println(" IV: " + b.getIv().getIndex());
             }
+
         }
         MetricsController prop = new MetricsController();
+
         // il proportion serve a trovare l'IV per quelle (molteplici) classi con iv = null.
-        
 
         // idea: calculateMetrics(project, bugList)
             // generateCSV(metrics)
@@ -67,10 +81,12 @@ public class Launcher {
 
         int releaseNumber = project.getVersionList().size();
         project.setHalfVersion(releaseNumber/2);
+
+        System.out.println(project.getVersion());
+
         // prima di questo devo dimezzare il project
         csvController csvCtrl = new csvController(project);
         csvCtrl.createCSV();
-
 
     }
 }

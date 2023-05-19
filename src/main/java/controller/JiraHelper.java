@@ -111,18 +111,18 @@ public class JiraHelper {
             JSONObject json = readJsonFromUrl(url);
             //System.out.println(json.toString());
             //JSONArray bugsList = readJsonArrayFromUrl(url);
-            JSONArray bugs = json.getJSONArray("issues");
+            JSONArray issues = json.getJSONArray("issues");
             total = json.getInt("total");
 
             for (; lowerBound < total && lowerBound < upperBound; lowerBound++) {
 
                 // WARNING CONTROLLARE COME SONO FATTI
-                String key = bugs.getJSONObject(lowerBound%MAX_RESULTS).get("key").toString();
-                String version = bugs.getJSONObject(lowerBound%MAX_RESULTS).getJSONObject("fields").get("versions").toString();
-                String fv = bugs.getJSONObject(lowerBound%MAX_RESULTS).getJSONObject("fields").get("fixVersions").toString();
-                String resolutionDate = bugs.getJSONObject(lowerBound%MAX_RESULTS).getJSONObject("fields").get("resolutiondate").toString();
-                String creationDate = bugs.getJSONObject(lowerBound%MAX_RESULTS).getJSONObject("fields").get("created").toString();
-                avJSON = bugs.getJSONObject(lowerBound%MAX_RESULTS).getJSONObject("fields").getJSONArray("versions");
+                String key = issues.getJSONObject(lowerBound%MAX_RESULTS).get("key").toString();
+                String version = issues.getJSONObject(lowerBound%MAX_RESULTS).getJSONObject("fields").get("versions").toString();
+                String fv = issues.getJSONObject(lowerBound%MAX_RESULTS).getJSONObject("fields").get("fixVersions").toString();
+                String resolutionDate = issues.getJSONObject(lowerBound%MAX_RESULTS).getJSONObject("fields").get("resolutiondate").toString();
+                String creationDate = issues.getJSONObject(lowerBound%MAX_RESULTS).getJSONObject("fields").get("created").toString();
+                avJSON = issues.getJSONObject(lowerBound%MAX_RESULTS).getJSONObject("fields").getJSONArray("versions");
 
                 Bug bug = cv.bugBuilder(versions, creationDate, resolutionDate, avJSON, key);
                 bugsList.add(bug);

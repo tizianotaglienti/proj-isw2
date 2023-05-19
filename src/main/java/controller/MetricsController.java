@@ -7,6 +7,7 @@ import entities.Version;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MetricsController {
@@ -18,15 +19,19 @@ public class MetricsController {
 
 
     public void proportion(Bug bug, Project project){
-        if(bug.getIv().getIndex() == 0){
+        bug.setOvIndex(getOpeningVersion(bug.getCreationDate(), project));
+        bug.setIvIndex(getInjectedVersion(Collections.singletonList(bug.getAv().toString()), bug.getCreationDate(), project));
+        bug.setFvIndex(getFixedVersion(bug.getResolutionDate(), project));
+
+        if(bug.getIvIndex() == 0){
             project.addBugWithoutAV(bug);
             return;
         }
-        if(bug.getFv().getIndex() > bug.getOv().getIndex() &&
-                bug.getFv().getIndex() > bug.getIv().getIndex() &&
-                bug.getOv().getIndex() >= bug.getIv().getIndex()){
-            double fvIv = (double)bug.getFv().getIndex() - bug.getIv().getIndex();
-            double fvOv = (double)bug.getFv().getIndex() - bug.getOv().getIndex();
+        if(bug.getFvIndex() > bug.getOvIndex() &&
+                bug.getFvIndex() > bug.getIvIndex() &&
+                bug.getOvIndex() >= bug.getIvIndex()){
+            double fvIv = (double)bug.getFvIndex() - bug.getIvIndex();
+            double fvOv = (double)bug.getFvIndex() - bug.getOvIndex();
             double proportion = fvIv / fvOv;
 
             if(proportion > 0){
@@ -40,8 +45,8 @@ public class MetricsController {
         int proportion = getEstimateProportion(project);
         for(int k = 0; k < project.getBugWithoutAV().size(); k++){
             Bug bug = project.getBugWithoutAV().get(k);
-            int fvIndex = bug.getFv().getIndex();
-            int ovIndex = bug.getOv().getIndex();
+            int fvIndex = bug.getFvIndex();
+            int ovIndex = bug.getOvIndex();
             int ivIndex = 0;
 
             if(proportion >= 0){
