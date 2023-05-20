@@ -78,7 +78,7 @@ public class JiraHelper {
                     versions.add(element);
                 } catch (JSONException e){
                     Logger logger = Logger.getLogger(JiraHelper.class.getName());
-                    String out ="["+this.projectName+"] - una release non ha la release date. Release saltata.";
+                    String out ="Exception: versione di ["+this.projectName+"] senza releaseDate.";
                     logger.log(Level.INFO, out);
                 }
             }
@@ -90,7 +90,6 @@ public class JiraHelper {
     public List<Bug> getBugs(List<Version> versions) throws IOException {
 
         final int MAX_RESULTS = 1000;
-
         int total = 0;
         //List<Version> versions = this.getAllVersions();
         List<Bug> bugsList = new ArrayList<>();

@@ -19,9 +19,9 @@ public class MetricsController {
 
 
     public void proportion(Bug bug, Project project){
-        bug.setOvIndex(getOpeningVersion(bug.getCreationDate(), project));
+        bug.setOvIndex(getOpeningVersion(bug.getOv().getReleaseDate(), project));
         bug.setIvIndex(getInjectedVersion(Collections.singletonList(bug.getAv().toString()), bug.getCreationDate(), project));
-        bug.setFvIndex(getFixedVersion(bug.getResolutionDate(), project));
+        bug.setFvIndex(getFixedVersion(bug.getFv().getReleaseDate(), project));
 
         if(bug.getIvIndex() == 0){
             project.addBugWithoutAV(bug);
@@ -45,8 +45,8 @@ public class MetricsController {
         int proportion = getEstimateProportion(project);
         for(int k = 0; k < project.getBugWithoutAV().size(); k++){
             Bug bug = project.getBugWithoutAV().get(k);
-            int fvIndex = bug.getFvIndex();
-            int ovIndex = bug.getOvIndex();
+            int fvIndex = bug.getFv().getIndex();
+            int ovIndex = bug.getOv().getIndex();
             int ivIndex = 0;
 
             if(proportion >= 0){
@@ -73,16 +73,16 @@ public class MetricsController {
     }
 
     // data una resolutionDate, il metodo ritorna l'indice della versione
-    public int getFixedVersion(String resolutionDate, Project project){
+    public int getFixedVersion(LocalDateTime resolutionDate, Project project){
         int fvIndex = 0;
-        LocalDate resolutionLocalDate = LocalDate.parse(resolutionDate);
+        //LocalDate resolutionLocalDate = LocalDate.parse(resolutionDate);
 
         for(int k = 0; k < project.getVersionList().size(); k++){
             Version currentVersion = project.getVersionList().get(k);
-            LocalDate localDate = currentVersion.getReleaseDate().toLocalDate();
+            LocalDateTime localDateTime = currentVersion.getReleaseDate();
             fvIndex = currentVersion.getIndex();
 
-            if(localDate.isAfter(resolutionLocalDate)){
+            if(localDateTime.isAfter(resolutionDate)){
                 return fvIndex - 1;
             }
         }
@@ -90,16 +90,18 @@ public class MetricsController {
     }
 
     // data la creationDate del bug, ritorna indice della versione
-    public int getOpeningVersion(String creationDate, Project project){
+    public int getOpeningVersion(LocalDateTime creationDate, Project project){
         int ovIndex = 0;
-        LocalDate creationLocalDate = LocalDate.parse(creationDate);
+        //LocalDateTime creationLocalDate = LocalDateTime.parse(creationDate);
+        // storm dà errore nullpointer per una versione senza creation date e si interrompe qua
+        // mannaggia anche bookkeeper
 
         for(int k = 0; k < project.getVersionList().size(); k++){
             Version currentVersion = project.getVersionList().get(k);
-            LocalDate localDate = currentVersion.getReleaseDate().toLocalDate();
+            LocalDateTime localDateTime = currentVersion.getReleaseDate();
             ovIndex = currentVersion.getIndex();
 
-            if(localDate.isAfter(creationLocalDate)) {
+            if(localDateTime.isAfter(creationDate)) {
                 return ovIndex - 1;
             }
         }

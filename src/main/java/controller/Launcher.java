@@ -32,22 +32,24 @@ public class Launcher {
         List<Version> versionList = helper.getAllVersions();
         //System.out.println(versionList);
         List<Bug> bugList = helper.getBugs(versionList);
+        MetricsController prop = new MetricsController();
 
         System.out.println(bugList);
         Project project = new Project();
 
         for (Version v : versionList) {
-            //    System.out.println(v.getIndex() + " " + v.getName() + " date:" + v.getReleaseDate());
+            System.out.println(v.getIndex() + " " + v.getName() + " date:" + v.getReleaseDate());
         }
         for (Bug b : bugList){
 
             //System.out.println(b.getOvIndex()); // 0
-            System.out.println("CIAO: OV");
-            System.out.println(b.getOv().getIndex()); // 11
+            // System.out.println("CIAO: OV");
+            // System.out.println(b.getOv().getIndex()); // 11
             //System.out.println(b.getFvIndex()); // 0
-            System.out.println("\n");
-            System.out.println("CIAO: FV");
-            System.out.println(b.getFv().getIndex()); // 11
+            // System.out.println("CIAO: FV");
+            // System.out.println(b.getFv().getIndex()); // 11
+            // System.out.println("\n");
+
 
             // problema: tutte le OV e FV sono o la prima o l'ultima versione (11 bk, 29 storm).
 
@@ -55,16 +57,36 @@ public class Launcher {
             //System.out.println(b.getResolutionDate());
             //System.out.println(b);
 
-            //     System.out.println("key " + b.getKey() + " OV: " + b.getOv().getIndex() + " FV: " + b.getFv().getIndex());
+            System.out.println("key " + b.getKey() + " OV: " + b.getOv().getIndex() + " FV: " + b.getFv().getIndex());
             if(b.getIv() != null){
-                //       System.out.println(" IV: " + b.getIv().getIndex());
+                System.out.println(" IV: " + b.getIv().getIndex());
+            }
+            prop.proportion(b, project);
+            prop.estimateProportion(project);
+            // se queste due righe funzionano posso togliere l'if precedente.
+            // per vedere se funzionano, provo a printare ora le versioni con iv null
+
+            // errore perché questo estimateproportion non crea la iv che dovrebbe creare.
+                    // in realtà aggiunge solo L'ivIndex (cosa che non mi piace)
+                    // --> in estimateProportion vorrei creare una NUOVA IV con certe caratteristiche!!!!!
+            if (b.getIv() == null){
+                System.out.println("sono una versione senza IV");
             }
 
+
+            //else if(b.getIv() == null){
+              //  prop.proportion(b, project);
+            //}
+
+
         }
-        MetricsController prop = new MetricsController();
 
         // il proportion serve a trovare l'IV per quelle (molteplici) classi con iv = null.
+        // IDEA: iterando i bug che hanno iv == null devo creare a ciascuno un iv
+            // poi un metodo (o anche codice) per fare un "isBuggy"
 
+
+        // poi devo calcolare metriche
         // idea: calculateMetrics(project, bugList)
             // generateCSV(metrics)
 
