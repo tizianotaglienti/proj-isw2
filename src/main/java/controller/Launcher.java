@@ -61,25 +61,31 @@ public class Launcher {
             if(b.getIv() != null){
                 System.out.println(" IV: " + b.getIv().getIndex());
             }
-            prop.proportion(b, project);
-            prop.estimateProportion(project);
+
+
+
             // se queste due righe funzionano posso togliere l'if precedente.
             // per vedere se funzionano, provo a printare ora le versioni con iv null
 
             // errore perché questo estimateproportion non crea la iv che dovrebbe creare.
                     // in realtà aggiunge solo L'ivIndex (cosa che non mi piace)
                     // --> in estimateProportion vorrei creare una NUOVA IV con certe caratteristiche!!!!!
-            if (b.getIv() == null){
-                System.out.println("sono una versione senza IV");
+             // dovrebbe funzionare
+// A QUESTO PUNTO, NELLA BUGLIST TUTTI I BUG AVRANNO LA IV FINALMENTE
+            // PROBLEMA: ANCHE QUELLI CHE CE L'HANNO SUBISCONO UN CAMBIAMENTO! NO!
+            // proviamo così:
+            else if(b.getIv() == null){
+                prop.proportion(b, project);
+                prop.estimateProportion(project, versionList);
             }
-
-
-            //else if(b.getIv() == null){
-              //  prop.proportion(b, project);
-            //}
-
-
         }
+        // ok dovrebbe funzionare: ora che tutti i bug hanno le tre v
+            // devo vedere se la classe è buggy confrontando le v
+
+        // for(File fileBuggyOrNot : FileList) ... oppure iterare sulle Entry
+
+
+
 
         // il proportion serve a trovare l'IV per quelle (molteplici) classi con iv = null.
         // IDEA: iterando i bug che hanno iv == null devo creare a ciascuno un iv

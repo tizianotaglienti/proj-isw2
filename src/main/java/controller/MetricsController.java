@@ -41,7 +41,7 @@ public class MetricsController {
         }
     }
 
-    public void estimateProportion(Project project){
+    public void estimateProportion(Project project, List<Version> versionList){
         int proportion = getEstimateProportion(project);
         for(int k = 0; k < project.getBugWithoutAV().size(); k++){
             Bug bug = project.getBugWithoutAV().get(k);
@@ -52,6 +52,9 @@ public class MetricsController {
             if(proportion >= 0){
                 ivIndex = fvIndex - proportion*(fvIndex-ovIndex);
                 bug.setIvIndex(ivIndex);
+
+                bug.setIv(calculateIv(fvIndex, ovIndex, proportion, versionList));
+
                 // cambiare iv, ov, fv in Bug in tutti index (int) con rispettivi get e set
                 // e poi cambiare tutti i getV.getindex in getVindex...
                 project.getBugWithoutAV().remove(k);
@@ -128,6 +131,24 @@ public class MetricsController {
         return ivVersion;
     }
 
+    public Version calculateIv(int fvIndex, int ovIndex, float proportion, List<Version> versionList){
+        Version nullIv = null;
+        int denominator = fvIndex - ovIndex;
+        if(denominator == 0){
+            denominator = 1;
+        }
+        int ivResult = fvIndex - Math.round(denominator * proportion);
+        for(Version ivToBeSet : versionList){
+            if(ivToBeSet.getIndex() == ivResult){
+                nullIv = ivToBeSet;
+            }
+        }
+
+        if(ivResult < 1){
+            nullIv = versionList.get(0);
+        }
+        return nullIv;
+    }
 }
 
 
