@@ -1,13 +1,19 @@
 package controller;
 
-import entities.Bug;
-import entities.Version;
+import entities.*;
+import org.eclipse.jgit.diff.DiffEntry;
+import org.eclipse.jgit.diff.DiffFormatter;
+import org.eclipse.jgit.diff.Edit;
 import org.json.JSONArray;
 
+import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ComputeVersions {
     public Bug bugBuilder(List<Version> versions, String openingDate, String fixDate, JSONArray avJSON, String key){
@@ -95,5 +101,148 @@ public class ComputeVersions {
             }
         }
         return discardBugsList;
+    }
+
+    public int getCommitVersion(LocalDate commitLocalDate, Project project) {
+        int index = 0;
+        LocalDate currentDate = null;
+        for(int k = 0; k < project.getVersionList().size(); k ++){
+            Version version = project.getVersionList().get(k);
+            index = version.getIndex();
+            currentDate = version.getReleaseDate().toLocalDate();
+
+            if(currentDate.isAfter(commitLocalDate)){
+                index--;
+                break;
+            }
+        }
+        if(index < 0){
+            index = 0;
+        }
+        return index;
+    }
+
+    public List<Bug> getBugsForCommit(String fullCommitMessage, Project project) {
+        List<Bug> resultList = new ArrayList<>();
+        Pattern pattern = null;
+        Matcher matcher = null;
+
+        for(int k = 0; k < project.getBugList().size(); k ++){
+            Bug currentBug = project.getBugList().get(k);
+            // pattern controlla se il commit message contiene "*nomeProgetto*-*bugId*"
+            pattern = Pattern.compile("\\b"+ project.getName() + "-" + currentBug.getId() + "\\b", Pattern.CASE_INSENSITIVE);
+            matcher = pattern.matcher(fullCommitMessage);
+            // controlla se il commit message contiene il bug id e il bug è "not checked"
+            if(matcher.find() && !resultList.contains(currentBug.getId())){
+                Bug bugToResultList = new Bug();
+                bugToResultList.setIv(currentBug.getIv());
+                bugToResultList.setFv(currentBug.getFv());
+                bugToResultList.setId(currentBug.getId());
+                resultList.add(bugToResultList);
+            }
+        }
+        return resultList;
+    }
+
+    public void getMetrics(Commit validCommit, DiffEntry diffEntry, DiffFormatter diffFormatter, Project project) throws IOException {
+        // se la versione è oltre la metà, ignora il file
+        if(validCommit.getBelongingVersion() > project.getHalfVersion()){
+            return;
+        }
+        // aggiorna i valori di version e file
+        File file = removeFile(validCommit.getBelongingVersion(), diffEntry.getNewPath(), project);
+
+        // se è la prima volta si crea una nuova istanza di version e file
+        if(file == null){
+            file = new File();
+            file.setFileName(diffEntry.getNewPath());
+            file.setVersionIndex(validCommit.getBelongingVersion());
+        }
+
+        // calcolo le metriche
+        int locTouched = 0;
+        int locAdded = 0;
+        int chgSetSize = 0;
+
+        // iterazione su tutte le modifiche possibili sul file
+        for(Edit edit : diffFormatter.toFileHeader(diffEntry).toEditList()){
+            if(edit.getType() == Edit.Type.INSERT){
+                locAdded += edit.getEndB() - edit.getBeginB();
+                locTouched += edit.getEndB() - edit.getBeginB();
+            } else if(edit.getType() == Edit.Type.DELETE || edit.getType() == Edit.Type.REPLACE){
+                locTouched += edit.getEndA() - edit.getBeginA();
+            }
+        }
+        // file committati insieme
+        chgSetSize = validCommit.getFilesChanged().size();
+
+        // vengono aggiornate le metriche
+        int locTouchedPreviously = file.getLocTouched();
+        file.setLocTouched(locTouchedPreviously + locTouched);
+
+        int numberRevisionsPreviously = file.getNumberRevisions();
+        file.setNumberRevisions(numberRevisionsPreviously + 1);
+
+        if(!validCommit.getBugList().isEmpty()){
+            int numberBugFixPreviously = file.getNumberBugFix();
+            file.setNumberBugFix(numberBugFixPreviously + validCommit.getBugList().size());
+            file.setBuggy(true);
+        }
+
+        int locAddedPreviously = file.getLocAdded();
+        file.setLocAdded(locAddedPreviously + locAdded);
+
+        if(locAdded > file.getMaxLocAdded()){
+            file.setMaxLocAdded(locAdded);
+        }
+
+        int chgSetSizePreviously = file.getChgSetSize();
+        file.setChgSetSize(chgSetSizePreviously + chgSetSize);
+
+        if(chgSetSize > file.getMaxChgSet()){
+            file.setMaxChgSet(chgSetSize);
+        }
+
+        file.setAvgLocAdded((float)(locAddedPreviously + locAdded) / (float)(numberRevisionsPreviously + 1));
+        file.setAvgChgSet((float)(chgSetSizePreviously + chgSetSize) / (float)(numberRevisionsPreviously + 1));
+
+        project.addFileToList(file);
+
+
+    }
+
+    public Project setBuggy(Commit validCommit, DiffEntry diffEntry, Project project) {
+        if(validCommit.getBugList().isEmpty()){
+            return project;
+        }
+        for(int k = 0; k < validCommit.getBugList().size(); k ++){
+            int iv = validCommit.getBugList().get(k).getIv().getIndex();
+            int fv = validCommit.getBugList().get(k).getFv().getIndex();
+
+            for(int v = iv; v < fv; v ++){
+                File file = removeFile(v, diffEntry.getNewPath(), project);
+                if(file == null){
+                    file = new File();
+                    file.setVersionIndex(v);
+                    file.setFileName(diffEntry.getNewPath());
+                }
+
+                file.setBuggy(true);
+                project.addFileToList(file);
+            }
+        }
+        return project;
+    }
+
+    private File removeFile(int version, String fileName, Project project) {
+        for(int k = 0; k < project.getFileList().size(); k ++){
+            File file = project.getFileList().get(k);
+
+            if(file.getVersionIndex() == version && file.getFileName().equals(fileName)){
+                project.getFileList().remove(k);
+                return file;
+            }
+        }
+        return null;
     }
 }

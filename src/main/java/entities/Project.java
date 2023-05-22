@@ -14,6 +14,7 @@ public class Project {
     private List<String> versionAVList = new ArrayList<>();
     private List<Bug> bugList = new ArrayList<>();
 
+    private List<Integer> buggyCommit = new ArrayList<>();
     private List<Bug> bugWithAV = new ArrayList<>();
     private List<Bug> bugWithoutAV = new ArrayList<>();
 
@@ -103,5 +104,17 @@ public class Project {
 
     public void setHalfVersion(Integer halfVersion) {
         this.halfVersion = halfVersion;
+    }
+
+    public List<Integer> getBuggyCommit() {
+        return buggyCommit;
+    }
+
+    public void setBuggyCommit(List<Integer> buggyCommit) {
+        this.buggyCommit = buggyCommit;
+    }
+
+    public void addFileToList(File file) {
+        this.fileList.add(file);
     }
 }

@@ -1,18 +1,28 @@
 package controller;
 
-import entities.Bug;
-import entities.File;
-import entities.Project;
-import entities.Version;
+import entities.*;
 import controller.JiraHelper;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.diff.DiffEntry;
+import org.eclipse.jgit.diff.DiffFormatter;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
+import org.eclipse.jgit.util.io.NullOutputStream;
+
 public class Launcher {
     private static final String PROJECT_NAME = "BOOKKEEPER";
+    private static Project project;
+    private static ComputeVersions cv;
 
     public static List<File> halfData(List<Version> versions, List<File> files){
         versions = versions.subList(0, versions.size()/2);
@@ -27,7 +37,7 @@ public class Launcher {
         return entries;
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, GitAPIException {
         JiraHelper helper = new JiraHelper(PROJECT_NAME);
         List<Version> versionList = helper.getAllVersions();
         //System.out.println(versionList);
@@ -84,8 +94,8 @@ public class Launcher {
 
         // for(File fileBuggyOrNot : FileList) ... oppure iterare sulle Entry
 
-
-
+        createData();
+        
 
         // il proportion serve a trovare l'IV per quelle (molteplici) classi con iv = null.
         // IDEA: iterando i bug che hanno iv == null devo creare a ciascuno un iv
@@ -116,5 +126,58 @@ public class Launcher {
         csvController csvCtrl = new csvController(project);
         csvCtrl.createCSV();
 
+    }
+
+    private static void createData() throws IOException, GitAPIException{
+        FileRepositoryBuilder builder = new FileRepositoryBuilder();
+        String gitRepository = System.getProperty("user.dir") + "/" + project.getName();
+        Repository repo = builder.setGitDir(new java.io.File(gitRepository)).readEnvironment().findGitDir().build();
+
+        try(Git git = new Git(repo)){
+            Iterable<RevCommit> commits = null;
+            commits = git.log().all().call();   // prendo tutte le informazioni sui commit
+                                                // da cui poi calcolo le metriche
+            iterateOnCommit(commits, repo);     // vado a studiare i commit
+        }
+    }
+
+    private static void iterateOnCommit(Iterable<RevCommit> commits, Repository repo) throws IOException {
+        for(RevCommit commit : commits){
+            LocalDate commitLocalDate = commit.getCommitterIdent().getWhen().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+            // ....
+            int belongingVersion = cv.getCommitVersion(commitLocalDate, project);
+
+            // ignora i bug risalenti alla seconda metà delle release
+            if(commit.getParentCount() == 0 || belongingVersion >= project.getHalfVersion() + 1){
+                continue;
+            }
+
+            Commit validCommit = new Commit();
+            validCommit.setMessage(commit.getFullMessage());
+            validCommit.setDate(commitLocalDate);
+            validCommit.setBelongingVersion(belongingVersion);
+
+            List<Bug> bugsForCommit = cv.getBugsForCommit(commit.getFullMessage(), project);
+            validCommit.setBugList(bugsForCommit);
+
+            iterateOnChange(repo, commit, validCommit);
+        }
+    }
+
+    private static void iterateOnChange(Repository repo, RevCommit commit, Commit validCommit) throws IOException {
+        List<DiffEntry> filesChanged;
+        try(DiffFormatter differenceBetweenCommits = new DiffFormatter(NullOutputStream.INSTANCE)){
+            differenceBetweenCommits.setRepository(repo);
+            filesChanged = differenceBetweenCommits.scan(commit.getParent(0), commit);
+            validCommit.setFilesChanged(filesChanged);
+
+            for(DiffEntry singleFileChanged : filesChanged){
+                if(singleFileChanged.getNewPath().endsWith(".java")){
+                    cv.getMetrics(validCommit, singleFileChanged, differenceBetweenCommits, project);
+                    project = cv.setBuggy(validCommit, singleFileChanged, project);
+                }
+            }
+        }
     }
 }

@@ -33,6 +33,10 @@ public class Bug {
         this.av = av;
     }
 
+    public Bug() {
+
+    }
+
     public String getKey(){
         return key;
     }
