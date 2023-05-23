@@ -21,7 +21,7 @@ import org.eclipse.jgit.util.io.NullOutputStream;
 
 public class Launcher {
     private static final String PROJECT_NAME = "BOOKKEEPER";
-    private static Project project;
+    //private static Project project;
     private static ComputeVersions cv;
 
     public static List<File> halfData(List<Version> versions, List<File> files){
@@ -94,8 +94,7 @@ public class Launcher {
 
         // for(File fileBuggyOrNot : FileList) ... oppure iterare sulle Entry
 
-        createData();
-        
+
 
         // il proportion serve a trovare l'IV per quelle (molteplici) classi con iv = null.
         // IDEA: iterando i bug che hanno iv == null devo creare a ciascuno un iv
@@ -122,26 +121,32 @@ public class Launcher {
 
         System.out.println(project.getVersion());
 
+        // a createData dovrei passare project
+        createData(project);
+
         // prima di questo devo dimezzare il project
         csvController csvCtrl = new csvController(project);
         csvCtrl.createCSV();
 
     }
 
-    private static void createData() throws IOException, GitAPIException{
+    private static void createData(Project project) throws IOException, GitAPIException{
         FileRepositoryBuilder builder = new FileRepositoryBuilder();
-        String gitRepository = System.getProperty("user.dir") + "/" + project.getName();
+
+        // nullpointerexception perché project non c'è (giustamente)... modificare questa cosa
+        String gitRepository = System.getProperty("user.dir") + "\\" + project.getName();
+        //String gitRepository = System.getProperty("user.dir") + "/" + PROJECT_NAME;
         Repository repo = builder.setGitDir(new java.io.File(gitRepository)).readEnvironment().findGitDir().build();
 
         try(Git git = new Git(repo)){
             Iterable<RevCommit> commits = null;
             commits = git.log().all().call();   // prendo tutte le informazioni sui commit
                                                 // da cui poi calcolo le metriche
-            iterateOnCommit(commits, repo);     // vado a studiare i commit
+            iterateOnCommit(commits, repo, project);     // vado a studiare i commit
         }
     }
 
-    private static void iterateOnCommit(Iterable<RevCommit> commits, Repository repo) throws IOException {
+    private static void iterateOnCommit(Iterable<RevCommit> commits, Repository repo, Project project) throws IOException {
         for(RevCommit commit : commits){
             LocalDate commitLocalDate = commit.getCommitterIdent().getWhen().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
@@ -161,11 +166,11 @@ public class Launcher {
             List<Bug> bugsForCommit = cv.getBugsForCommit(commit.getFullMessage(), project);
             validCommit.setBugList(bugsForCommit);
 
-            iterateOnChange(repo, commit, validCommit);
+            iterateOnChange(repo, commit, validCommit, project);
         }
     }
 
-    private static void iterateOnChange(Repository repo, RevCommit commit, Commit validCommit) throws IOException {
+    private static void iterateOnChange(Repository repo, RevCommit commit, Commit validCommit, Project project) throws IOException {
         List<DiffEntry> filesChanged;
         try(DiffFormatter differenceBetweenCommits = new DiffFormatter(NullOutputStream.INSTANCE)){
             differenceBetweenCommits.setRepository(repo);

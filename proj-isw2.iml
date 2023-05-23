@@ -22,5 +22,7 @@
     <orderEntry type="library" name="Maven: org.eclipse.jgit:org.eclipse.jgit:6.5.0.202303070854-r" level="project" />
     <orderEntry type="library" name="Maven: com.googlecode.javaewah:JavaEWAH:1.1.13" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.30" level="project" />
+    <orderEntry type="library" name="Maven: ch.qos.logback:logback-classic:1.2.6" level="project" />
+    <orderEntry type="library" name="Maven: ch.qos.logback:logback-core:1.2.6" level="project" />
   </component>
 </module>
