@@ -9,9 +9,11 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.lib.Repository;
@@ -130,15 +132,16 @@ public class Launcher {
 
     }
 
-    private static void createData(Project project) throws IOException, GitAPIException{
+    private static void createData(Project project) throws IOException, GitAPIException, NoHeadException {
         FileRepositoryBuilder builder = new FileRepositoryBuilder();
 
         // nullpointerexception perché project non c'è (giustamente)... modificare questa cosa
-        String gitRepository = System.getProperty("user.dir") + "\\" + project.getName();
+        String gitRepository = System.getProperty("user.dir") + "\\" + PROJECT_NAME.toLowerCase();
         //String gitRepository = System.getProperty("user.dir") + "/" + PROJECT_NAME;
         Repository repo = builder.setGitDir(new java.io.File(gitRepository)).readEnvironment().findGitDir().build();
 
-        try(Git git = new Git(repo)){
+        //try(Git git = new Git(repo)){
+        try(Git git = Git.open(new java.io.File(gitRepository))){
             Iterable<RevCommit> commits = null;
             commits = git.log().all().call();   // prendo tutte le informazioni sui commit
                                                 // da cui poi calcolo le metriche
@@ -150,7 +153,8 @@ public class Launcher {
         for(RevCommit commit : commits){
             LocalDate commitLocalDate = commit.getCommitterIdent().getWhen().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
-            // ....
+            // attenzione: cv = null !!!
+                // possibile soluzione far diventare prop cv e lo chiamo in create data e tutti i successivi.
             int belongingVersion = cv.getCommitVersion(commitLocalDate, project);
 
             // ignora i bug risalenti alla seconda metà delle release
