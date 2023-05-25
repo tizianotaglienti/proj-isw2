@@ -16,7 +16,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ComputeVersions {
-    public Bug bugBuilder(List<Version> versions, String openingDate, String fixDate, JSONArray avJSON, String key){
+    public Bug bugBuilder(List<Version> versions, String openingDate, String fixDate, int id, JSONArray avJSON, String key){
         Bug bug = null;
         Version ov = versionComputer(versions, openingDate);
         Version fv = versionComputer(versions, fixDate);
@@ -27,10 +27,10 @@ public class ComputeVersions {
             av.sort(Comparator.comparing(Version::getReleaseDate));
             //iv = av.get(av.size()-1);
             iv = av.get(0);
-            bug = new Bug(key, fv, ov, iv, av);
+            bug = new Bug(key, fv, ov, iv, id, av);
         }
         else {
-            bug = new Bug(key, fv, ov, av);
+            bug = new Bug(key, fv, ov, id, av);
         }
         return bug;
     }
@@ -150,11 +150,11 @@ public class ComputeVersions {
             return;
         }
         // aggiorna i valori di version e file
-        File file = removeFile(validCommit.getBelongingVersion(), diffEntry.getNewPath(), project);
+        FileEntity file = removeFile(validCommit.getBelongingVersion(), diffEntry.getNewPath(), project);
 
         // se è la prima volta si crea una nuova istanza di version e file
         if(file == null){
-            file = new File();
+            file = new FileEntity();
             file.setFileName(diffEntry.getNewPath());
             file.setVersionIndex(validCommit.getBelongingVersion());
         }
@@ -220,9 +220,9 @@ public class ComputeVersions {
             int fv = validCommit.getBugList().get(k).getFv().getIndex();
 
             for(int v = iv; v < fv; v ++){
-                File file = removeFile(v, diffEntry.getNewPath(), project);
+                FileEntity file = removeFile(v, diffEntry.getNewPath(), project);
                 if(file == null){
-                    file = new File();
+                    file = new FileEntity();
                     file.setVersionIndex(v);
                     file.setFileName(diffEntry.getNewPath());
                 }
@@ -234,9 +234,9 @@ public class ComputeVersions {
         return project;
     }
 
-    private File removeFile(int version, String fileName, Project project) {
+    private FileEntity removeFile(int version, String fileName, Project project) {
         for(int k = 0; k < project.getFileList().size(); k ++){
-            File file = project.getFileList().get(k);
+            FileEntity file = project.getFileList().get(k);
 
             if(file.getVersionIndex() == version && file.getFileName().equals(fileName)){
                 project.getFileList().remove(k);

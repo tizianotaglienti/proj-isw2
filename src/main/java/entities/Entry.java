@@ -1,7 +1,7 @@
 package entities;
 
 public class Entry {
-    private File file;
+    private FileEntity file;
     private String versionName;
     private String fileName;
     private int locTouched;

@@ -1,24 +1,24 @@
 package controller;
 
 import entities.*;
-import controller.JiraHelper;
 
+import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffFormatter;
+import org.eclipse.jgit.diff.RawTextComparator;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
+import org.eclipse.jgit.util.io.DisabledOutputStream;
 import org.eclipse.jgit.util.io.NullOutputStream;
 
 public class Launcher {
@@ -26,11 +26,11 @@ public class Launcher {
     //private static Project project;
     private static ComputeVersions cv;
 
-    public static List<File> halfData(List<Version> versions, List<File> files){
+    public static List<FileEntity> halfData(List<Version> versions, List<FileEntity> files){
         versions = versions.subList(0, versions.size()/2);
-        List<File> entries = new ArrayList<>();
+        List<FileEntity> entries = new ArrayList<>();
         for(Version v : versions){
-            for(File f : files){
+            for(FileEntity f : files){
                 if(v.getName().equals(f.getVersion())){
                     entries.add(f);
                 }
@@ -44,10 +44,13 @@ public class Launcher {
         List<Version> versionList = helper.getAllVersions();
         //System.out.println(versionList);
         List<Bug> bugList = helper.getBugs(versionList);
-        MetricsController prop = new MetricsController();
+        //MetricsController prop = new MetricsController();
+        BugController prop = new BugController();
 
         System.out.println(bugList);
         Project project = new Project();
+
+        project.setName(PROJECT_NAME);
 
         for (Version v : versionList) {
             System.out.println(v.getIndex() + " " + v.getName() + " date:" + v.getReleaseDate());
@@ -117,45 +120,72 @@ public class Launcher {
 
         //[.........]
         // qua dovrei calcolare tutte le metriche
+        project.setBugList(bugList);
+        project.setVersionList(versionList);
+        //project.setFileList(fileList);
 
         int releaseNumber = project.getVersionList().size();
         project.setHalfVersion(releaseNumber/2);
 
-        System.out.println(project.getVersion());
+        //System.out.println(project.getVersion());
 
         // a createData dovrei passare project
-        createData(project);
+        createData(project, prop);
+
 
         // prima di questo devo dimezzare il project
         csvController csvCtrl = new csvController(project);
-        csvCtrl.createCSV();
+        csvCtrl.createCSV(project);
+
+        //new csvController(project);
 
     }
 
-    private static void createData(Project project) throws IOException, GitAPIException, NoHeadException {
+    private static void createData(Project project, BugController prop) throws IOException, GitAPIException, NoHeadException {
         FileRepositoryBuilder builder = new FileRepositoryBuilder();
 
         // nullpointerexception perché project non c'è (giustamente)... modificare questa cosa
-        String gitRepository = System.getProperty("user.dir") + "\\" + PROJECT_NAME.toLowerCase();
-        //String gitRepository = System.getProperty("user.dir") + "/" + PROJECT_NAME;
-        Repository repo = builder.setGitDir(new java.io.File(gitRepository)).readEnvironment().findGitDir().build();
+        String gitRepository = System.getProperty("user.dir") + "\\" + PROJECT_NAME.toLowerCase() + "/.git";
 
-        //try(Git git = new Git(repo)){
-        try(Git git = Git.open(new java.io.File(gitRepository))){
+
+        File file = new File(gitRepository);
+        //String gitRepository = System.getProperty("user.dir") + "/" + PROJECT_NAME;
+        Repository repo = builder.setGitDir(file).readEnvironment().findGitDir().build();
+
+        try(Git git = new Git(repo)){
+        //try(Git git = Git.open(new java.io.File(gitRepository))){
+        //try(Git git = Git.init().setDirectory(new File(gitRepository)).call();){
+
             Iterable<RevCommit> commits = null;
             commits = git.log().all().call();   // prendo tutte le informazioni sui commit
                                                 // da cui poi calcolo le metriche
-            iterateOnCommit(commits, repo, project);     // vado a studiare i commit
+            //System.out.println(commits);
+            //for (RevCommit commit : commits) {
+              //  System.out.println(commit);
+            //}
+
+
+            //ArrayList<RevCommit> listToPopulateWithCommit = new ArrayList<RevCommit>();
+            //for(RevCommit commitInList : commits){
+              //  listToPopulateWithCommit.add(commitInList);
+            //} // prova soluzione -> cambio parametro commits degli altri metodi con list
+
+
+
+            //iterateOnCommit(listToPopulateWithCommit, repo, project, prop);     // vado a studiare i commit
+            iterateOnCommit(commits, repo, project, prop);     // vado a studiare i commit
         }
     }
 
-    private static void iterateOnCommit(Iterable<RevCommit> commits, Repository repo, Project project) throws IOException {
+    private static void iterateOnCommit(Iterable<RevCommit> commits, Repository repo, Project project, BugController prop) throws IOException {
+    //private static void iterateOnCommit(ArrayList<RevCommit> commits, Repository repo, Project project, BugController prop) throws IOException {
         for(RevCommit commit : commits){
             LocalDate commitLocalDate = commit.getCommitterIdent().getWhen().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
             // attenzione: cv = null !!!
                 // possibile soluzione far diventare prop cv e lo chiamo in create data e tutti i successivi.
-            int belongingVersion = cv.getCommitVersion(commitLocalDate, project);
+            //int belongingVersion = cv.getCommitVersion(commitLocalDate, project);
+            int belongingVersion = prop.getCommitVersion(commitLocalDate, project);
 
             // ignora i bug risalenti alla seconda metà delle release
             if(commit.getParentCount() == 0 || belongingVersion >= project.getHalfVersion() + 1){
@@ -167,24 +197,33 @@ public class Launcher {
             validCommit.setDate(commitLocalDate);
             validCommit.setBelongingVersion(belongingVersion);
 
-            List<Bug> bugsForCommit = cv.getBugsForCommit(commit.getFullMessage(), project);
+            //List<Bug> bugsForCommit = cv.getBugsForCommit(commit.getFullMessage(), project);
+
+            // problema: getbugs for commit non restituisce niente perché (vedi metodo) bugList di project è vuota
+            List<Bug> bugsForCommit = prop.getBugsForCommit(commit.getFullMessage(), project);
             validCommit.setBugList(bugsForCommit);
 
-            iterateOnChange(repo, commit, validCommit, project);
+            iterateOnChange(repo, commit, validCommit, project, prop);
         }
     }
 
-    private static void iterateOnChange(Repository repo, RevCommit commit, Commit validCommit, Project project) throws IOException {
+    private static void iterateOnChange(Repository repo, RevCommit commit, Commit validCommit, Project project, BugController prop) throws IOException {
         List<DiffEntry> filesChanged;
         try(DiffFormatter differenceBetweenCommits = new DiffFormatter(NullOutputStream.INSTANCE)){
             differenceBetweenCommits.setRepository(repo);
+            //differenceBetweenCommits.setDiffComparator(RawTextComparator.DEFAULT);
+            //differenceBetweenCommits.setDetectRenames(true);
+            //System.out.println(commit.getParent(0));
+            //System.out.println(commit.getShortMessage());
             filesChanged = differenceBetweenCommits.scan(commit.getParent(0), commit);
             validCommit.setFilesChanged(filesChanged);
 
-            for(DiffEntry singleFileChanged : filesChanged){
-                if(singleFileChanged.getNewPath().endsWith(".java")){
-                    cv.getMetrics(validCommit, singleFileChanged, differenceBetweenCommits, project);
-                    project = cv.setBuggy(validCommit, singleFileChanged, project);
+            for(DiffEntry singleFileChanged : filesChanged) {
+                if (singleFileChanged.getNewPath().endsWith(".java")) {
+                    //cv.getMetrics(validCommit, singleFileChanged, differenceBetweenCommits, project);
+                    prop.getMetrics(validCommit, singleFileChanged, differenceBetweenCommits, project);
+                    //project = cv.setBuggy(validCommit, singleFileChanged, project);
+                    project = prop.setBuggy(validCommit, singleFileChanged, project);
                 }
             }
         }

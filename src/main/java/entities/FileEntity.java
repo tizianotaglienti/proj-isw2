@@ -1,8 +1,8 @@
 package entities;
 
-public class File {
+public class FileEntity {
     private String fileName;
-    private String version;
+    private Version version;
     private int versionIndex;
 
     private int locTouched;
@@ -16,7 +16,7 @@ public class File {
     private float avgLocAdded;
     private boolean buggy;
 
-    public File(){
+    public FileEntity(){
         this.fileName = "";
         this.versionIndex = 0;
 
@@ -120,12 +120,11 @@ public class File {
         this.buggy = buggy;
     }
 
-
-    public String getVersion() {
+    public Version getVersion() {
         return version;
     }
 
-    public void setVersion(String version) {
+    public void setVersion(Version version) {
         this.version = version;
     }
 

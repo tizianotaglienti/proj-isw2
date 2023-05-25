@@ -121,9 +121,12 @@ public class JiraHelper {
                 String fv = issues.getJSONObject(lowerBound%MAX_RESULTS).getJSONObject("fields").get("fixVersions").toString();
                 String resolutionDate = issues.getJSONObject(lowerBound%MAX_RESULTS).getJSONObject("fields").get("resolutiondate").toString();
                 String creationDate = issues.getJSONObject(lowerBound%MAX_RESULTS).getJSONObject("fields").get("created").toString();
+                int id = Integer.valueOf(key.split("-")[1]);
                 avJSON = issues.getJSONObject(lowerBound%MAX_RESULTS).getJSONObject("fields").getJSONArray("versions");
 
-                Bug bug = cv.bugBuilder(versions, creationDate, resolutionDate, avJSON, key);
+                //ticketEntity.setId(Integer.valueOf(key.split("-")[1]));
+
+                Bug bug = cv.bugBuilder(versions, creationDate, resolutionDate, id, avJSON, key);
                 bugsList.add(bug);
             }
         } while(lowerBound < total);

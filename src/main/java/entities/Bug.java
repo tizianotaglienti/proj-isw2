@@ -18,18 +18,20 @@ public class Bug {
     private String creationDate;
     private int id;
 
-    public Bug(String key, Version fv, Version ov, Version iv, List<Version> av){
+    public Bug(String key, Version fv, Version ov, Version iv, int id, List<Version> av){
         this.key = key;
         this.fv = fv;
         this.ov = ov;
         this.iv = iv;
+        this.id = id;
         this.av = av;
     }
 
-    public Bug(String key, Version fv, Version ov, List<Version> av) {
+    public Bug(String key, Version fv, Version ov, int id, List<Version> av) {
         this.key = key;
         this.fv = fv;
         this.ov = ov;
+        this.id = id;
         this.av = av;
     }
 

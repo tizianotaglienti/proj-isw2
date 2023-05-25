@@ -1,6 +1,6 @@
 package controller;
 
-import entities.File;
+import entities.FileEntity;
 import entities.Project;
 
 import java.io.FileWriter;
@@ -10,25 +10,28 @@ import java.util.List;
 
 public class csvController {
     private FileWriter csv;
-    private Project project;
+    //private Project project;
 
     public csvController(Project project){
 
         try {
-            csv = initializeCSVResult();
+            csv = initializeCSVResult(project);
         } catch (IOException e){
             e.printStackTrace();
         }
-        createCSV();
+        createCSV(project);
     }
 
-    public void createCSV() {
+    public void createCSV(Project project) {
         for(int k = project.getFileList().size() - 1; k >= 0; k--){
             List<String> metrics = new ArrayList<>();
-            File currentFile = project.getFileList().get(k);
+            FileEntity currentFile = project.getFileList().get(k);
+            //int index = currentFile.getVersionIndex();
+
+            // currentFile non ha la version inizializzata, devo farlo
             int index = currentFile.getVersionIndex();
 
-            metrics.add(project.getVersion().get(index));
+            metrics.add(String.valueOf(index));
             metrics.add(currentFile.getFileName());
             metrics.add(Integer.toString(currentFile.getLocTouched()));
             metrics.add(Integer.toString(currentFile.getNumberRevisions()));
@@ -47,12 +50,6 @@ public class csvController {
                 e.printStackTrace();
             }
         }
-
-        try{
-            csv.close();
-        } catch (IOException e){
-            e.printStackTrace();
-        }
     }
 
     private static void addRowToCSV(List<String> nextLine, FileWriter csv) throws IOException {
@@ -67,12 +64,11 @@ public class csvController {
         csv.append(stringToAppend + "\n");
     }
 
-    public FileWriter initializeCSVResult() throws IOException {
+    public FileWriter initializeCSVResult(Project project) throws IOException {
         FileWriter csvResult = new FileWriter(project.getName() + "Metrics.csv");
 
-        csvResult.append("Version Number," + "File Name," + "LOC Touched," + "Number of Revisions," + "LOC Added," + "Max LOC Added," + "Chg Set Size," + "Max Chg Set," + "Avg Chg Set," + "Avg LOC Added," + "Buggy" + "\n");
+        csvResult.append("Version Number," + "File Name," + "LOC Touched," + "Number of Revisions," + "Number of Bug Fixed," + "LOC Added," + "Max LOC Added," + "Chg Set Size," + "Max Chg Set," + "Avg Chg Set," + "Avg LOC Added," + "Buggy" + "\n");
         return csvResult;
     }
-
 
 }

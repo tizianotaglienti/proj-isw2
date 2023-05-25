@@ -8,7 +8,7 @@ public class Project {
 
     private Integer halfVersion;
 
-    private List<File> fileList = new ArrayList<>();
+    private List<FileEntity> fileList = new ArrayList<>();
     private List<String> version = new ArrayList<>();
     private List<Version> versionList = new ArrayList<>();
     private List<String> versionAVList = new ArrayList<>();
@@ -26,11 +26,11 @@ public class Project {
         this.version = version;
     }
 
-    public List<File> getFileList() {
+    public List<FileEntity> getFileList() {
         return fileList;
     }
 
-    public void setFileList(List<File> fileList) {
+    public void setFileList(List<FileEntity> fileList) {
         this.fileList = fileList;
     }
 
@@ -114,7 +114,7 @@ public class Project {
         this.buggyCommit = buggyCommit;
     }
 
-    public void addFileToList(File file) {
+    public void addFileToList(FileEntity file) {
         this.fileList.add(file);
     }
 }
