@@ -216,7 +216,6 @@ public class BugController {
 
         project.addFileToList(file);
 
-
     }
 
     public Project setBuggy(Commit validCommit, DiffEntry diffEntry, Project project) {

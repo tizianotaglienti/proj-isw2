@@ -13,7 +13,6 @@ public class csvController {
     //private Project project;
 
     public csvController(Project project){
-
         try {
             csv = initializeCSVResult(project);
         } catch (IOException e){
@@ -31,6 +30,7 @@ public class csvController {
             // currentFile non ha la version inizializzata, devo farlo
             int index = currentFile.getVersionIndex();
 
+            // metrics.add(currentFile.getVersion().getName());
             metrics.add(String.valueOf(index));
             metrics.add(currentFile.getFileName());
             metrics.add(Integer.toString(currentFile.getLocTouched()));
