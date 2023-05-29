@@ -3,35 +3,42 @@ package controller;
 import entities.ProjectToAnalize;
 import entities.VariableModel;
 
+import javax.sql.DataSource;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import weka.core.Attribute;
+import weka.core.converters.ConverterUtils;
+
 public class Launcher2 {
 
-    private static final String PROJECT_NAME = "STORM";
+    private static final String PROJECT_NAME = "BOOKKEEPER";
+    private static FileWriter outputCsv;
+    private static int releaseNumber;
 
-    public static void main(String[] args) throws IOException {
-        String pathToFile = System.getProperty("user.dir");
+    public static void main(String[] args) throws Exception {
         ProjectToAnalize selectedProject = new ProjectToAnalize();
+        String pathToFile = System.getProperty("user.dir");
 
         if(PROJECT_NAME == "BOOKKEEPER"){
             selectedProject.setPath(pathToFile + "\\bookkeeperFiles\\BOOKKEEPER");
             selectedProject.setArffFile(pathToFile + "\\bookkeeperFiles\\BOOKKEEPER.arff");
             selectedProject.setCsvFile(pathToFile + "\\bookkeeperFiles\\BOOKKEEPER.csv");
             selectedProject.setProjectName("BOOKKEEPER");
-            // ...
+            selectedProject.setFirstRelease("4.0.0");
         } else if(PROJECT_NAME == "STORM"){
             selectedProject.setPath(pathToFile + "\\stormFiles\\STORM");
             selectedProject.setArffFile(pathToFile + "\\stormFiles\\STORM.arff");
             selectedProject.setCsvFile(pathToFile + "\\stormFiles\\STORM.csv");
             selectedProject.setProjectName("STORM");
-            // ...
+            selectedProject.setFirstRelease(""); // impostare la prima release di storm. qual è?
         }
 
         // preparo il csv di output con i risultati finali
             // manca la scrittura dei nomi delle colonne nel metodo createOutputCSV
         MLcsvController mlCsvController = new MLcsvController();
-        mlCsvController.createOutputCSV(selectedProject.getPath());
+        outputCsv = mlCsvController.createOutputCSV(selectedProject.getPath());
 
         VariableModel metric = new VariableModel();
 
@@ -40,13 +47,37 @@ public class Launcher2 {
 
         // ARFF CONVERTER
         csvToArff csvConverter = new csvToArff();
-        csvConverter.csvToArff(selectedProject.getPath(), selectedProject.getProjectName());
+        String[] csvFilesToConvert = {selectedProject.getCsvFile(), selectedProject.getArffFile()};
+        csvConverter.csvToArff(csvFilesToConvert);
+        //csvToArff csvConverter = new csvToArff();
+        //csvConverter.csvToArff(selectedProject.getPath(), selectedProject.getProjectName());
         // converted!
 
 
-        // split di csv in base alla versione (può essere utile farlo) - primo step prossima volta
+        ConverterUtils.DataSource source = new ConverterUtils.DataSource(selectedProject.getArffFile());
+        int featureNumber = source.getDataSet().numAttributes();
+        Attribute versionFeature = source.getDataSet().attribute(0);
+        releaseNumber = versionFeature.numValues();
 
-        // lo converte in file .arff
+        for(int versionToSplitOver = 0; versionToSplitOver < releaseNumber; versionToSplitOver++){
+            String currentCsvFile = selectedProject.getPath();
+            currentCsvFile += ("_" + String.valueOf(versionToSplitOver + 1) + ".csv");
+            csvFileList.add(currentCsvFile);
+
+            String currentArffFile = selectedProject.getPath();
+            currentArffFile += ("_" + String.valueOf(versionToSplitOver + 1) + ".arff");
+            arffFileList.add(currentArffFile);
+        }
+        // split di csv in base alla versione (può essere utile farlo)
+        mlCsvController.split(selectedProject.getCsvFile(), csvFileList, selectedProject.getFirstRelease(), featureNumber);
+
+        for (int k = 0; k < releaseNumber; k++){
+            csvFilesToConvert[0] = csvFileList.get(k);
+            csvFilesToConvert[1] = arffFileList.get(k);
+
+            csvConverter.csvToArff(csvFilesToConvert);
+        }
+        walkForward(arffFileList, selectedProject, metric);
 
         // chiama un controller weka
 
@@ -65,5 +96,9 @@ public class Launcher2 {
          * aumentano l'accuratezza dei classificatori, per quali classificatori e per quali dataset.
          **/
 
+    }
+
+    private static void walkForward(ArrayList<String> arffFileList, ProjectToAnalize selectedProject, VariableModel metric) {
+    //...
     }
 }

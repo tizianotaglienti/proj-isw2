@@ -1,6 +1,7 @@
 package controller;
 
 import entities.Bug;
+import entities.Project;
 import entities.Version;
 
 import java.time.LocalDate;

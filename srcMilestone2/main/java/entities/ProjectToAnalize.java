@@ -6,6 +6,7 @@ public class ProjectToAnalize {
     private static String arffFile = "";
     private static String path = "";
     private static String projectName = "";
+    private static String firstRelease = "";
 
 
 
@@ -39,5 +40,13 @@ public class ProjectToAnalize {
 
     public static void setProjectName(String projectName) {
         ProjectToAnalize.projectName = projectName;
+    }
+
+    public static String getFirstRelease() {
+        return firstRelease;
+    }
+
+    public static void setFirstRelease(String firstRelease) {
+        ProjectToAnalize.firstRelease = firstRelease;
     }
 }
