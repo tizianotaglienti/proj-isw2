@@ -10,7 +10,8 @@ import com.opencsv.CSVReader;
 public class MLcsvController {
     public FileWriter createOutputCSV(String filePath) throws IOException {
         FileWriter outputCSV = new FileWriter(filePath + "_OUTPUT.csv");
-        outputCSV.append(""); // AGGIUNGERE COSE DA SCRIVERE NEL .CSV
+        outputCSV.append("Dataset," + "#TrainingRelease," + "%Training," + "%DefectiveTraining," + "%DefectiveTesting," + "Classifier," +
+                "Balancing," + "FeatureSelection," + "Sensitivity," + "TP,FP,TN,FN," + "Precision," + "Recall," + "AUC," + "Kappa\n");
 
         return outputCSV;
     }
