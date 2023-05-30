@@ -20,7 +20,7 @@ import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.util.io.NullOutputStream;
 
 public class Launcher {
-    private static final String PROJECT_NAME = "STORM";
+    private static final String PROJECT_NAME = "BOOKKEEPER";
     //private static Project project;
     private static ComputeVersions cv;
 
@@ -55,21 +55,6 @@ public class Launcher {
         }
         for (Bug b : bugList){
 
-            //System.out.println(b.getOvIndex()); // 0
-            // System.out.println("CIAO: OV");
-            // System.out.println(b.getOv().getIndex()); // 11
-            //System.out.println(b.getFvIndex()); // 0
-            // System.out.println("CIAO: FV");
-            // System.out.println(b.getFv().getIndex()); // 11
-            // System.out.println("\n");
-
-
-            // problema: tutte le OV e FV sono o la prima o l'ultima versione (11 bk, 29 storm).
-
-
-            //System.out.println(b.getResolutionDate());
-            //System.out.println(b);
-
             System.out.println("key " + b.getKey() + " OV: " + b.getOv().getIndex() + " FV: " + b.getFv().getIndex());
             if(b.getIv() != null){
                 System.out.println(" IV: " + b.getIv().getIndex());
@@ -94,8 +79,6 @@ public class Launcher {
         }
         // ok dovrebbe funzionare: ora che tutti i bug hanno le tre v
             // devo vedere se la classe è buggy confrontando le v
-
-        // for(File fileBuggyOrNot : FileList) ... oppure iterare sulle Entry
 
 
 
@@ -132,8 +115,8 @@ public class Launcher {
 
 
         // prima di questo devo dimezzare il project
-        csvController csvCtrl = new csvController(project);
-        csvCtrl.createCSV(project);
+        new csvController(project);
+        //csvCtrl.createCSV(project);
 
         //new csvController(project);
 

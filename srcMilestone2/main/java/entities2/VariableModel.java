@@ -7,7 +7,7 @@ public class VariableModel {
     private static String sensitivity;
 
     private static float majorityClassPercent;
-    
+
     public static String getBalancing() {
         return balancing;
     }

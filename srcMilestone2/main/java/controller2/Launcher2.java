@@ -1,12 +1,17 @@
-package controller;
+package controller2;
 
 import entities2.ProjectToAnalyze;
 import entities2.VariableModel;
 
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Random;
 
+import weka.classifiers.bayes.NaiveBayes;
+import weka.classifiers.lazy.IBk;
+import weka.classifiers.trees.RandomForest;
 import weka.core.Attribute;
+import weka.core.Instances;
 import weka.core.converters.ConverterUtils;
 
 public class Launcher2 {
@@ -21,14 +26,14 @@ public class Launcher2 {
 
         if(PROJECT_NAME == "BOOKKEEPER"){
             selectedProject.setPath(pathToFile + "\\bookkeeperFiles\\BOOKKEEPER");
-            selectedProject.setArffFile(pathToFile + "\\bookkeeperFiles\\BOOKKEEPER.arff");
-            selectedProject.setCsvFile(pathToFile + "\\bookkeeperFiles\\BOOKKEEPER.csv");
+            selectedProject.setArffFile(pathToFile + "\\bookkeeperFiles\\BOOKKEEPERMetrics.arff");
+            selectedProject.setCsvFile(pathToFile + "\\bookkeeperFiles\\BOOKKEEPERMetrics.csv");
             selectedProject.setProjectName("BOOKKEEPER");
             selectedProject.setFirstRelease("4.0.0");
         } else if(PROJECT_NAME == "STORM"){
             selectedProject.setPath(pathToFile + "\\stormFiles\\STORM");
-            selectedProject.setArffFile(pathToFile + "\\stormFiles\\STORM.arff");
-            selectedProject.setCsvFile(pathToFile + "\\stormFiles\\STORM.csv");
+            selectedProject.setArffFile(pathToFile + "\\stormFiles\\STORMMetrics.arff");
+            selectedProject.setCsvFile(pathToFile + "\\stormFiles\\STORMMetrics.csv");
             selectedProject.setProjectName("STORM");
             selectedProject.setFirstRelease(""); // impostare la prima release di storm. qual è?
         }
@@ -50,7 +55,6 @@ public class Launcher2 {
         //csvToArff csvConverter = new csvToArff();
         //csvConverter.csvToArff(selectedProject.getPath(), selectedProject.getProjectName());
         // converted!
-
 
         ConverterUtils.DataSource source = new ConverterUtils.DataSource(selectedProject.getArffFile());
         int featureNumber = source.getDataSet().numAttributes();
@@ -98,6 +102,84 @@ public class Launcher2 {
 
     // implementazione walk forward
     private static void walkForward(ArrayList<String> arffFileList, ProjectToAnalyze selectedProject, VariableModel metric) {
-    //...
+        Instances trainingSet = null;
+        ConverterUtils.DataSource sourceTrainingSet = null;
+
+        for(int release = 0; release < releaseNumber - 1; releaseNumber++){
+            if(release != 0){
+                trainingSet = loadAndPrepareTrainingData(arffFileList.get(release), selectedProject, trainingSet);
+            } else {
+                try{
+                    sourceTrainingSet = new ConverterUtils.DataSource(arffFileList.get(release));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try{
+                    trainingSet = sourceTrainingSet.getDataSet();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            ConverterUtils.DataSource sourceTestingSet = null;
+            try{
+                sourceTestingSet = new ConverterUtils.DataSource(arffFileList.get(release + 1));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            Instances testingSet = null;
+            try{
+                testingSet = sourceTestingSet.getDataSet();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            int attributeNumber = trainingSet.numAttributes();
+            trainingSet.setClassIndex(attributeNumber - 1);
+            testingSet.setClassIndex(attributeNumber - 1);
+
+            calculateMetricsForCombination(testingSet, trainingSet, selectedProject, metric)
+        }
+
+
     }
+
+    private static Instances loadAndPrepareTrainingData(String arffFile, ProjectToAnalyze selectedProject, Instances trainingSet){
+        ConverterUtils.DataSource newSourceTrainingSet = null;
+        try{
+            newSourceTrainingSet = new ConverterUtils.DataSource(arffFile);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Instances newTrainingSet = null;
+        try{
+            newTrainingSet = newSourceTrainingSet.getDataSet();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        String releaseNewTrainingSet = null;
+        try{
+            releaseNewTrainingSet = newSourceTrainingSet.getDataSet().attribute(0).value(0).toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // cambia il version number per fare il merge
+        newTrainingSet.renameAttributeValue(newTrainingSet.attribute("Version Number"), releaseNewTrainingSet, selectedProject.getFirstRelease());
+        return mergeDataInstances(trainingSet, newTrainingSet);
+
+    }
+
+    private static void calculateMetricsForCombination(Instances testingSet, Instances trainingSet, ProjectToAnalyze selectedProject, VariableModel metric) {
+        NaiveBayes naiveBayesClassifier = new NaiveBayes();
+        IBk ibkClassifier = new IBk();
+        RandomForest randomForestClassifier = new RandomForest();
+
+        // chiama un CalculateMetricController
+    }
+
+    private static Instances mergeDataInstances(Instances trainingSet, Instances newTrainingSet) {
+    }
+
 }

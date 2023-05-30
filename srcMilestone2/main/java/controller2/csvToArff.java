@@ -1,4 +1,4 @@
-package controller;
+package controller2;
 
 import weka.core.Instances;
 import weka.core.converters.ArffSaver;
@@ -26,8 +26,9 @@ public class csvToArff {
         saver.setFile(new File("C:\\Users\\tagli\\Desktop\\proj-isw2\\" + projectName + ".arff"));
         saver.writeBatch();
     }*/
-    public void csvToArff(String[] args){
+    public void csvToArff(String[] args) {
         CSVLoader loader = new CSVLoader();
+        System.out.println(new File(args[0]));
         try{
             loader.setSource(new File(args[0]));
         } catch (IOException e) {

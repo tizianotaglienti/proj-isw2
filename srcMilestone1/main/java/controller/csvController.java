@@ -30,8 +30,9 @@ public class csvController {
             // currentFile non ha la version inizializzata, devo farlo
             int index = currentFile.getVersionIndex();
 
-            // metrics.add(currentFile.getVersion().getName());
-            metrics.add(String.valueOf(index));
+            metrics.add(project.getVersionList().get(index).getName());
+            //metrics.add(String.valueOf(index));
+
             metrics.add(currentFile.getFileName());
             metrics.add(Integer.toString(currentFile.getLocTouched()));
             metrics.add(Integer.toString(currentFile.getNumberRevisions()));

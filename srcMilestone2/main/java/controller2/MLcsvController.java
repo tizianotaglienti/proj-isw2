@@ -1,4 +1,4 @@
-package controller;
+package controller2;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -10,8 +10,7 @@ import com.opencsv.CSVReader;
 public class MLcsvController {
     public FileWriter createOutputCSV(String filePath) throws IOException {
         FileWriter outputCSV = new FileWriter(filePath + "_OUTPUT.csv");
-        outputCSV.append("Dataset," + "#TrainingRelease," + "%Training," + "%DefectiveTraining," + "%DefectiveTesting," + "Classifier," +
-                "Balancing," + "FeatureSelection," + "Sensitivity," + "TP,FP,TN,FN," + "Precision," + "Recall," + "AUC," + "Kappa\n");
+        outputCSV.append("Dataset," + "#TrainingRelease," + "%Training," + "%DefectiveTraining," + "%DefectiveTesting," + "Classifier," + "Balancing," + "FeatureSelection," + "Sensitivity," + "TP,FP,TN,FN," + "Precision," + "Recall," + "AUC," + "Kappa\n");
 
         return outputCSV;
     }
