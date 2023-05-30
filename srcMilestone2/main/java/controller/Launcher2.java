@@ -1,11 +1,9 @@
 package controller;
 
-import entities.ProjectToAnalize;
-import entities.VariableModel;
+import entities2.ProjectToAnalyze;
+import entities2.VariableModel;
 
-import javax.sql.DataSource;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import weka.core.Attribute;
@@ -18,8 +16,8 @@ public class Launcher2 {
     private static int releaseNumber;
 
     public static void main(String[] args) throws Exception {
-        ProjectToAnalize selectedProject = new ProjectToAnalize();
         String pathToFile = System.getProperty("user.dir");
+        ProjectToAnalyze selectedProject = new ProjectToAnalyze();
 
         if(PROJECT_NAME == "BOOKKEEPER"){
             selectedProject.setPath(pathToFile + "\\bookkeeperFiles\\BOOKKEEPER");
@@ -98,7 +96,8 @@ public class Launcher2 {
 
     }
 
-    private static void walkForward(ArrayList<String> arffFileList, ProjectToAnalize selectedProject, VariableModel metric) {
+    // implementazione walk forward
+    private static void walkForward(ArrayList<String> arffFileList, ProjectToAnalyze selectedProject, VariableModel metric) {
     //...
     }
 }
