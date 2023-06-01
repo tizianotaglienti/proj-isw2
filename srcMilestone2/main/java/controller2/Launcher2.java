@@ -13,6 +13,7 @@ import weka.classifiers.bayes.NaiveBayes;
 import weka.classifiers.lazy.IBk;
 import weka.classifiers.trees.RandomForest;
 import weka.core.Attribute;
+import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.converters.ConverterUtils;
 
@@ -238,11 +239,39 @@ public class Launcher2 {
         }
     }
 
-    private static Instances mergeDataInstances(Instances trainingSet, Instances newTrainingSet) {
+    private static Instances mergeDataInstances(Instances sourceData, Instances additionalData) {
+        int numAttributes = sourceData.numAttributes();
+        boolean[] isStringAttribute = new boolean[numAttributes];
 
-        // Instances dest = new Instances(data)....
+        for(int i = 0; i < numAttributes; i++){
+            Attribute attribute = sourceData.attribute(i);
+            isStringAttribute[i] = (attribute.type() == Attribute.STRING) || (attribute.type() == Attribute.NOMINAL);
+        }
 
-        // return dest
+        Instances mergedData = new Instances(sourceData);
+        mergedData.setRelationName(sourceData.relationName() + "+" + additionalData.relationName());
+
+        ConverterUtils.DataSource additionalDataSource = new ConverterUtils.DataSource(additionalData);
+        Instances additionalInstances = null;
+        try {
+            additionalInstances = additionalDataSource.getStructure();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Instance additionalInstance = null;
+        while (additionalDataSource.hasMoreElements(additionalInstances)) {
+            additionalInstance = additionalDataSource.nextElement(additionalInstances);
+            mergedData.add(additionalInstance);
+
+            for (int i = 0; i < numAttributes; i++) {
+                if (isStringAttribute[i]) {
+                    mergedData.instance(mergedData.numInstances() - 1).setValue(i, additionalInstance.stringValue(i));
+                }
+            }
+        }
+
+        return mergedData;
     }
 
 }
