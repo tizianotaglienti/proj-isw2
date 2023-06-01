@@ -6,7 +6,12 @@ public class VariableModel {
     private static String featureSelection;
     private static String sensitivity;
 
-    private static float majorityClassPercent;
+    private static float majorityClassPercentage;
+
+    private static int[] buggyTrainingSet;
+    private static int[] buggyTestingSet;
+    private static int[] buggyTrainingSetToWrite;
+
 
     public static String getBalancing() {
         return balancing;
@@ -32,12 +37,35 @@ public class VariableModel {
         VariableModel.sensitivity = sensitivity;
     }
 
-    public static float getMajorityClassPercent() {
-        return majorityClassPercent;
+    public static float getMajorityClassPercentage() {
+        return majorityClassPercentage;
     }
 
-    public static void setMajorityClassPercent(float majorityClassPercent) {
-        VariableModel.majorityClassPercent = majorityClassPercent;
+    public static void setMajorityClassPercentage(float majorityClassPercentage) {
+        VariableModel.majorityClassPercentage = majorityClassPercentage;
     }
 
+    public static int[] getBuggyTrainingSet() {
+        return buggyTrainingSet;
+    }
+
+    public static void setBuggyTrainingSet(int[] buggyTrainingSet) {
+        VariableModel.buggyTrainingSet = buggyTrainingSet;
+    }
+
+    public static int[] getBuggyTestingSet() {
+        return buggyTestingSet;
+    }
+
+    public static void setBuggyTestingSet(int[] buggyTestingSet) {
+        VariableModel.buggyTestingSet = buggyTestingSet;
+    }
+
+    public static int[] getBuggyTrainingSetToWrite() {
+        return buggyTrainingSetToWrite;
+    }
+
+    public static void setBuggyTrainingSetToWrite(int[] buggyTrainingSetToWrite) {
+        VariableModel.buggyTrainingSetToWrite = buggyTrainingSetToWrite;
+    }
 }
