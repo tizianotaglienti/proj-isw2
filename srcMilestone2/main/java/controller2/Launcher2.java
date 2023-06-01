@@ -5,8 +5,10 @@ import entities2.VariableModel;
 
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
+import weka.classifiers.Evaluation;
 import weka.classifiers.bayes.NaiveBayes;
 import weka.classifiers.lazy.IBk;
 import weka.classifiers.trees.RandomForest;
@@ -88,7 +90,7 @@ public class Launcher2 {
          *
          * NECESSARIO USARE:
          *  Walk forward come tecnica di valutazione
-         *  RandomForest ,NaiveBayes eIBKcome classificatori
+         *  RandomForest, NaiveBayes e IBK come classificatori
          * POSSIBILI VARIABILI DA VALIDARE EMPIRICAMENTE:
          *  No selection / best first - (come feature selection)
          *  No sampling / oversampling / undersampling / SMOTE - (come balancing)
@@ -206,14 +208,34 @@ public class Launcher2 {
             metric.setBuggyTrainingSet(buggyTrainingSet);
 
             // applico fs
+            for(int indexForFsSwitch = 0; indexForFsSwitch < 2; indexForFsSwitch++){
+                FeatureSelectionController featureSelection = new FeatureSelectionController();
+                List<Instances> dataset = new ArrayList<>();
 
+                try{
+                    dataset = featureSelection.startFeatureSelection(balancedTrainingSet, testingSet, indexForFsSwitch, metric);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
+                Instances trainingSetAfterFeatureSelection = dataset.get(0);
+                Instances testingSetAfterFeatureSelection = dataset.get(1);
 
+                // uso sensitive cost classifier
+                for(int indexForSensitiveSelectionSwitch = 0; indexForSensitiveSelectionSwitch < 3; indexForSensitiveSelectionSwitch++){
+                    SensitiveSelectionController sensitiveSelection = new SensitiveSelectionController();
 
+                    Evaluation randomForestEvaluation = sensitiveSelection.startSensitiveSelection(trainingSetAfterFeatureSelection, testingSetAfterFeatureSelection, indexForSensitiveSelectionSwitch, metric, randomForestClassifier);
+                    Evaluation naiveBayesEvaluation = sensitiveSelection.startSensitiveSelection(trainingSetAfterFeatureSelection, testingSetAfterFeatureSelection, indexForSensitiveSelectionSwitch, metric, naiveBayesClassifier);
+                    Evaluation ibkEvaluation = sensitiveSelection.startSensitiveSelection(trainingSetAfterFeatureSelection, testingSetAfterFeatureSelection, indexForSensitiveSelectionSwitch, metric, ibkClassifier);
+
+                    // infine uso i classificatori per calcolare le metriche
+                    metricCalc.metricCalculator(randomForestEvaluation, selectedProject, lastRelease + 1, "RandomForest", metric, outputCsv);
+                    metricCalc.metricCalculator(naiveBayesEvaluation, selectedProject, lastRelease + 1, "NaiveBayes", metric, outputCsv);
+                    metricCalc.metricCalculator(ibkEvaluation, selectedProject, lastRelease + 1, "IBk", metric, outputCsv);
+                }
+            }
         }
-        // uso sensitive cost classifier
-
-        // infine uso i classificatori per calcolare le metriche
     }
 
     private static Instances mergeDataInstances(Instances trainingSet, Instances newTrainingSet) {
