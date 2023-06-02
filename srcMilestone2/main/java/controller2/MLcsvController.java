@@ -27,6 +27,8 @@ public class MLcsvController {
             int version = 1;
 
             FileWriter csv = new FileWriter(csvFileList.get(version - 1));
+            // crea csv STORM_N vuoto
+
             String currentVersion = firstRelease;
 
             // legge una linea alla volta

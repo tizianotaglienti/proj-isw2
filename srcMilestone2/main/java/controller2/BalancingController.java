@@ -1,6 +1,7 @@
 package controller2;
 
 import entities2.VariableModel;
+
 import weka.classifiers.meta.FilteredClassifier;
 import weka.core.Instances;
 import weka.filters.Filter;
@@ -12,6 +13,7 @@ import weka.filters.supervised.instance.SpreadSubsample;
  * TECNICHE DI BALANCING:
  *  No sampling / oversampling / undersampling / SMOTE
  **/
+
 public class BalancingController {
 
     private static VariableModel metric;
@@ -96,7 +98,7 @@ public class BalancingController {
     }
 
     private Instances smote(){
-        metric.setBalancing("SMOTE");
+        metric.setBalancing("Smote");
 
         SMOTE smote = new SMOTE();
         try {

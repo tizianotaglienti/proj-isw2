@@ -1,0 +1,55 @@
+Dataset,#TrainingRelease,%Training,%DefectiveTraining,%DefectiveTesting,Classifier,Balancing,FeatureSelection,Sensitivity,TP,FP,TN,FN,Precision,Recall,AUC,Kappa
+BOOKKEEPER,1,61.349697,0.33333334,0.0,RandomForest,No sampling,No selection,No cost sensitive,0.0,0.0,0.0,0.0,NaN,NaN,NaN,1.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,NaiveBayes,No sampling,No selection,No cost sensitive,190.0,0.0,0.0,0.0,1.0,1.0,NaN,1.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,IBk,No sampling,No selection,No cost sensitive,190.0,0.0,0.0,0.0,1.0,1.0,NaN,1.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,RandomForest,No sampling,No selection,Sensitive threshold,0.0,0.0,0.0,0.0,NaN,NaN,NaN,1.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,NaiveBayes,No sampling,No selection,Sensitive threshold,190.0,0.0,0.0,0.0,1.0,1.0,NaN,1.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,IBk,No sampling,No selection,Sensitive threshold,190.0,0.0,0.0,0.0,1.0,1.0,NaN,1.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,RandomForest,No sampling,No selection,Sensitive learning,0.0,0.0,0.0,0.0,NaN,NaN,NaN,1.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,NaiveBayes,No sampling,No selection,Sensitive learning,190.0,0.0,0.0,0.0,1.0,1.0,NaN,1.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,IBk,No sampling,No selection,Sensitive learning,190.0,0.0,0.0,0.0,1.0,1.0,NaN,1.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,RandomForest,No sampling,Best first selection,No cost sensitive,190.0,0.0,0.0,0.0,1.0,1.0,NaN,1.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,NaiveBayes,No sampling,Best first selection,No cost sensitive,190.0,0.0,0.0,0.0,1.0,1.0,NaN,1.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,IBk,No sampling,Best first selection,No cost sensitive,190.0,0.0,0.0,0.0,1.0,1.0,NaN,1.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,RandomForest,No sampling,Best first selection,Sensitive threshold,190.0,0.0,0.0,0.0,1.0,1.0,NaN,1.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,NaiveBayes,No sampling,Best first selection,Sensitive threshold,190.0,0.0,0.0,0.0,1.0,1.0,NaN,1.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,IBk,No sampling,Best first selection,Sensitive threshold,190.0,0.0,0.0,0.0,1.0,1.0,NaN,1.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,RandomForest,No sampling,Best first selection,Sensitive learning,190.0,0.0,0.0,0.0,1.0,1.0,NaN,1.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,NaiveBayes,No sampling,Best first selection,Sensitive learning,190.0,0.0,0.0,0.0,1.0,1.0,NaN,1.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,IBk,No sampling,Best first selection,Sensitive learning,190.0,0.0,0.0,0.0,1.0,1.0,NaN,1.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,RandomForest,Oversampling,No selection,No cost sensitive,0.0,0.0,0.0,0.0,NaN,NaN,NaN,1.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,NaiveBayes,Oversampling,No selection,No cost sensitive,190.0,0.0,0.0,0.0,1.0,1.0,NaN,1.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,IBk,Oversampling,No selection,No cost sensitive,190.0,0.0,0.0,0.0,1.0,1.0,NaN,1.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,RandomForest,Oversampling,No selection,Sensitive threshold,0.0,0.0,0.0,0.0,NaN,NaN,NaN,1.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,NaiveBayes,Oversampling,No selection,Sensitive threshold,190.0,0.0,0.0,0.0,1.0,1.0,NaN,1.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,IBk,Oversampling,No selection,Sensitive threshold,190.0,0.0,0.0,0.0,1.0,1.0,NaN,1.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,RandomForest,Oversampling,No selection,Sensitive learning,0.0,0.0,0.0,0.0,NaN,NaN,NaN,1.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,NaiveBayes,Oversampling,No selection,Sensitive learning,190.0,0.0,0.0,0.0,1.0,1.0,NaN,1.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,IBk,Oversampling,No selection,Sensitive learning,190.0,0.0,0.0,0.0,1.0,1.0,NaN,1.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,RandomForest,Oversampling,Best first selection,No cost sensitive,190.0,0.0,0.0,0.0,1.0,1.0,NaN,1.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,NaiveBayes,Oversampling,Best first selection,No cost sensitive,190.0,0.0,0.0,0.0,1.0,1.0,NaN,1.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,IBk,Oversampling,Best first selection,No cost sensitive,190.0,0.0,0.0,0.0,1.0,1.0,NaN,1.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,RandomForest,Oversampling,Best first selection,Sensitive threshold,190.0,0.0,0.0,0.0,1.0,1.0,NaN,1.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,NaiveBayes,Oversampling,Best first selection,Sensitive threshold,190.0,0.0,0.0,0.0,1.0,1.0,NaN,1.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,IBk,Oversampling,Best first selection,Sensitive threshold,190.0,0.0,0.0,0.0,1.0,1.0,NaN,1.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,RandomForest,Oversampling,Best first selection,Sensitive learning,190.0,0.0,0.0,0.0,1.0,1.0,NaN,1.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,NaiveBayes,Oversampling,Best first selection,Sensitive learning,190.0,0.0,0.0,0.0,1.0,1.0,NaN,1.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,IBk,Oversampling,Best first selection,Sensitive learning,190.0,0.0,0.0,0.0,1.0,1.0,NaN,1.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,RandomForest,Undersampling,No selection,No cost sensitive,0.0,0.0,0.0,0.0,NaN,NaN,NaN,1.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,NaiveBayes,Undersampling,No selection,No cost sensitive,190.0,0.0,0.0,0.0,1.0,1.0,NaN,1.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,IBk,Undersampling,No selection,No cost sensitive,190.0,0.0,0.0,0.0,1.0,1.0,NaN,1.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,RandomForest,Undersampling,No selection,Sensitive threshold,0.0,0.0,0.0,0.0,NaN,NaN,NaN,1.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,NaiveBayes,Undersampling,No selection,Sensitive threshold,169.0,0.0,0.0,21.0,1.0,0.8894736842105263,NaN,0.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,IBk,Undersampling,No selection,Sensitive threshold,190.0,0.0,0.0,0.0,1.0,1.0,NaN,1.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,RandomForest,Undersampling,No selection,Sensitive learning,0.0,0.0,0.0,0.0,NaN,NaN,NaN,1.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,NaiveBayes,Undersampling,No selection,Sensitive learning,169.0,0.0,0.0,21.0,1.0,0.8894736842105263,NaN,0.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,IBk,Undersampling,No selection,Sensitive learning,190.0,0.0,0.0,0.0,1.0,1.0,NaN,1.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,RandomForest,Undersampling,Best first selection,No cost sensitive,2.0,0.0,0.0,188.0,1.0,0.010526315789473684,NaN,0.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,NaiveBayes,Undersampling,Best first selection,No cost sensitive,169.0,0.0,0.0,21.0,1.0,0.8894736842105263,NaN,0.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,IBk,Undersampling,Best first selection,No cost sensitive,190.0,0.0,0.0,0.0,1.0,1.0,NaN,1.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,RandomForest,Undersampling,Best first selection,Sensitive threshold,190.0,0.0,0.0,0.0,1.0,1.0,NaN,1.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,NaiveBayes,Undersampling,Best first selection,Sensitive threshold,169.0,0.0,0.0,21.0,1.0,0.8894736842105263,NaN,0.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,IBk,Undersampling,Best first selection,Sensitive threshold,190.0,0.0,0.0,0.0,1.0,1.0,NaN,1.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,RandomForest,Undersampling,Best first selection,Sensitive learning,190.0,0.0,0.0,0.0,1.0,1.0,NaN,1.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,NaiveBayes,Undersampling,Best first selection,Sensitive learning,169.0,0.0,0.0,21.0,1.0,0.8894736842105263,NaN,0.0
+BOOKKEEPER,1,61.349697,0.33333334,0.0,IBk,Undersampling,Best first selection,Sensitive learning,190.0,0.0,0.0,0.0,1.0,1.0,NaN,1.0
