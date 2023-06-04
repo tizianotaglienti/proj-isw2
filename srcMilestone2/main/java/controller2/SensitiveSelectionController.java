@@ -47,7 +47,8 @@ public class SensitiveSelectionController {
             e1.printStackTrace();
         }
         try{
-            evaluation.evaluateModel(classifier, testingSet);
+            evaluation.evaluateModel(classifier, testingSet); // Index 1 out of bounds for length 1
+            // significa che il testingSet è vuoto quando viene questa eccezione
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -104,7 +105,8 @@ public class SensitiveSelectionController {
         }
 
         try{
-            evaluation.evaluateModel(costSensitiveClassifier, testingSet);
+            evaluation.evaluateModel(costSensitiveClassifier, testingSet); // Index 1 out of bounds for length 1
+            // significa che il testingSet è vuoto quando viene questa eccezione
         } catch (Exception e) {
             e.printStackTrace();
         }

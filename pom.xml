@@ -35,13 +35,13 @@
         <dependency>
             <groupId>nz.ac.waikato.cms.weka</groupId>
             <artifactId>weka-stable</artifactId>
-            <version>3.8.3</version>
+            <version>3.8.6</version>
         </dependency>
 
         <dependency>
             <groupId>nz.ac.waikato.cms.weka</groupId>
             <artifactId>SMOTE</artifactId>
-            <version>1.0.3</version>
+            <version>1.0.2</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/com.opencsv/opencsv -->

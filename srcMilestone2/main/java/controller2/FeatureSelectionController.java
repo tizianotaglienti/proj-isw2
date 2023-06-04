@@ -6,7 +6,6 @@ import weka.attributeSelection.BestFirst;
 import weka.attributeSelection.CfsSubsetEval;
 import weka.core.Instances;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 

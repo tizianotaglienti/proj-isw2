@@ -136,7 +136,7 @@ public class BugController {
 
                     // id di currentbug è 0 ... controllare se è normale
             //pattern = Pattern.compile("\b"+ project.getName() + "-" + currentBug.getId() + "\b", Pattern.CASE_INSENSITIVE);
-            pattern = Pattern.compile("\\s" + project.getName() + "-" + currentBug.getId() + "\\s", Pattern.CASE_INSENSITIVE);
+            pattern = Pattern.compile("\\b" + project.getName() + "-" + currentBug.getId() + "\\b", Pattern.CASE_INSENSITIVE);
             matcher = pattern.matcher(fullCommitMessage);
             // controlla se il commit message contiene il bug id e il bug è "not checked"
             if(matcher.find() && !resultList.contains(currentBug.getId())){

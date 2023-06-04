@@ -38,7 +38,7 @@ public class Launcher2 {
             selectedProject.setArffFile(pathToFile + "\\stormFiles\\STORMMetrics.arff");
             selectedProject.setCsvFile(pathToFile + "\\stormFiles\\STORMMetrics.csv");
             selectedProject.setProjectName("STORM");
-            selectedProject.setFirstRelease("0.9.0.1");
+            selectedProject.setFirstRelease("0.09.0.1");
         }
 
         // preparo il csv di output con i risultati finali

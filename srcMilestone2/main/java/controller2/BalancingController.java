@@ -3,6 +3,7 @@ package controller2;
 import entities2.VariableModel;
 
 import weka.classifiers.meta.FilteredClassifier;
+import weka.core.Instance;
 import weka.core.Instances;
 import weka.filters.Filter;
 import weka.filters.supervised.instance.Resample;
@@ -19,14 +20,14 @@ public class BalancingController {
     private static VariableModel metric;
     private static Instances trainingSet;
 
-    public Instances startBalancing(Instances trainingSet, int indexForBalancingSwitch, VariableModel metric){
+    public Instances startBalancing(Instances training, int indexForBalancingSwitch, VariableModel metric) {
         this.metric = metric;
-        this.trainingSet = trainingSet;
+        this.trainingSet = training;
 
-        if(indexForBalancingSwitch == 0) return noSampling();
-        if(indexForBalancingSwitch == 1) return overSampling();
-        if(indexForBalancingSwitch == 2) return underSampling();
-        if(indexForBalancingSwitch == 3) return smote();
+        if (indexForBalancingSwitch == 0) return noSampling();
+        if (indexForBalancingSwitch == 1) return overSampling();
+        if (indexForBalancingSwitch == 2) return underSampling();
+        if (indexForBalancingSwitch == 3) return smote();
 
         return null;
     }
@@ -43,12 +44,12 @@ public class BalancingController {
         String[] oversamplingOptions = new String[]{"-B", "1.0", "-Z", String.valueOf(2 * majorityClassPercentage)};
 
         Resample oversamplingFilter = new Resample();
-        try{
+        try {
             oversamplingFilter.setOptions(oversamplingOptions);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        try{
+        try {
             oversamplingFilter.setInputFormat(trainingSet);
         } catch (Exception e) {
             e.printStackTrace();
@@ -58,7 +59,7 @@ public class BalancingController {
         classifierWithOversampling.setFilter(oversamplingFilter);
 
         Instances oversampledTrainingSet = null;
-        try{
+        try {
             return Filter.useFilter(trainingSet, oversamplingFilter);
         } catch (Exception e) {
             e.printStackTrace();
@@ -67,18 +68,18 @@ public class BalancingController {
         return oversampledTrainingSet;
     }
 
-    private Instances underSampling(){
+    private Instances underSampling() {
         metric.setBalancing("Undersampling");
         String[] undersamplingOptions = new String[]{"-M", "1.0"};
 
         SpreadSubsample undersamplingFilter = new SpreadSubsample();
 
-        try{
+        try {
             undersamplingFilter.setOptions(undersamplingOptions);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        try{
+        try {
             undersamplingFilter.setInputFormat(trainingSet);
         } catch (Exception e) {
             e.printStackTrace();
@@ -88,7 +89,7 @@ public class BalancingController {
         classifierWithUndersampling.setFilter(undersamplingFilter);
 
         Instances undersampledTrainingSet = null;
-        try{
+        try {
             return Filter.useFilter(trainingSet, undersamplingFilter);
         } catch (Exception e) {
             e.printStackTrace();
@@ -97,27 +98,34 @@ public class BalancingController {
         return undersampledTrainingSet;
     }
 
-    private Instances smote(){
+    private static Instances smote() {
         metric.setBalancing("Smote");
 
-        SMOTE smote = new SMOTE();
-        try {
-            smote.setInputFormat(trainingSet);
+        SMOTE smoteObject = new SMOTE();
+        //try {
+          //  smoteObject.setInputFormat(trainingSet);
+        //} catch (Exception e) {
+          //  e.printStackTrace();
+        //}
+
+        FilteredClassifier classifierWithSmote = new FilteredClassifier();
+        try{
+            smoteObject.setInputFormat(trainingSet);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        FilteredClassifier classifierWithSmote = new FilteredClassifier();
-        classifierWithSmote.setFilter(smote);
+        classifierWithSmote.setFilter(smoteObject);
 
         Instances smoteTrainingSet = null;
-        try{
-            smoteTrainingSet = Filter.useFilter(trainingSet, smote);
+        //System.out.println(trainingSet.numInstances());
+        try {
+            smoteTrainingSet = Filter.useFilter(trainingSet, classifierWithSmote.getFilter()); // cannot use 0 neighbors!
+            // THIS IS THE PROBLEM!!!
             return smoteTrainingSet;
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        return smoteTrainingSet;
+        return trainingSet;
     }
 }

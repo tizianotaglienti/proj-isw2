@@ -20,7 +20,7 @@ import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.util.io.NullOutputStream;
 
 public class Launcher {
-    private static final String PROJECT_NAME = "BOOKKEEPER";
+    private static final String PROJECT_NAME = "STORM";
     //private static Project project;
     private static ComputeVersions cv;
 
@@ -103,6 +103,9 @@ public class Launcher {
         // qua dovrei calcolare tutte le metriche
         project.setBugList(bugList);
         project.setVersionList(versionList);
+
+        // ??? dove prende la filelist project???
+
         //project.setFileList(fileList);
 
         int releaseNumber = project.getVersionList().size();
@@ -178,9 +181,6 @@ public class Launcher {
             validCommit.setDate(commitLocalDate);
             validCommit.setBelongingVersion(belongingVersion);
 
-            //List<Bug> bugsForCommit = cv.getBugsForCommit(commit.getFullMessage(), project);
-
-            // problema: getbugs for commit non restituisce niente perché (vedi metodo) bugList di project è vuota
             List<Bug> bugsForCommit = prop.getBugsForCommit(commit.getFullMessage(), project);
             validCommit.setBugList(bugsForCommit);
 

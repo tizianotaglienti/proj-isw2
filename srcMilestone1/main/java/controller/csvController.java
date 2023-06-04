@@ -46,7 +46,9 @@ public class csvController {
             metrics.add(Boolean.toString(currentFile.isBuggy()));
 
             try{
-                addRowToCSV(metrics, csv);
+                if(currentFile.getLocTouched() != 0) {
+                    addRowToCSV(metrics, csv);
+                }
             } catch (IOException e){
                 e.printStackTrace();
             }
