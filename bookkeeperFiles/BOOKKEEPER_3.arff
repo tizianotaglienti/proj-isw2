@@ -10,7 +10,7 @@
 @attribute 'Max Chg Set' numeric
 @attribute 'Avg Chg Set' numeric
 @attribute 'Avg LOC Added' numeric
-@attribute Buggy {false,true}
+@attribute Buggy {true,false}
 
 @data
 4.2.0,123,1,0,123,123,15,15,15,123,false

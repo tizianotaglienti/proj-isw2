@@ -83,7 +83,7 @@ public class JiraHelper {
                 }
             }
         }
-        versions.sort(Comparator.comparing(Version::getReleaseDate)); //ordering version by release date (oldest to newest)
+        versions.sort(Comparator.comparing(Version::getReleaseDate));
         return versions;
     }
 
@@ -123,8 +123,6 @@ public class JiraHelper {
                 String creationDate = issues.getJSONObject(lowerBound%MAX_RESULTS).getJSONObject("fields").get("created").toString();
                 int id = Integer.valueOf(key.split("-")[1]);
                 avJSON = issues.getJSONObject(lowerBound%MAX_RESULTS).getJSONObject("fields").getJSONArray("versions");
-
-                //ticketEntity.setId(Integer.valueOf(key.split("-")[1]));
 
                 Bug bug = cv.bugBuilder(versions, creationDate, resolutionDate, id, avJSON, key);
                 bugsList.add(bug);

@@ -254,6 +254,10 @@ public class BugController {
     }
 
     public void proportion(Bug bug, Project project){
+
+        // STAMPA VALORI DI PROPORTION
+        // SULLA RELAZIONE SCRIVI COME SONO FATTI QUESTI VALORI
+
         bug.setOvIndex(getOpeningVersion(bug.getOv().getReleaseDate(), project));
         bug.setIvIndex(getInjectedVersion(Collections.singletonList(bug.getAv().toString()), bug.getCreationDate(), project));
         bug.setFvIndex(getFixedVersion(bug.getFv().getReleaseDate(), project));

@@ -2,6 +2,7 @@ package controller2;
 
 import entities2.VariableModel;
 
+import weka.classifiers.Classifier;
 import weka.classifiers.meta.FilteredClassifier;
 import weka.core.Instance;
 import weka.core.Instances;
@@ -102,30 +103,26 @@ public class BalancingController {
         metric.setBalancing("Smote");
 
         SMOTE smoteObject = new SMOTE();
-        //try {
-          //  smoteObject.setInputFormat(trainingSet);
-        //} catch (Exception e) {
-          //  e.printStackTrace();
-        //}
 
-        FilteredClassifier classifierWithSmote = new FilteredClassifier();
+        //FilteredClassifier classifierWithSmote = new FilteredClassifier();
         try{
             smoteObject.setInputFormat(trainingSet);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        classifierWithSmote.setFilter(smoteObject);
+        //classifierWithSmote.setFilter(smoteObject);
 
         Instances smoteTrainingSet = null;
         //System.out.println(trainingSet.numInstances());
         try {
-            smoteTrainingSet = Filter.useFilter(trainingSet, classifierWithSmote.getFilter()); // cannot use 0 neighbors!
-            // THIS IS THE PROBLEM!!!
+            smoteTrainingSet =  Filter.useFilter(trainingSet, smoteObject);
             return smoteTrainingSet;
+            //smoteTrainingSet = Filter.useFilter(trainingSet, classifierWithSmote.getFilter()); // cannot use 0 neighbors!
+            // THIS IS THE PROBLEM!!!
+            //return smoteTrainingSet;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return trainingSet;
+        return smoteTrainingSet;
     }
 }

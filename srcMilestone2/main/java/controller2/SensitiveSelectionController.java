@@ -52,6 +52,10 @@ public class SensitiveSelectionController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        //System.out.println(evaluation.numTruePositives(0));
+        //System.out.println(evaluation.numTruePositives(1));
+        //System.out.println(evaluation.numFalsePositives(0));
+        //System.out.println(evaluation.numFalsePositives(1));
 
         return evaluation;
     }
@@ -99,14 +103,18 @@ public class SensitiveSelectionController {
 
         Evaluation evaluation = null;
         try{
-            evaluation = new Evaluation(trainingSet, costMatrix);
+            evaluation = new Evaluation(testingSet, costMatrix);
         } catch (Exception e1) {
             e1.printStackTrace();
         }
 
         try{
-            evaluation.evaluateModel(costSensitiveClassifier, testingSet); // Index 1 out of bounds for length 1
-            // significa che il testingSet è vuoto quando viene questa eccezione
+            evaluation.evaluateModel(classifier, testingSet);
+            //evaluation.evaluateModel(costSensitiveClassifier, testingSet);
+            //System.out.println("True Positives: " + evaluation.numTruePositives(0));
+            //System.out.println("False Positives: " + evaluation.numFalsePositives(0));
+            //System.out.println("True Negatives: " + evaluation.numTrueNegatives(0));
+            //System.out.println("False Negatives: " + evaluation.numFalseNegatives(0));
         } catch (Exception e) {
             e.printStackTrace();
         }

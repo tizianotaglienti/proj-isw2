@@ -8,7 +8,6 @@
     </JAVADOC>
     <SOURCES>
       <root url="jar://$MAVEN_REPOSITORY$/nz/ac/waikato/cms/weka/weka-stable/3.8.6/weka-stable-3.8.6-sources.jar!/" />
-      <root url="jar://$MAVEN_REPOSITORY$/nz/ac/waikato/cms/weka/weka-stable/3.8.6/weka-stable-3.8.6.jar!/" />
     </SOURCES>
   </library>
 </component>

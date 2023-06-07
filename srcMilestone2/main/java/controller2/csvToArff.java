@@ -86,12 +86,10 @@ public class csvToArff {
         }
 
         for (String line : lines) {
-            if (line.contains("@attribute Bugginess {false,true}")) {
-                lines.set(lines.indexOf(line), "@attribute bugginess {true,false}");
+            if (line.contains("@attribute Buggy {false,true}") || line.contains("@attribute Buggy {true,false,fals}")){
+                lines.set(lines.indexOf(line), "@attribute Buggy {true,false}");
             }
         }
-
-
 
         try {
             Files.write(new File(args[1]).toPath(), lines, StandardCharsets.UTF_8);

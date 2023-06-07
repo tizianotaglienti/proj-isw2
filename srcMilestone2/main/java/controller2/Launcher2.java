@@ -19,7 +19,7 @@ import weka.core.converters.ConverterUtils;
 
 public class Launcher2 {
 
-    private static final String PROJECT_NAME = "BOOKKEEPER";
+    private static final String PROJECT_NAME = "STORM";
     private static FileWriter outputCsv;
     private static int releaseNumber;
 
@@ -62,7 +62,7 @@ public class Launcher2 {
         ConverterUtils.DataSource source = new ConverterUtils.DataSource(selectedProject.getArffFile());
         int featureNumber = source.getDataSet().numAttributes();
         Attribute versionFeature = source.getDataSet().attribute(0);
-        releaseNumber = versionFeature.numValues();
+        releaseNumber = versionFeature.numValues(); // 6
 
         for(int versionToSplitOver = 0; versionToSplitOver < releaseNumber; versionToSplitOver++){
             String currentCsvFile = selectedProject.getPath();
@@ -108,7 +108,7 @@ public class Launcher2 {
         Instances trainingSet = null;
         ConverterUtils.DataSource sourceTrainingSet = null;
 
-        for(int release = 0; release < releaseNumber - 1; releaseNumber++){
+        for(int release = 0; release < releaseNumber - 1; release++){
             if(release != 0){
                 trainingSet = loadAndPrepareTrainingData(arffFileList.get(release), selectedProject, trainingSet);
             } else {
@@ -143,7 +143,6 @@ public class Launcher2 {
 
             calculateMetricsForCombination(testingSet, trainingSet, release, selectedProject, metric);
         }
-
 
     }
 
@@ -183,7 +182,7 @@ public class Launcher2 {
 
         // calcolo percentuale di bugginess
         int[] buggyTrainingSet = metricCalc.calculateDefectStatistics(trainingSet);
-        VariableModel.setBuggyTrainingSetToWrite(buggyTrainingSet);
+        metric.setBuggyTrainingSetToWrite(buggyTrainingSet);
 
         // applico balancing
         for(int indexForBalancingSwitch = 0; indexForBalancingSwitch < 4; indexForBalancingSwitch++){
@@ -205,8 +204,8 @@ public class Launcher2 {
             buggyTrainingSet = metricCalc.calculateDefectStatistics(balancedTrainingSet);
             int[] buggyTestingSet = metricCalc.calculateDefectStatistics(testingSet);
 
-            metric.setBuggyTestingSet(buggyTestingSet);
             metric.setBuggyTrainingSet(buggyTrainingSet);
+            metric.setBuggyTestingSet(buggyTestingSet);
 
             // applico fs
             for(int indexForFsSwitch = 0; indexForFsSwitch < 2; indexForFsSwitch++){
@@ -221,6 +220,8 @@ public class Launcher2 {
 
                 Instances trainingSetAfterFeatureSelection = dataset.get(0);
                 Instances testingSetAfterFeatureSelection = dataset.get(1);
+
+                System.out.println(testingSetAfterFeatureSelection);
 
                 // uso sensitive cost classifier
                 for(int indexForSensitiveSelectionSwitch = 0; indexForSensitiveSelectionSwitch < 3; indexForSensitiveSelectionSwitch++){
@@ -245,7 +246,7 @@ public class Launcher2 {
 
         for(int i = 0; i < numAttributes; i++){
             Attribute attribute = sourceData.attribute(i);
-            isStringAttribute[i] = (attribute.type() == Attribute.STRING) || (attribute.type() == Attribute.NOMINAL);
+            isStringAttribute[i] = ((attribute.type() == Attribute.STRING) || (attribute.type() == Attribute.NOMINAL));
         }
 
         Instances mergedData = new Instances(sourceData);

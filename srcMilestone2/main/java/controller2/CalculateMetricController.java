@@ -35,20 +35,24 @@ public class CalculateMetricController {
             csvOutput.append(project.getProjectName() + ","
                                 + releaseNumber + ","
                                 + trainingSetPercentage + ","
-            + buggyTrainingSetPercentage + ","
-            + buggyTestingSetPercentage + ","
-            + classifier + ","
-            + metric.getBalancing() + ","
-            + metric.getFeatureSelection() + ","
-            + metric.getSensitivity() + ","
-            + truePositives + ","
-            + falsePositives + ","
-            + trueNegatives + ","
-            + falseNegatives + ","
-            + eval.precision(0) + ","
-            + eval.recall(0) + ","
-            + eval.areaUnderROC(0) + ","
-            + eval.kappa() + "\n");
+                                + buggyTrainingSetPercentage + ","
+                                + buggyTestingSetPercentage + ","
+                                + classifier + ","
+                                + metric.getBalancing() + ","
+                                + metric.getFeatureSelection() + ","
+                                + metric.getSensitivity() + ","
+                                //+ truePositives + ","
+                                + eval.numTruePositives(0) + ","
+                                //+ falsePositives + ","
+                                + eval.numFalsePositives(0) + ","
+                                //+ trueNegatives + ","
+                                + eval.numTrueNegatives(0) + ","
+                                //+ falseNegatives + ","
+                                + eval.numFalseNegatives(0) + ","
+                                + eval.precision(0) + ","
+                                + eval.recall(0) + ","
+                                + eval.areaUnderROC(0) + ","
+                                + eval.kappa() + "\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -64,7 +68,6 @@ public class CalculateMetricController {
         int numBuggyClasses = 0;
         int numNonBuggyClasses = 0;
         int[] defectStatistics = {numBuggyClasses, numNonBuggyClasses};
-        // errore nel caso balancing = 3 (SMOTE) perché projectSetOfInstances è null
         int totalInstances = projectSetOfInstances.numInstances();
         int bugginessAttributeIndex = 10;
 
