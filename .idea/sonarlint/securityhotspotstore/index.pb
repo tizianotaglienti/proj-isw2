@@ -31,7 +31,3 @@ g
 7srcMilestone2/main/java/entities2/ProjectToAnalyze.java,a\2\a216e7db77b08417dcf906c8d40e6a05782f1e82
 d
 4srcMilestone2/main/java/entities2/VariableModel.java,f\7\f737b41f32b73b59384bdfde70ae073c5b55f85e
-e
-5srcMilestone1/main/java/controller/BugController.java,2\2\220256cb84024634c2ed426da2bfa31c7443d1af
-`
-0srcMilestone1/main/java/controller/Launcher.java,a\b\ab68adc2a6a49ddee829c066693d53f063745e05

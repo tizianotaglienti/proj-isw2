@@ -1,0 +1,11 @@
+sonar.projectKey=tizianotaglienti_proj-isw2
+sonar.projectName=proj-isw2
+
+sonar.links.homepage=https://github.com/tizianotaglienti/proj-isw2
+sonar.links.issue=https://github.com/tizianotaglienti/proj-isw2/issues
+
+sonar.host.url=https://sonarcloud.io
+sonar.organization=tizianotaglienti
+sonar.login=3ab371bfce6252d5b77bdec7a8ab954c040a88ae
+sonar.sources=.
+sonar.language=java
