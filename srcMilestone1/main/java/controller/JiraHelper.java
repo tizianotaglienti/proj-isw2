@@ -38,7 +38,6 @@ public class JiraHelper {
         try (InputStream is = new URL(url).openStream()) {
             BufferedReader rd = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
             String jsonText = readAll(rd);
-            //System.out.println(jsonText);
             return new JSONObject(jsonText);
         }
     }
@@ -64,13 +63,11 @@ public class JiraHelper {
         int count = 0;
         for (i = 0; i < tot; i++){
             String nameRelease = json.getJSONObject(i).get("name").toString();
-            //System.out.println(nameRelease);
             String released = json.getJSONObject(i).get("released").toString();
             String releaseId = json.getJSONObject(i).get("id").toString();
             if(released.equalsIgnoreCase("true")){
                 try{
                     LocalDateTime dateRelease;
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                     String dateReleaseStr = json.getJSONObject(i).get("releaseDate").toString();
                     dateRelease = LocalDateTime.parse(dateReleaseStr + "T00:00:00");
                     count++;
@@ -91,7 +88,6 @@ public class JiraHelper {
 
         final int MAX_RESULTS = 1000;
         int total = 0;
-        //List<Version> versions = this.getAllVersions();
         List<Bug> bugsList = new ArrayList<>();
         int upperBound = 0;
         int lowerBound = 0;
@@ -108,28 +104,26 @@ public class JiraHelper {
                     "%22%20%3D%20%22closed%22)%20AND%20%20%22resolution%22%20%3D%20%22fixed%22%20&fields=key," +
                     "resolutiondate,versions,created,fixVersions&startAt=" + lowerBound + "&maxResults=" + upperBound;
             JSONObject json = readJsonFromUrl(url);
-            //System.out.println(json.toString());
-            //JSONArray bugsList = readJsonArrayFromUrl(url);
             JSONArray issues = json.getJSONArray("issues");
             total = json.getInt("total");
+            String fields = "fields";
 
             for (; lowerBound < total && lowerBound < upperBound; lowerBound++) {
 
                 // WARNING CONTROLLARE COME SONO FATTI
                 String key = issues.getJSONObject(lowerBound%MAX_RESULTS).get("key").toString();
-                String version = issues.getJSONObject(lowerBound%MAX_RESULTS).getJSONObject("fields").get("versions").toString();
-                String fv = issues.getJSONObject(lowerBound%MAX_RESULTS).getJSONObject("fields").get("fixVersions").toString();
-                String resolutionDate = issues.getJSONObject(lowerBound%MAX_RESULTS).getJSONObject("fields").get("resolutiondate").toString();
-                String creationDate = issues.getJSONObject(lowerBound%MAX_RESULTS).getJSONObject("fields").get("created").toString();
+                String version = issues.getJSONObject(lowerBound%MAX_RESULTS).getJSONObject(fields).get("versions").toString();
+                String resolutionDate = issues.getJSONObject(lowerBound%MAX_RESULTS).getJSONObject(fields).get("resolutiondate").toString();
+                String creationDate = issues.getJSONObject(lowerBound%MAX_RESULTS).getJSONObject(fields).get("created").toString();
                 int id = Integer.valueOf(key.split("-")[1]);
-                avJSON = issues.getJSONObject(lowerBound%MAX_RESULTS).getJSONObject("fields").getJSONArray("versions");
+                avJSON = issues.getJSONObject(lowerBound%MAX_RESULTS).getJSONObject(fields).getJSONArray("versions");
 
                 Bug bug = cv.bugBuilder(versions, creationDate, resolutionDate, id, avJSON, key);
                 bugsList.add(bug);
             }
         } while(lowerBound < total);
 
-        List<Bug> undiscardedBugs = cv.discardBugs(bugsList);
+        return List<Bug> undiscardedBugs = cv.discardBugs(bugsList);
         return undiscardedBugs;
     }
 

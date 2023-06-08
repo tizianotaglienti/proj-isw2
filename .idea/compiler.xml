@@ -9,8 +9,5 @@
         <module name="proj-isw2" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="proj-isw2" target="13" />
-    </bytecodeTargetLevel>
   </component>
 </project>

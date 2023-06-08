@@ -1,4 +1,4 @@
-package controller2;
+package main.java.controller2;
 
 import entities2.ProjectToAnalyze;
 import entities2.VariableModel;
@@ -20,6 +20,8 @@ import weka.core.converters.ConverterUtils;
 public class Launcher2 {
 
     private static final String PROJECT_NAME = "STORM";
+    private static final String MYSTRINGSTORM = "STORM";
+    private static final String MYSTRINGBK = "BOOKKEEPER";
     private static FileWriter outputCsv;
     private static int releaseNumber;
 
@@ -27,17 +29,17 @@ public class Launcher2 {
         String pathToFile = System.getProperty("user.dir");
         ProjectToAnalyze selectedProject = new ProjectToAnalyze();
 
-        if(PROJECT_NAME == "BOOKKEEPER"){
+        if(PROJECT_NAME.equals(MYSTRINGBK)){
             selectedProject.setPath(pathToFile + "\\bookkeeperFiles\\BOOKKEEPER");
             selectedProject.setArffFile(pathToFile + "\\bookkeeperFiles\\BOOKKEEPERMetrics.arff");
             selectedProject.setCsvFile(pathToFile + "\\bookkeeperFiles\\BOOKKEEPERMetrics.csv");
-            selectedProject.setProjectName("BOOKKEEPER");
+            selectedProject.setProjectName(MYSTRINGBK);
             selectedProject.setFirstRelease("4.0.0");
-        } else if(PROJECT_NAME == "STORM"){
+        } else if (PROJECT_NAME.equals(MYSTRINGSTORM)){
             selectedProject.setPath(pathToFile + "\\stormFiles\\STORM");
             selectedProject.setArffFile(pathToFile + "\\stormFiles\\STORMMetrics.arff");
             selectedProject.setCsvFile(pathToFile + "\\stormFiles\\STORMMetrics.csv");
-            selectedProject.setProjectName("STORM");
+            selectedProject.setProjectName(MYSTRINGSTORM);
             selectedProject.setFirstRelease("0.09.0.1");
         }
 
@@ -55,9 +57,6 @@ public class Launcher2 {
         csvToArff csvConverter = new csvToArff();
         String[] csvFilesToConvert = {selectedProject.getCsvFile(), selectedProject.getArffFile()};
         csvConverter.csvToArff(csvFilesToConvert);
-        //csvToArff csvConverter = new csvToArff();
-        //csvConverter.csvToArff(selectedProject.getPath(), selectedProject.getProjectName());
-        // converted!
 
         ConverterUtils.DataSource source = new ConverterUtils.DataSource(selectedProject.getArffFile());
         int featureNumber = source.getDataSet().numAttributes();
@@ -66,11 +65,11 @@ public class Launcher2 {
 
         for(int versionToSplitOver = 0; versionToSplitOver < releaseNumber; versionToSplitOver++){
             String currentCsvFile = selectedProject.getPath();
-            currentCsvFile += ("_" + String.valueOf(versionToSplitOver + 1) + ".csv");
+            currentCsvFile += ("_" + (versionToSplitOver + 1) + ".csv");
             csvFileList.add(currentCsvFile);
 
             String currentArffFile = selectedProject.getPath();
-            currentArffFile += ("_" + String.valueOf(versionToSplitOver + 1) + ".arff");
+            currentArffFile += ("_" + (versionToSplitOver + 1) + ".arff");
             arffFileList.add(currentArffFile);
         }
         // split di csv in base alla versione (può essere utile farlo)
@@ -105,7 +104,7 @@ public class Launcher2 {
 
     // implementazione walk forward
     private static void walkForward(ArrayList<String> arffFileList, ProjectToAnalyze selectedProject, VariableModel metric) {
-        Instances trainingSet = null;
+        Instances trainingSet;
         ConverterUtils.DataSource sourceTrainingSet = null;
 
         for(int release = 0; release < releaseNumber - 1; release++){
@@ -123,14 +122,14 @@ public class Launcher2 {
                     e.printStackTrace();
                 }
             }
-            ConverterUtils.DataSource sourceTestingSet = null;
+            ConverterUtils.DataSource sourceTestingSet;
             try{
                 sourceTestingSet = new ConverterUtils.DataSource(arffFileList.get(release + 1));
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-            Instances testingSet = null;
+            Instances testingSet;
             try{
                 testingSet = sourceTestingSet.getDataSet();
             } catch (Exception e) {
@@ -147,13 +146,13 @@ public class Launcher2 {
     }
 
     private static Instances loadAndPrepareTrainingData(String arffFile, ProjectToAnalyze selectedProject, Instances trainingSet){
-        ConverterUtils.DataSource newSourceTrainingSet = null;
+        ConverterUtils.DataSource newSourceTrainingSet;
         try{
             newSourceTrainingSet = new ConverterUtils.DataSource(arffFile);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Instances newTrainingSet = null;
+        Instances newTrainingSet;
         try{
             newTrainingSet = newSourceTrainingSet.getDataSet();
         } catch (Exception e) {
@@ -162,7 +161,7 @@ public class Launcher2 {
 
         String releaseNewTrainingSet = null;
         try{
-            releaseNewTrainingSet = newSourceTrainingSet.getDataSet().attribute(0).value(0).toString();
+            releaseNewTrainingSet = newSourceTrainingSet.getDataSet().attribute(0).value(0);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -221,7 +220,6 @@ public class Launcher2 {
                 Instances trainingSetAfterFeatureSelection = dataset.get(0);
                 Instances testingSetAfterFeatureSelection = dataset.get(1);
 
-                System.out.println(testingSetAfterFeatureSelection);
 
                 // uso sensitive cost classifier
                 for(int indexForSensitiveSelectionSwitch = 0; indexForSensitiveSelectionSwitch < 3; indexForSensitiveSelectionSwitch++){

@@ -1,4 +1,4 @@
-package controller2;
+package main.java.controller2;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -9,27 +9,25 @@ import com.opencsv.CSVReader;
 
 public class MLcsvController {
     public FileWriter createOutputCSV(String filePath) throws IOException {
-        FileWriter outputCSV = new FileWriter(filePath + "_OUTPUT.csv");
-        outputCSV.append("Dataset," + "#TrainingRelease," + "%Training," + "%DefectiveTraining," + "%DefectiveTesting," + "Classifier," + "Balancing," + "FeatureSelection," + "Sensitivity," + "TP,FP,TN,FN," + "Precision," + "Recall," + "AUC," + "Kappa\n");
+        try (FileWriter outputCSV = new FileWriter(filePath + "_OUTPUT.csv")) {
+            outputCSV.append("Dataset," + "#TrainingRelease," + "%Training," + "%DefectiveTraining," + "%DefectiveTesting," + "Classifier," + "Balancing," + "FeatureSelection," + "Sensitivity," + "TP,FP,TN,FN," + "Precision," + "Recall," + "AUC," + "Kappa\n");
 
-        return outputCSV;
+            return outputCSV;
+        }
     }
 
     public void split(String csvFileName, List<String> csvFileList, String firstRelease, int featureNumber) throws IOException {
-        CSVReader reader = null;
 
-        try{
-            reader = new CSVReader(new FileReader(csvFileName));
+        try (CSVReader reader = new CSVReader(new FileReader(csvFileName))){
 
             String[] nextLine;
             int currentRow = 1;
             StringBuilder attributeList = new StringBuilder();
             int version = 1;
 
-            FileWriter csv = new FileWriter(csvFileList.get(version - 1));
-            // crea csv STORM_N vuoto
-
-            String currentVersion = firstRelease;
+            try (FileWriter csv = new FileWriter(csvFileList.get(version - 1))) {
+                String currentVersion = firstRelease;
+            }
 
             // legge una linea alla volta
             while((nextLine = reader.readNext()) != null){
@@ -41,9 +39,10 @@ public class MLcsvController {
                             version++;
                             csv.close();
 
-                            csv = new FileWriter(csvFileList.get(version - 1));
-                            csv.append(attributeList + "\n");
-                            currentVersion = token;
+                            try(FileWriter csv = new FileWriter(csvFileList.get(version - 1))) {
+                                csv.append(attributeList + "\n");
+                                currentVersion = token;
+                            }
                         }
                         addRow(nextLine, csv);
                         break;

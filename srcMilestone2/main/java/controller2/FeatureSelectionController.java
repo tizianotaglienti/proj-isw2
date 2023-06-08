@@ -1,4 +1,4 @@
-package controller2;
+package main.java.controller2;
 
 import entities2.VariableModel;
 import weka.filters.supervised.attribute.AttributeSelection;
@@ -36,9 +36,7 @@ public class FeatureSelectionController {
 
         ArrayList<Instances> newDataset = new ArrayList<>();
         newDataset.add(0, trainingSet);
-        //newDataset.add(0, this.trainingSet);
         newDataset.add(1, testingSet);
-        //newDataset.add(1, this.testingSet);
 
         return newDataset;
     }
@@ -57,23 +55,20 @@ public class FeatureSelectionController {
 
         try{
             attributeSelectionFilter.setInputFormat(this.trainingSet);
-            //attributeSelectionFilter.setInputFormat(this.trainingSet);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        Instances trainingSetWithFeatureSelection = null;
+        Instances trainingSetWithFeatureSelection;
         try {
-            //trainingSetWithFeatureSelection = AttributeSelection.useFilter(this.trainingSet, attributeSelectionFilter);
-            trainingSetWithFeatureSelection = AttributeSelection.useFilter(this.trainingSet, attributeSelectionFilter);
+            trainingSetWithFeatureSelection = AttributeSelection.weka.filters.Filter.useFilter(this.trainingSet, attributeSelectionFilter);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        Instances testingSetWithFeatureSelection = null;
+        Instances testingSetWithFeatureSelection;
         try {
-            //testingSetWithFeatureSelection = AttributeSelection.useFilter(this.testingSet, attributeSelectionFilter);
-            testingSetWithFeatureSelection = AttributeSelection.useFilter(testingSet, attributeSelectionFilter);
+            testingSetWithFeatureSelection = AttributeSelection.weka.filter.filter.useFilter(testingSet, attributeSelectionFilter);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -81,11 +76,7 @@ public class FeatureSelectionController {
         int numAttributes = trainingSetWithFeatureSelection.numAttributes();
 
         trainingSetWithFeatureSelection.setClassIndex(numAttributes - 1);
-        //System.out.println(trainingSetWithFeatureSelection.classIndex());
-        //System.out.println(trainingSetWithFeatureSelection.attribute(4));
         testingSetWithFeatureSelection.setClassIndex(numAttributes - 1);
-        //System.out.println(testingSetWithFeatureSelection.classIndex());
-        //System.out.println(testingSetWithFeatureSelection.attribute(4));
 
         ArrayList<Instances> newDataset = new ArrayList<>();
         newDataset.add(0, trainingSetWithFeatureSelection);

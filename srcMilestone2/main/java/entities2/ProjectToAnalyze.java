@@ -1,4 +1,4 @@
-package entities2;
+package main.java.entities2;
 
 public class ProjectToAnalyze {
 

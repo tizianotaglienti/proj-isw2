@@ -1,4 +1,4 @@
-package entities2;
+package main.java.entities2;
 
 public class VariableModel {
 
@@ -12,6 +12,9 @@ public class VariableModel {
     private static int[] buggyTestingSet;
     private static int[] buggyTrainingSetToWrite;
 
+    private VariableModel(){
+
+    }
 
     public static String getBalancing() {
         return balancing;

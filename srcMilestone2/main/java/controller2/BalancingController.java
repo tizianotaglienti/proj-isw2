@@ -1,4 +1,4 @@
-package controller2;
+package main.java.controller2;
 
 import entities2.VariableModel;
 
@@ -30,7 +30,7 @@ public class BalancingController {
         if (indexForBalancingSwitch == 2) return underSampling();
         if (indexForBalancingSwitch == 3) return smote();
 
-        return null;
+        return Instances emptyCollection = null;
     }
 
 
@@ -104,22 +104,16 @@ public class BalancingController {
 
         SMOTE smoteObject = new SMOTE();
 
-        //FilteredClassifier classifierWithSmote = new FilteredClassifier();
         try{
             smoteObject.setInputFormat(trainingSet);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //classifierWithSmote.setFilter(smoteObject);
 
         Instances smoteTrainingSet = null;
-        //System.out.println(trainingSet.numInstances());
         try {
             smoteTrainingSet =  Filter.useFilter(trainingSet, smoteObject);
             return smoteTrainingSet;
-            //smoteTrainingSet = Filter.useFilter(trainingSet, classifierWithSmote.getFilter()); // cannot use 0 neighbors!
-            // THIS IS THE PROBLEM!!!
-            //return smoteTrainingSet;
         } catch (Exception e) {
             e.printStackTrace();
         }

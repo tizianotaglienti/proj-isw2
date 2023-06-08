@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 public class Version {
     private String name;
     private LocalDateTime releaseDate;
-    private String versionId;
     private int index;
 
     public Version(String name, LocalDateTime releaseDate, String versionId, int index){

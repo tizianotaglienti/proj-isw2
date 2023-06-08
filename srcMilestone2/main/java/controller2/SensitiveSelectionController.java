@@ -1,4 +1,4 @@
-package controller2;
+package main.java.controller2;
 
 import entities2.VariableModel;
 import weka.classifiers.Classifier;
@@ -40,7 +40,7 @@ public class SensitiveSelectionController {
             e2.printStackTrace();
         }
 
-        Evaluation evaluation = null;
+        Evaluation evaluation;
         try{
             evaluation = new Evaluation(testingSet);
         } catch (Exception e1) {
@@ -52,11 +52,6 @@ public class SensitiveSelectionController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //System.out.println(evaluation.numTruePositives(0));
-        //System.out.println(evaluation.numTruePositives(1));
-        //System.out.println(evaluation.numFalsePositives(0));
-        //System.out.println(evaluation.numFalsePositives(1));
-
         return evaluation;
     }
 
@@ -101,7 +96,7 @@ public class SensitiveSelectionController {
             e2.printStackTrace();
         }
 
-        Evaluation evaluation = null;
+        Evaluation evaluation;
         try{
             evaluation = new Evaluation(testingSet, costMatrix);
         } catch (Exception e1) {
@@ -110,11 +105,6 @@ public class SensitiveSelectionController {
 
         try{
             evaluation.evaluateModel(classifier, testingSet);
-            //evaluation.evaluateModel(costSensitiveClassifier, testingSet);
-            //System.out.println("True Positives: " + evaluation.numTruePositives(0));
-            //System.out.println("False Positives: " + evaluation.numFalsePositives(0));
-            //System.out.println("True Negatives: " + evaluation.numTrueNegatives(0));
-            //System.out.println("False Negatives: " + evaluation.numFalseNegatives(0));
         } catch (Exception e) {
             e.printStackTrace();
         }

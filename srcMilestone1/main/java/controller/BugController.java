@@ -27,7 +27,6 @@ public class BugController {
 
         if(!av.isEmpty()){
             av.sort(Comparator.comparing(Version::getReleaseDate));
-            //iv = av.get(av.size()-1);
             iv = av.get(0);
             bug = new Bug(key, fv, ov, iv, id, av);
         }
@@ -86,16 +85,10 @@ public class BugController {
             // bug che non rispettano FV > OV e OV > IV
             // e bug che hanno IV = OV = FV
             boolean discard = false;
-            if(b.getFv() == null || b.getOv() == null){
-                discard = true;
-            }
-            else if(b.getOv().getReleaseDate().compareTo(b.getFv().getReleaseDate()) > 0){
-                discard = true;
-            }
-            else if(b.getIv() != null && b.getOv().getReleaseDate().compareTo(b.getFv().getReleaseDate()) == 0 && b.getIv().getReleaseDate().compareTo(b.getOv().getReleaseDate()) == 0){
-                discard = true;
-            }
-            else if(b.getIv() != null && b.getIv().getReleaseDate().compareTo(b.getOv().getReleaseDate()) >= 0){
+            if (b.getFv() == null || b.getOv() == null
+                    || b.getOv().getReleaseDate().compareTo(b.getFv().getReleaseDate()) > 0
+                    || (b.getIv() != null && b.getIv().getReleaseDate().compareTo(b.getOv().getReleaseDate()) >= 0)
+                    || (b.getIv() != null && b.getOv().getReleaseDate().compareTo(b.getFv().getReleaseDate()) == 0 && b.getIv(getReleaseDate().compareTo(b.getOv().getReleaseDate())))) {
                 discard = true;
             }
             if(!discard){
@@ -135,7 +128,6 @@ public class BugController {
             // pattern controlla se il commit message contiene "*nomeProgetto*-*bugId*"
 
                     // id di currentbug è 0 ... controllare se è normale
-            //pattern = Pattern.compile("\b"+ project.getName() + "-" + currentBug.getId() + "\b", Pattern.CASE_INSENSITIVE);
             pattern = Pattern.compile("\\b" + project.getName() + "-" + currentBug.getId() + "\\b", Pattern.CASE_INSENSITIVE);
             matcher = pattern.matcher(fullCommitMessage);
             // controlla se il commit message contiene il bug id e il bug è "not checked"
@@ -317,7 +309,6 @@ public class BugController {
     // data una resolutionDate, il metodo ritorna l'indice della versione
     public int getFixedVersion(LocalDateTime resolutionDate, Project project){
         int fvIndex = 0;
-        //LocalDate resolutionLocalDate = LocalDate.parse(resolutionDate);
 
         for(int k = 0; k < project.getVersionList().size(); k++){
             Version currentVersion = project.getVersionList().get(k);
@@ -334,7 +325,6 @@ public class BugController {
     // data la creationDate del bug, ritorna indice della versione
     public int getOpeningVersion(LocalDateTime creationDate, Project project){
         int ovIndex = 0;
-        //LocalDateTime creationLocalDate = LocalDateTime.parse(creationDate);
         // storm dà errore nullpointer per una versione senza creation date e si interrompe qua
         // mannaggia anche bookkeeper
 

@@ -1,4 +1,4 @@
-package controller2;
+package main.java.controller2;
 
 import entities2.ProjectToAnalyze;
 
@@ -13,19 +13,15 @@ import java.io.IOException;
 public class CalculateMetricController {
 
     public void metricCalculator(Evaluation eval, ProjectToAnalyze project, int releaseNumber, String classifier, VariableModel metric, FileWriter csvOutput){
-        double truePositives = eval.numTruePositives(0);
-        double trueNegatives = eval.numTrueNegatives(0);
-        double falsePositives = eval.numFalsePositives(0);
-        double falseNegatives = eval.numFalseNegatives(0);
 
         // calcolo percentuale di bugginess del training set e del testing set
         int[] buggyTrainingSet = metric.getBuggyTrainingSetToWrite();
         int[] buggyTestingSet = metric.getBuggyTestingSet();
 
-        float totalTrainingSetInstances = buggyTrainingSet[0] + buggyTrainingSet[1];
+        float totalTrainingSetInstances = float(buggyTrainingSet[0]) + float(buggyTrainingSet[1]);
         float buggyTrainingSetPercentage = (buggyTrainingSet[0] / totalTrainingSetInstances) * 100;
 
-        float totalTestingSetInstances = buggyTestingSet[0] + buggyTestingSet[1];
+        float totalTestingSetInstances = float(buggyTestingSet[0]) + float(buggyTestingSet[1]);
         float buggyTestingSetPercentage = (buggyTestingSet[0] / totalTestingSetInstances) * 100;
 
         float trainingSetPercentage = (totalTrainingSetInstances / (totalTrainingSetInstances + totalTestingSetInstances)) * 100;
