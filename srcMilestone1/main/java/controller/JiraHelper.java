@@ -7,7 +7,6 @@ import java.io.*;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -21,9 +20,23 @@ import org.json.JSONObject;
 public class JiraHelper {
     private String projectName;
 
+    /**
+     * Costruttore per inizializzare l'istanza di `JiraHelper` con il nome del progetto specificato.
+     *
+     * @param projectName il nome del progetto Jira
+     */
+
     public JiraHelper(String projectName) {
         this.projectName = projectName;
     }
+
+    /**
+     * Legge e restituisce una stringa che rappresenta l'intero contenuto di un oggetto `Reader`.
+     *
+     * @param rd l'oggetto `Reader` da cui leggere
+     * @return una stringa che rappresenta l'intero contenuto del `Reader`
+     * @throws IOException se si verifica un errore durante la lettura del `Reader`
+     */
 
     private static String readAll(Reader rd) throws IOException {
         StringBuilder sb = new StringBuilder();
@@ -34,6 +47,15 @@ public class JiraHelper {
         return sb.toString();
     }
 
+    /**
+     * Legge un oggetto JSON da una specifica URL e restituisce un oggetto `JSONObject` che rappresenta il JSON.
+     *
+     * @param url l'URL da cui leggere l'oggetto JSON
+     * @return un oggetto `JSONObject` che rappresenta il JSON letto
+     * @throws IOException se si verifica un errore durante la lettura dell'URL
+     * @throws JSONException se si verifica un errore nella manipolazione del JSON
+     */
+
     public static JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
         try (InputStream is = new URL(url).openStream()) {
             BufferedReader rd = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
@@ -42,15 +64,29 @@ public class JiraHelper {
         }
     }
 
+    /**
+     * Legge un array di oggetti JSON da una specifica URL e restituisce un oggetto `JSONArray` che rappresenta il JSON.
+     *
+     * @param url l'URL da cui leggere l'array di oggetti JSON
+     * @return un oggetto `JSONArray` che rappresenta l'array di oggetti JSON letto
+     * @throws IOException se si verifica un errore durante la lettura dell'URL
+     * @throws JSONException se si verifica un errore nella manipolazione del JSON
+     */
+
     public static JSONArray readJsonArrayFromUrl(String url) throws IOException, JSONException {
         try (InputStream is = new URL(url).openStream()) {
             BufferedReader rd = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
             String jsonText = readAll(rd);
-            System.out.println(jsonText.substring(0,20));
-            System.out.println(jsonText.substring(jsonText.length()-20));
             return new JSONArray(jsonText);
         }
     }
+
+    /**
+     * Recupera tutte le versioni rilasciate di un progetto da Jira.
+     *
+     * @return una lista di oggetti `Version` che rappresentano le versioni rilasciate del progetto
+     * @throws IOException se si verifica un errore durante la lettura delle versioni da Jira
+     */
 
     public List<Version> getAllVersions() throws IOException {
 
@@ -84,6 +120,14 @@ public class JiraHelper {
         return versions;
     }
 
+    /**
+     * Recupera tutti i bug associati alle versioni di un progetto da Jira.
+     *
+     * @param versions una lista di oggetti `Version` che rappresentano le versioni del progetto
+     * @return una lista di oggetti `Bug` che rappresentano i bug associati alle versioni
+     * @throws IOException se si verifica un errore durante la lettura dei bug da Jira
+     */
+
     public List<Bug> getBugs(List<Version> versions) throws IOException {
 
         final int MAX_RESULTS = 1000;
@@ -94,7 +138,7 @@ public class JiraHelper {
 
         JSONArray avJSON;
 
-        ComputeVersions cv = new ComputeVersions();
+        BugController bc = new BugController();
 
         do {
             upperBound = lowerBound + MAX_RESULTS;
@@ -110,21 +154,18 @@ public class JiraHelper {
 
             for (; lowerBound < total && lowerBound < upperBound; lowerBound++) {
 
-                // WARNING CONTROLLARE COME SONO FATTI
                 String key = issues.getJSONObject(lowerBound%MAX_RESULTS).get("key").toString();
-                String version = issues.getJSONObject(lowerBound%MAX_RESULTS).getJSONObject(fields).get("versions").toString();
                 String resolutionDate = issues.getJSONObject(lowerBound%MAX_RESULTS).getJSONObject(fields).get("resolutiondate").toString();
                 String creationDate = issues.getJSONObject(lowerBound%MAX_RESULTS).getJSONObject(fields).get("created").toString();
-                int id = Integer.valueOf(key.split("-")[1]);
+                int id = Integer.parseInt(key.split("-")[1]);
                 avJSON = issues.getJSONObject(lowerBound%MAX_RESULTS).getJSONObject(fields).getJSONArray("versions");
 
-                Bug bug = cv.bugBuilder(versions, creationDate, resolutionDate, id, avJSON, key);
+                Bug bug = bc.bugBuilder(versions, creationDate, resolutionDate, id, avJSON, key);
                 bugsList.add(bug);
             }
         } while(lowerBound < total);
 
-        return List<Bug> undiscardedBugs = cv.discardBugs(bugsList);
-        return undiscardedBugs;
+        return bc.discardBugs(bugsList);
     }
 
 }

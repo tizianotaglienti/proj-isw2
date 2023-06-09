@@ -6,6 +6,6 @@ sonar.links.issue=https://github.com/tizianotaglienti/proj-isw2/issues
 
 sonar.host.url=https://sonarcloud.io
 sonar.organization=tizianotaglienti
-sonar.login=3ab371bfce6252d5b77bdec7a8ab954c040a88ae
+sonar.login=0964fb0cf43a14ba69c25ef23246c2bc1e99e51e
 sonar.sources=.
 sonar.language=java

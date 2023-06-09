@@ -3,6 +3,7 @@ package entities;
 import java.time.LocalDateTime;
 
 public class Version {
+    private final String versionId;
     private String name;
     private LocalDateTime releaseDate;
     private int index;
@@ -36,5 +37,9 @@ public class Version {
 
     public void setIndex(int index){
         this.index = index;
+    }
+
+    public String getVersionId() {
+        return versionId;
     }
 }

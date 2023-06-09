@@ -36,7 +36,7 @@ public class Bug {
     }
 
     public Bug() {
-
+        // costruttore
     }
 
     public String getKey(){

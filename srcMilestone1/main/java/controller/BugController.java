@@ -6,6 +6,9 @@ import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.diff.Edit;
 import org.json.JSONArray;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -17,6 +20,21 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class BugController {
+
+    private static final Logger logger = LogManager.getLogger(BugController.class);
+
+
+    /**
+     * Costruisce un oggetto Bug a partire dai dati forniti.
+     *
+     * @param versions      Lista delle versioni del progetto
+     * @param openingDate   Data di apertura del bug
+     * @param fixDate       Data di risoluzione del bug
+     * @param id            ID del bug
+     * @param avJSON        Array JSON delle versioni interessate dal bug
+     * @param key           Chiave del bug
+     * @return Oggetto Bug creato
+     */
 
     public Bug bugBuilder(List<Version> versions, String openingDate, String fixDate, int id, JSONArray avJSON, String key){
         Bug bug = null;
@@ -35,6 +53,14 @@ public class BugController {
         }
         return bug;
     }
+
+    /**
+     * Restituisce la lista delle versioni interessate dal bug.
+     *
+     * @param avJSON    Array JSON delle versioni interessate dal bug
+     * @param versions  Lista delle versioni del progetto
+     * @return Lista delle versioni interessate dal bug
+     */
 
     private List<Version> affectedVersions(JSONArray avJSON, List<Version> versions) {
         List<Version> av = new ArrayList<>();
@@ -63,9 +89,17 @@ public class BugController {
         return av;
     }
 
+    /**
+     * Calcola la versione a cui appartiene la data fornita.
+     *
+     * @param versions  Lista delle versioni del progetto
+     * @param date      Data da confrontare
+     * @return Versione a cui appartiene la data
+     */
+
     public Version versionComputer(List<Version> versions, String date){
         Version computedVersion = null;
-        String newDate = date.substring(0, date.length() - 9); //discard last 9 characters
+        String newDate = date.substring(0, date.length() - 9); // scarto gli ultimi nove caratteri di date
         LocalDateTime datetime = LocalDateTime.parse(newDate);
         for(Version v : versions) {
             if (datetime.compareTo(v.getReleaseDate()) < 0) {
@@ -73,10 +107,15 @@ public class BugController {
                 break;
             }
         }
-
         return computedVersion;
-
     }
+
+    /**
+     * Filtra i bug non validi in base a determinate condizioni.
+     *
+     * @param bugList      Lista dei bug
+     * @return Lista dei bug validi
+     */
 
     public List<Bug> discardBugs(List<Bug> bugList){
         List<Bug> discardBugsList = new ArrayList<>();
@@ -88,7 +127,7 @@ public class BugController {
             if (b.getFv() == null || b.getOv() == null
                     || b.getOv().getReleaseDate().compareTo(b.getFv().getReleaseDate()) > 0
                     || (b.getIv() != null && b.getIv().getReleaseDate().compareTo(b.getOv().getReleaseDate()) >= 0)
-                    || (b.getIv() != null && b.getOv().getReleaseDate().compareTo(b.getFv().getReleaseDate()) == 0 && b.getIv(getReleaseDate().compareTo(b.getOv().getReleaseDate())))) {
+                    || (b.getIv() != null && b.getOv().getReleaseDate().compareTo(b.getFv().getReleaseDate()) == 0 && b.getIv().getReleaseDate().compareTo(b.getOv().getReleaseDate()) == 0)) {
                 discard = true;
             }
             if(!discard){
@@ -97,6 +136,14 @@ public class BugController {
         }
         return discardBugsList;
     }
+
+    /**
+     * Calcola l'indice della versione di commit in base alla data locale e alla lista delle versioni del progetto.
+     *
+     * @param commitLocalDate    Data di commit
+     * @param project            Progetto
+     * @return Indice della versione di commit
+     */
 
     public int getCommitVersion(LocalDate commitLocalDate, Project project) {
         int index = 0;
@@ -116,6 +163,14 @@ public class BugController {
         }
         return index;
     }
+
+    /**
+     * Recupera la lista dei bug associati a un messaggio di commit e a un progetto.
+     *
+     * @param fullCommitMessage Messaggio di commit
+     * @param project           Progetto
+     * @return Lista dei bug associati
+     */
 
     public List<Bug> getBugsForCommit(String fullCommitMessage, Project project) {
         List<Bug> resultList = new ArrayList<>();
@@ -144,15 +199,25 @@ public class BugController {
         return resultList;
     }
 
+    /**
+     * Calcola le metriche per un commit e aggiorna le metriche dei file corrispondenti nel progetto.
+     *
+     * @param validCommit    Commit
+     * @param diffEntry
+     * @param diffFormatter
+     * @param project        Progetto
+     * @throws IOException Eccezione di I/O
+     */
+
     public void getMetrics(Commit validCommit, DiffEntry diffEntry, DiffFormatter diffFormatter, Project project) throws IOException {
-        // se la versione è oltre la metà, ignora il file
+        // se la versione è oltre la metà, ignoro il file
         if(validCommit.getBelongingVersion() > project.getHalfVersion()){
             return;
         }
-        // aggiorna i valori di version e file
+        // aggiorno i valori di version e file
         FileEntity file = removeFile(validCommit.getBelongingVersion(), diffEntry.getNewPath(), project);
 
-        // se è la prima volta si crea una nuova istanza di version e file
+        // se è la prima volta, creo una nuova istanza di version e file
         if(file == null){
             file = new FileEntity();
             file.setFileName(diffEntry.getNewPath());
@@ -176,7 +241,7 @@ public class BugController {
         // file committati insieme
         chgSetSize = validCommit.getFilesChanged().size();
 
-        // vengono aggiornate le metriche
+        // aggiorno le metriche
         int locTouchedPreviously = file.getLocTouched();
         file.setLocTouched(locTouchedPreviously + locTouched);
 
@@ -210,6 +275,14 @@ public class BugController {
 
     }
 
+    /**
+     * Segna i file come "buggy" in base ai bug associati a un commit e aggiorna la lista dei file del progetto.
+     *
+     * @param validCommit    Commit
+     * @param diffEntry
+     * @param project        Progetto
+     */
+
     public Project setBuggy(Commit validCommit, DiffEntry diffEntry, Project project) {
         if(validCommit.getBugList().isEmpty()){
             return project;
@@ -233,6 +306,15 @@ public class BugController {
         return project;
     }
 
+    /**
+     * Rimuove il file corrispondente alla versione e al nome del file forniti dal progetto.
+     *
+     * @param version   Indice della versione
+     * @param fileName  Nome del file
+     * @param project   Progetto
+     * @return FileEntity rimosso, null se non trovato
+     */
+
     private FileEntity removeFile(int version, String fileName, Project project) {
         for(int k = 0; k < project.getFileList().size(); k ++){
             FileEntity file = project.getFileList().get(k);
@@ -245,10 +327,14 @@ public class BugController {
         return null;
     }
 
-    public void proportion(Bug bug, Project project){
+    /**
+     * Calcola il valore di proportion per il bug e aggiorna il progetto.
+     *
+     * @param bug       Bug
+     * @param project   Progetto
+     */
 
-        // STAMPA VALORI DI PROPORTION
-        // SULLA RELAZIONE SCRIVI COME SONO FATTI QUESTI VALORI
+    public void proportion(Bug bug, Project project){
 
         bug.setOvIndex(getOpeningVersion(bug.getOv().getReleaseDate(), project));
         bug.setIvIndex(getInjectedVersion(Collections.singletonList(bug.getAv().toString()), bug.getCreationDate(), project));
@@ -265,12 +351,21 @@ public class BugController {
             double fvOv = (double)bug.getFvIndex() - bug.getOvIndex();
             double proportion = fvIv / fvOv;
 
+            logger.info("Proportion value: {}", proportion);
+
             if(proportion > 0){
                 bug.setProportion(proportion);
                 project.addBugWithAV(bug);
             }
         }
     }
+
+    /**
+     * Stima il valore di proportion per il progetto e aggiorna i bug senza versioni interessate.
+     *
+     * @param project       Progetto
+     * @param versionList   Lista delle versioni del progetto
+     */
 
     public void estimateProportion(Project project, List<Version> versionList){
         int proportion = getEstimateProportion(project);
@@ -286,13 +381,18 @@ public class BugController {
 
                 bug.setIv(calculateIv(fvIndex, ovIndex, proportion, versionList));
 
-                // cambiare iv, ov, fv in Bug in tutti index (int) con rispettivi get e set
-                // e poi cambiare tutti i getV.getindex in getVindex...
                 project.getBugWithoutAV().remove(k);
                 project.getBugWithoutAV().add(k, bug);
             }
         }
     }
+
+    /**
+     * Calcola il valore di proportion stimato per il progetto.
+     *
+     * @param project   Progetto
+     * @return Valore di proportion stimato
+     */
 
     private int getEstimateProportion(Project project) {
         double sumProportion = 0;
@@ -306,7 +406,15 @@ public class BugController {
         return (int)(sumProportion/numberBugWithAV);
     }
 
-    // data una resolutionDate, il metodo ritorna l'indice della versione
+
+    /**
+     * Restituisce l'indice della fixed version in base alla resolution date e al progetto.
+     *
+     * @param resolutionDate    Data di risoluzione
+     * @param project           Progetto
+     * @return Indice della fixed version
+     */
+
     public int getFixedVersion(LocalDateTime resolutionDate, Project project){
         int fvIndex = 0;
 
@@ -322,11 +430,16 @@ public class BugController {
         return fvIndex;
     }
 
-    // data la creationDate del bug, ritorna indice della versione
+    /**
+     * Restituisce l'indice della opening version in base alla creation date del bug e al progetto.
+     *
+     * @param creationDate  Data di creazione del bug
+     * @param project       Progetto
+     * @return Indice della opening version
+     */
+
     public int getOpeningVersion(LocalDateTime creationDate, Project project){
         int ovIndex = 0;
-        // storm dà errore nullpointer per una versione senza creation date e si interrompe qua
-        // mannaggia anche bookkeeper
 
         for(int k = 0; k < project.getVersionList().size(); k++){
             Version currentVersion = project.getVersionList().get(k);
@@ -340,7 +453,16 @@ public class BugController {
         return ovIndex;
     }
 
-    // data la creationDate e la lista di av del bug, il metodo ritorna l'indice della versione
+    /**
+     * Restituisce l'indice della injected version in base alla lista delle versioni specificate,
+     * la creation date del bug e il progetto.
+     *
+     * @param versionStringList Lista delle versioni
+     * @param creationDate      Data di creazione del bug
+     * @param project           Progetto
+     * @return Indice della injected version
+     */
+
     public int getInjectedVersion(List<String> versionStringList, String creationDate, Project project){
         int ivVersion = 0;
 
@@ -359,6 +481,17 @@ public class BugController {
         }
         return ivVersion;
     }
+
+    /**
+     * Calcola la injected version in base all'indice della versione corrente, l'indice della opening version,
+     * il valore di proportion e la lista delle versioni del progetto.
+     *
+     * @param fvIndex       Indice della fixed version
+     * @param ovIndex       Indice della opening version
+     * @param proportion    Valore di proportion
+     * @param versionList   Lista delle versioni del progetto
+     * @return Injected version
+     */
 
     public Version calculateIv(int fvIndex, int ovIndex, float proportion, List<Version> versionList){
         Version nullIv = null;
