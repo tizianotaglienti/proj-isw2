@@ -12,6 +12,9 @@ public class VariableModel {
     private static int[] buggyTestingSet;
     private static int[] buggyTrainingSetToWrite;
 
+    private VariableModel(){
+        // costruttore privato per nascondere quello pubblico implicito
+    }
 
     public static VariableModel create() {
         return new VariableModel();

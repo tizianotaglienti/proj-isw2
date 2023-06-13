@@ -1,0 +1,5 @@
+controllertwo.SensitiveSelectionController#sensitiveThreshold()Lweka/classifiers/Evaluation;
+entitiestwo.VariableModel#setSensitivity(Ljava/lang/String;)V
+controllertwo.SensitiveSelectionController#calculateCostMatrix()Lweka/classifiers/CostMatrix;
+controllertwo.SensitiveSelectionController#applyEvaluation(Lweka/classifiers/meta/CostSensitiveClassifier;Lweka/classifiers/CostMatrix;)Lweka/classifiers/Evaluation;
+controllertwo.SensitiveSelectionController#createCostSensitiveClassifier(Lweka/classifiers/CostMatrix;)Lweka/classifiers/meta/CostSensitiveClassifier;

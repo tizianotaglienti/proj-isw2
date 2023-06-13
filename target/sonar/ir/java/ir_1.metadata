@@ -1,0 +1,7 @@
+controllertwo.BalancingController#startBalancing(Lweka/core/Instances;I)Lweka/core/Instances;
+controllertwo.BalancingController#underSampling()Lweka/core/Instances;
+weka.core.Instances#<init>(Lweka/core/Instances;I)V
+weka.core.Instances#instance-init#
+controllertwo.BalancingController#overSampling()Lweka/core/Instances;
+controllertwo.BalancingController#noSampling()Lweka/core/Instances;
+controllertwo.BalancingController#smote()Lweka/core/Instances;

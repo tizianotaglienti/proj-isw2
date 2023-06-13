@@ -1,0 +1,4 @@
+controllertwo.SensitiveSelectionController#startSensitiveSelection(Lweka/core/Instances;Lweka/core/Instances;ILweka/classifiers/Classifier;)Lweka/classifiers/Evaluation;
+controllertwo.SensitiveSelectionController#sensitiveThreshold()Lweka/classifiers/Evaluation;
+controllertwo.SensitiveSelectionController#sensitiveLearning()Lweka/classifiers/Evaluation;
+controllertwo.SensitiveSelectionController#noCostSensitive()Lweka/classifiers/Evaluation;
