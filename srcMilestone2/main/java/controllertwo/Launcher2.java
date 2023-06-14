@@ -21,8 +21,9 @@ public class Launcher2 {
     private static final String PROJECT_NAME = "STORM";
     private static final String MYSTRINGSTORM = "STORM";
     private static final String MYSTRINGBK = "BOOKKEEPER";
-    private static FileWriter outputCsv;
     private static int releaseNumber;
+    private static FileWriter outputCsv;
+
 
     /**
      * Main method per l'avvio del programma.
@@ -33,6 +34,7 @@ public class Launcher2 {
      */
 
     public static void main(String[] args) throws Exception{
+
         String pathToFile = System.getProperty("user.dir");
         ProjectToAnalyze selectedProject = new ProjectToAnalyze();
 
@@ -52,7 +54,9 @@ public class Launcher2 {
 
         // Preparazione del file CSV di output per i risultati finali
         MLcsvController mlCsvController = new MLcsvController();
-        outputCsv = mlCsvController.createOutputCSV(selectedProject.getPath());
+        FileWriter outputCSV = new FileWriter(selectedProject.getPath() + "_OUTPUT.csv");
+        mlCsvController.createOutputCSV(outputCSV);
+        outputCsv = outputCSV;
 
         ArrayList<String> arffFileList = new ArrayList<>();
         ArrayList<String> csvFileList = new ArrayList<>();
@@ -118,8 +122,12 @@ public class Launcher2 {
      */
 
     private static void walkForward(ArrayList<String> arffFileList, ProjectToAnalyze selectedProject) throws Exception {
-        Instances trainingSet = null;
-        ConverterUtils.DataSource sourceTrainingSet = new ConverterUtils.DataSource("");
+        Instances trainingSet = new Instances("trainingSet", new ArrayList<>(), 0);
+        trainingSet.setRelationName("trainingSet"); // risolve un code smell
+
+        ConverterUtils.DataSource sourceTrainingSet = new ConverterUtils.DataSource("C:\\Users\\tagli\\Desktop\\proj-isw2\\"
+                                                                                    + selectedProject.getProjectName().toLowerCase()
+                                                                                    + "Files\\" + selectedProject.getProjectName() + "METRICS.arff");
 
         for(int release = 0; release < releaseNumber - 1; release++){
             if(release != 0){
@@ -136,7 +144,11 @@ public class Launcher2 {
                     e.printStackTrace();
                 }
             }
-            ConverterUtils.DataSource sourceTestingSet = new ConverterUtils.DataSource("");
+            ConverterUtils.DataSource sourceTestingSet = new ConverterUtils.DataSource("C:\\Users\\tagli\\Desktop\\proj-isw2\\"
+                                                                                        + selectedProject.getProjectName().toLowerCase()
+                                                                                        + "Files\\" + selectedProject.getProjectName() + "METRICS.arff");
+
+
             try{
                 sourceTestingSet = new ConverterUtils.DataSource(arffFileList.get(release + 1));
             } catch (Exception e) {

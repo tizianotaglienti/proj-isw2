@@ -1,15 +1,17 @@
 
-:entitiestwo.VariableModel#getBalancing()Ljava/lang/String;a
-WC:/Users/tagli/Desktop/proj-isw2/srcMilestone2/main/java/entitiestwo/VariableModel.java (%"1*©
-1 (t
-r
- (
-%0java.lang.String"__id*H
+=entitiestwo.VariableModel#create()Lentitiestwo/VariableModel;a
+WC:/Users/tagli/Desktop/proj-isw2/srcMilestone2/main/java/entitiestwo/VariableModel.java  (&"1*þ
+1 ("HF
+ ( 
+%0entitiestwo.VariableModel"entitiestwo.VariableModelv
+t
+ ("
+%1"#entitiestwo.VariableModel#<init>()V*=
 
-__unknown_file (,**
-entitiestwo.VariableModel"
-	balancing"$
- (
-
-%0java.lang.StringB"
+__unknown_file (!
+
+%0entitiestwo.VariableModel"-
+ (#!
+
+%0entitiestwo.VariableModelB"
 entitiestwo.VariableModelH

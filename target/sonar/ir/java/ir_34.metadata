@@ -1,1 +1,1 @@
-entitiestwo.VariableModel#setBalancing(Ljava/lang/String;)V
+entitiestwo.VariableModel#getBalancing()Ljava/lang/String;

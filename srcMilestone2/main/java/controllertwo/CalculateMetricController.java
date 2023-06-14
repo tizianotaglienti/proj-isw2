@@ -22,7 +22,7 @@ public class CalculateMetricController {
      * @param csvOutput        Il FileWriter per il file di output CSV.
      */
 
-    public void metricCalculator(Evaluation eval, ProjectToAnalyze project, int releaseNumber, String classifier, FileWriter csvOutput){
+public void metricCalculator(Evaluation eval, ProjectToAnalyze project, int releaseNumber, String classifier, FileWriter csvOutput){
 
         // calcolo percentuale di bugginess del training set e del testing set
         int[] buggyTrainingSet = VariableModel.getBuggyTrainingSetToWrite();
@@ -37,6 +37,7 @@ public class CalculateMetricController {
         float trainingSetPercentage = (totalTrainingSetInstances / (totalTrainingSetInstances + totalTestingSetInstances)) * 100;
 
         // scrittura del file di output
+
         try{
             csvOutput.append(project.getProjectName() + ","
                                 + releaseNumber + ","

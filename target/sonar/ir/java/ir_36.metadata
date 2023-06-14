@@ -1,1 +1,1 @@
-entitiestwo.VariableModel#setFeatureSelection(Ljava/lang/String;)V
+entitiestwo.VariableModel#getFeatureSelection()Ljava/lang/String;

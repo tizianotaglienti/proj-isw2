@@ -10,19 +10,15 @@ import com.opencsv.CSVReader;
 public class MLcsvController {
 
     /**
-     * Crea un nuovo file CSV di output con il nome basato sul percorso del file di input.
+     * Modifica il file CSV di output inserendo un header.
      *
-     * @param filePath Percorso del file di input.
-     * @return FileWriter per il nuovo file CSV di output.
+     * @param outputCsv File CSV per cui creare l'header.
      * @throws IOException In caso di errori di input/output.
      */
 
-    public FileWriter createOutputCSV(String filePath) throws IOException {
-        try (FileWriter outputCSV = new FileWriter(filePath + "_OUTPUT.csv")) {
+    public void createOutputCSV(FileWriter outputCsv) throws IOException {
             // intestazione del file di output
-            outputCSV.append("Dataset," + "#TrainingRelease," + "%Training," + "%DefectiveTraining," + "%DefectiveTesting," + "Classifier," + "Balancing," + "FeatureSelection," + "Sensitivity," + "TP,FP,TN,FN," + "Precision," + "Recall," + "AUC," + "Kappa\n");
-            return outputCSV;
-        }
+            outputCsv.append("Dataset," + "#TrainingRelease," + "%Training," + "%DefectiveTraining," + "%DefectiveTesting," + "Classifier," + "Balancing," + "FeatureSelection," + "Sensitivity," + "TP,FP,TN,FN," + "Precision," + "Recall," + "AUC," + "Kappa\n");
     }
 
     /**

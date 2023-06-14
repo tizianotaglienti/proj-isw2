@@ -1,1 +1,1 @@
-entitiestwo.VariableModel#setSensitivity(Ljava/lang/String;)V
+entitiestwo.VariableModel#getSensitivity()Ljava/lang/String;
