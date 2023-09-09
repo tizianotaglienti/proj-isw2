@@ -43,13 +43,13 @@ setCsvFile<entitiestwo.ProjectToAnalyze#setCsvFile(Ljava/lang/String;)VT
 'controllertwo.CalculateMetricController;
 <init>1controllertwo.CalculateMetricController#<init>()Vw
 calculateDefectStatisticsZcontrollertwo.CalculateMetricController#calculateDefectStatistics(Lweka/core/Instances;)[I≤
-metricCalculatorùcontrollertwo.CalculateMetricController#metricCalculator(Lweka/classifiers/Evaluation;Lentitiestwo/ProjectToAnalyze;ILjava/lang/String;Ljava/io/FileWriter;)Vjava.lang.Object‘
+metricCalculatorùcontrollertwo.CalculateMetricController#metricCalculator(Lweka/classifiers/Evaluation;Lentitiestwo/ProjectToAnalyze;ILjava/lang/String;Ljava/io/FileWriter;)Vjava.lang.Object√
 controllertwo.MLcsvController1
 <init>'controllertwo.MLcsvController#<init>()Vl
 addAttribute\controllertwo.MLcsvController#addAttribute(IILjava/io/FileWriter;Ljava/lang/StringBuilder;)IV
 addFirstRowGcontrollertwo.MLcsvController#addFirstRow(IILjava/lang/StringBuilder;)IX
-addRowNcontrollertwo.MLcsvController#addRow([Ljava/lang/String;Ljava/io/FileWriter;)Vh
-createOutputCSVUcontrollertwo.MLcsvController#createOutputCSV(Ljava/lang/String;)Ljava/io/FileWriter;d
+addRowNcontrollertwo.MLcsvController#addRow([Ljava/lang/String;Ljava/io/FileWriter;)VW
+createOutputCSVDcontrollertwo.MLcsvController#createOutputCSV(Ljava/io/FileWriter;)Vd
 split[controllertwo.MLcsvController#split(Ljava/lang/String;Ljava/util/List;Ljava/lang/String;I)Vjava.lang.Object◊
 (controllertwo.FeatureSelectionController<
 <init>2controllertwo.FeatureSelectionController#<init>()Vh

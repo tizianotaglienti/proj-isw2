@@ -1,5 +1,6 @@
 controllertwo.Launcher2#main([Ljava/lang/String;)V
 java.util.ArrayList#<init>()V
+java.io.FileWriter#<init>(Ljava/lang/String;)V
 entitiestwo.ProjectToAnalyze#<init>()V
 controllertwo.CsvToArff#instance-init#
 weka.core.converters.ConverterUtils$DataSource#instance-init#
@@ -8,6 +9,7 @@ java.util.ArrayList#instance-init#
 controllertwo.MLcsvController#<init>()V
 controllertwo.CsvToArff#<init>()V
 java.lang.System#getProperty(Ljava/lang/String;)Ljava/lang/String;
+java.io.FileWriter#instance-init#
 weka.core.converters.ConverterUtils$DataSource#<init>(Ljava/lang/String;)V
 java.lang.String#equals(Ljava/lang/Object;)Z
 controllertwo.MLcsvController#instance-init#

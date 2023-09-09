@@ -1,11 +1,11 @@
 
 Çcontrollertwo.Launcher2#calculateMetricsForCombination(Lweka/core/Instances;Lweka/core/Instances;ILentitiestwo/ProjectToAnalyze;)Va
-UC:/Users/tagli/Desktop/proj-isw2/srcMilestone2/main/java/controllertwo/Launcher2.javaŒ Œ(6"17*Œ
+UC:/Users/tagli/Desktop/proj-isw2/srcMilestone2/main/java/controllertwo/Launcher2.java⁄ ⁄(6"17*Œ
 13
-Â Â(µ
+Ò Ò(µ
 ≤
 
-Â Â(Z
+Ò Ò(Z
 %15void"8entitiestwo.VariableModel#setMajorityClassPercentage(F)V*9
 
 __unknown_file ("
@@ -15,10 +15,10 @@ UC:/Users/tagli/Desktop/proj-isw2/srcMilestone2/main/java/controllertwo/Launcher
 ""*
 12*Œ
 14
-„ „(µ
+Ô Ô(µ
 ≤
 
-„ „(T
+Ô Ô(T
 %14void"8entitiestwo.VariableModel#setMajorityClassPercentage(F)V*9
 
 __unknown_file ("
@@ -28,13 +28,13 @@ UC:/Users/tagli/Desktop/proj-isw2/srcMilestone2/main/java/controllertwo/Launcher
 ""*
 12*Ô
 15
-€, €(E[Y
+Á, Á(E[Y
 
-€0 €(C(
+Á0 Á(C(
 %10!controllertwo.BalancingController"!controllertwo.BalancingControllerã
 à
 
-€, €(E
+Á, Á(E
 %11"+controllertwo.BalancingController#<init>()V*F
 
 __unknown_file (*
@@ -42,14 +42,14 @@ UC:/Users/tagli/Desktop/proj-isw2/srcMilestone2/main/java/controllertwo/Launcher
 %10!controllertwo.BalancingControllerç
 ä
 
-€ €(F.
+Á Á(F.
 	balancing!controllertwo.BalancingController"__id*F
 
 __unknown_file (*
 (
 %10!controllertwo.BalancingController¬ø
 
-ﬁ ﬁ(P
+Í Í(P
 %12int[]"Zcontrollertwo.CalculateMetricController#calculateDefectStatistics(Lweka/core/Instances;)[I*S
 
 __unknown_file (7
@@ -61,7 +61,7 @@ metricCalc'controllertwo.CalculateMetricController*@
 "
 trainingSetweka.core.Instances20calculateDefectStatistics(Lweka/core/Instances;)íè
 
-ﬂM ﬂ(g
+ÎM Î(g
 
 %13int"#weka.core.Instances#numInstances()I*@
 
@@ -71,13 +71,13 @@ metricCalc'controllertwo.CalculateMetricController*@
 13
 14*Ï*
 4
-ÅF Å(hmk
+çF ç(hmk
 
-ÅJ Å(f1
+çJ ç(f1
 %29*controllertwo.SensitiveSelectionController"*controllertwo.SensitiveSelectionControllerù
 ö
 
-ÅF Å(h
+çF ç(h
 %30"4controllertwo.SensitiveSelectionController#<init>()V*O
 
 __unknown_file (3
@@ -85,13 +85,13 @@ metricCalc'controllertwo.CalculateMetricController*@
 %29*controllertwo.SensitiveSelectionController®
 •
 
-Å Å(i@
+ç ç(i@
 sensitiveSelection*controllertwo.SensitiveSelectionController"__id*O
 
 __unknown_file (3
 1
 %29*controllertwo.SensitiveSelectionController—Œ
-É8 É(ﬂ"
+è8 è(ﬂ"
 %31weka.classifiers.Evaluation"©controllertwo.SensitiveSelectionController#startSensitiveSelection(Lweka/core/Instances;Lweka/core/Instances;ILweka/classifiers/Classifier;)Lweka/classifiers/Evaluation;*^
 
 __unknown_file (B
@@ -113,13 +113,13 @@ metricCalc'controllertwo.CalculateMetricController*@
 =
 randomForestClassifier#weka.classifiers.trees.RandomForest2astartSensitiveSelection(Lweka/core/Instances;Lweka/core/Instances;ILweka/classifiers/Classifier;)è
 å
-É É(‡5
+è è(‡5
 randomForestEvaluationweka.classifiers.Evaluation"__id*@
 
 __unknown_file ($
 "
 %31weka.classifiers.EvaluationÕ 
-Ñ6 Ñ(€"
+ê6 ê(€"
 %32weka.classifiers.Evaluation"©controllertwo.SensitiveSelectionController#startSensitiveSelection(Lweka/core/Instances;Lweka/core/Instances;ILweka/classifiers/Classifier;)Lweka/classifiers/Evaluation;*^
 
 __unknown_file (B
@@ -141,13 +141,13 @@ metricCalc'controllertwo.CalculateMetricController*@
 9
 naiveBayesClassifier!weka.classifiers.bayes.NaiveBayes2astartSensitiveSelection(Lweka/core/Instances;Lweka/core/Instances;ILweka/classifiers/Classifier;)ç
 ä
-Ñ Ñ(‹3
+ê ê(‹3
 naiveBayesEvaluationweka.classifiers.Evaluation"__id*@
 
 __unknown_file ($
 "
 %32weka.classifiers.Evaluationæª
-Ö/ Ö(Õ"
+ë/ ë(Õ"
 %33weka.classifiers.Evaluation"©controllertwo.SensitiveSelectionController#startSensitiveSelection(Lweka/core/Instances;Lweka/core/Instances;ILweka/classifiers/Classifier;)Lweka/classifiers/Evaluation;*^
 
 __unknown_file (B
@@ -169,20 +169,20 @@ metricCalc'controllertwo.CalculateMetricController*@
 *
 ibkClassifierweka.classifiers.lazy.IBk2astartSensitiveSelection(Lweka/core/Instances;Lweka/core/Instances;ILweka/classifiers/Classifier;)Ü
 É
-Ö Ö(Œ,
+ë ë(Œ,
 ibkEvaluationweka.classifiers.Evaluation"__id*@
 
 __unknown_file ($
 "
 %33weka.classifiers.Evaluationx
 v
-àz à(É
+îz î(É
 %34java.io.FileWriter"__id*F
 
 __unknown_file (**(
 controllertwo.Launcher2"
 	outputCsv∑¥
-à à(Ñ
+î î(Ñ
 %35void"ùcontrollertwo.CalculateMetricController#metricCalculator(Lweka/classifiers/Evaluation;Lentitiestwo/ProjectToAnalyze;ILjava/lang/String;Ljava/io/FileWriter;)V*S
 
 __unknown_file (7
@@ -209,13 +209,13 @@ metricCalc'controllertwo.CalculateMetricController*S
 %34java.io.FileWriter2tmetricCalculator(Lweka/classifiers/Evaluation;Lentitiestwo/ProjectToAnalyze;ILjava/lang/String;Ljava/io/FileWriter;)w
 u
 
-âv â(
+ïv ï(
 %36java.io.FileWriter"__id*F
 
 __unknown_file (**(
 controllertwo.Launcher2"
 	outputCsv≥∞
-â â(Ä
+ï ï(Ä
 %37void"ùcontrollertwo.CalculateMetricController#metricCalculator(Lweka/classifiers/Evaluation;Lentitiestwo/ProjectToAnalyze;ILjava/lang/String;Ljava/io/FileWriter;)V*S
 
 __unknown_file (7
@@ -243,14 +243,14 @@ NaiveBayes*7
 %36java.io.FileWriter2tmetricCalculator(Lweka/classifiers/Evaluation;Lentitiestwo/ProjectToAnalyze;ILjava/lang/String;Ljava/io/FileWriter;)w
 u
 
-äh ä(q
+ñh ñ(q
 %38java.io.FileWriter"__id*F
 
 __unknown_file (**(
 controllertwo.Launcher2"
 	outputCsv§°
 
-ä ä(r
+ñ ñ(r
 %39void"ùcontrollertwo.CalculateMetricController#metricCalculator(Lweka/classifiers/Evaluation;Lentitiestwo/ProjectToAnalyze;ILjava/lang/String;Ljava/io/FileWriter;)V*S
 
 __unknown_file (7
@@ -280,13 +280,13 @@ metricCalc'controllertwo.CalculateMetricController*J
 10
 0*ä
 17
-œ* œ(:ZX
+€* €(:ZX
 
-œ. œ(8'
+€. €(8'
 %0!weka.classifiers.bayes.NaiveBayes"!weka.classifiers.bayes.NaiveBayesâ
 Ü
 
-œ* œ(:
+€* €(:
 %1"+weka.classifiers.bayes.NaiveBayes#<init>()V*E
 
 __unknown_file ()
@@ -294,18 +294,18 @@ metricCalc'controllertwo.CalculateMetricController*J
 %0!weka.classifiers.bayes.NaiveBayesó
 î
 
-œ œ(;9
+€ €(;9
 naiveBayesClassifier!weka.classifiers.bayes.NaiveBayes"__id*E
 
 __unknown_file ()
 '
 %0!weka.classifiers.bayes.NaiveBayesJH
 
-–  –(#
+‹  ‹(#
 %2weka.classifiers.lazy.IBk"weka.classifiers.lazy.IBkx
 v
 
-– –(%
+‹ ‹(%
 %3"#weka.classifiers.lazy.IBk#<init>()V*=
 
 __unknown_file (!
@@ -313,18 +313,18 @@ v
 %2weka.classifiers.lazy.IBk
 }
 
-– –(&*
+‹ ‹(&*
 ibkClassifierweka.classifiers.lazy.IBk"__id*=
 
 __unknown_file (!
 
 %2weka.classifiers.lazy.IBk^\
 
-—2 —(>)
+›2 ›(>)
 %4#weka.classifiers.trees.RandomForest"#weka.classifiers.trees.RandomForestç
 ä
 
-—. —(@
+›. ›(@
 %5"-weka.classifiers.trees.RandomForest#<init>()V*G
 
 __unknown_file (+
@@ -332,18 +332,18 @@ v
 %4#weka.classifiers.trees.RandomForestù
 ö
 
-— —(A=
+› ›(A=
 randomForestClassifier#weka.classifiers.trees.RandomForest"__id*G
 
 __unknown_file (+
 )
 %4#weka.classifiers.trees.RandomForestfd
 
-”3 ”(L-
+ﬂ3 ﬂ(L-
 %6'controllertwo.CalculateMetricController"'controllertwo.CalculateMetricControllerï
 í
 
-”/ ”(N
+ﬂ/ ﬂ(N
 %7"1controllertwo.CalculateMetricController#<init>()V*K
 
 __unknown_file (/
@@ -351,7 +351,7 @@ v
 %6'controllertwo.CalculateMetricControllerô
 ñ
 
-” ”(O5
+ﬂ ﬂ(O5
 
 metricCalc'controllertwo.CalculateMetricController"__id*K
 
@@ -359,7 +359,7 @@ metricCalc'controllertwo.CalculateMetricController"__id*K
 -
 %6'controllertwo.CalculateMetricController¡æ
 
-÷! ÷(R
+‚! ‚(R
 %8int[]"Zcontrollertwo.CalculateMetricController#calculateDefectStatistics(Lweka/core/Instances;)[I*S
 
 __unknown_file (7
@@ -372,7 +372,7 @@ metricCalc'controllertwo.CalculateMetricController*@
 trainingSetweka.core.Instances20calculateDefectStatistics(Lweka/core/Instances;)µ
 ≤
 
-◊ ◊(B
+„ „(B
 
 %9void"9entitiestwo.VariableModel#setBuggyTrainingSetToWrite([I)V*9
 
@@ -384,10 +384,10 @@ metricCalc'controllertwo.CalculateMetricController*@
 15
 0*‹
 6
-˚= ˚(Dê
+á= á(Dê
 ç
 
-˚= ˚(K
+á= á(K
 %27weka.core.Instances"
 __arrayGet*7
 
@@ -398,7 +398,7 @@ __arrayGet*7
 __unknown_file (2 à
 Ö
 
-˚ ˚(L7
+á á(L7
  trainingSetAfterFeatureSelectionweka.core.Instances"__id*8
 
 __unknown_file (
@@ -406,7 +406,7 @@ __arrayGet*7
 %27weka.core.Instancesí
 è
 
-¸< ¸(J
+à< à(J
 %28weka.core.Instances"
 __arrayGet*7
 
@@ -417,7 +417,7 @@ __arrayGet*7
 __unknown_file (2á
 Ñ
 
-¸ ¸(K6
+à à(K6
 testingSetAfterFeatureSelectionweka.core.Instances"__id*8
 
 __unknown_file (
@@ -428,10 +428,10 @@ __arrayGet*7
 10
 0*z
 7
-ˆ ˆ(wd
+Ç Ç(wd
 b
 
-ˆ ˆ(w
+Ç Ç(w
 datasetjava.util.List"__id*3
 
 __unknown_file (
@@ -439,9 +439,9 @@ b
 %25java.util.List*
 6*â
 9
-ˆ ˆ(.ÚÔ
+Ç Ç(.ÚÔ
 
-ˆ ˆ(w
+Ç Ç(w
 %25java.util.List"{controllertwo.FeatureSelectionController#startFeatureSelection(Lweka/core/Instances;Lweka/core/Instances;I)Ljava/util/List;*Z
 
 __unknown_file (>
@@ -461,13 +461,13 @@ testingSetweka.core.Instances*"
 ""2BstartFeatureSelection(Lweka/core/Instances;Lweka/core/Instances;I)*
 7*›
 10
-Ú> Ú(^ig
+˛> ˛(^ig
 
-ÚB Ú(\/
+˛B ˛(\/
 %21(controllertwo.FeatureSelectionController"(controllertwo.FeatureSelectionControllerô
 ñ
 
-Ú> Ú(^
+˛> ˛(^
 %22"2controllertwo.FeatureSelectionController#<init>()V*M
 
 __unknown_file (1
@@ -475,18 +475,18 @@ testingSetweka.core.Instances*"
 %21(controllertwo.FeatureSelectionController¢
 ü
 
-Ú Ú(_<
+˛ ˛(_<
 featureSelection(controllertwo.FeatureSelectionController"__id*M
 
 __unknown_file (1
 /
 %21(controllertwo.FeatureSelectionController?=
 
-Û. Û(9
+ˇ. ˇ(9
 %23java.util.ArrayList"java.util.ArrayListn
 l
 
-Û* Û(;
+ˇ* ˇ(;
 %24"java.util.ArrayList#<init>()V*8
 
 __unknown_file (
@@ -494,7 +494,7 @@ l
 %23java.util.ArrayListi
 g
 
-Û Û(<
+ˇ ˇ(<
 datasetjava.util.List"__id*8
 
 __unknown_file (
@@ -503,12 +503,12 @@ g
 9*(
 0 "!
 
-é é(
+ö ö(
 implicit return*ˆ
 12
-Ë, Ë(5Ê„
+Ù, Ù(5Ê„
 
-Ë, Ë(j
+Ù, Ù(j
 %16weka.core.Instances"]controllertwo.BalancingController#startBalancing(Lweka/core/Instances;I)Lweka/core/Instances;*L
 
 __unknown_file (0
@@ -523,14 +523,14 @@ g
 ""2&startBalancing(Lweka/core/Instances;I)z
 x
 
-Ë Ë(k*
+Ù Ù(k*
 balancedTrainingSetweka.core.Instances"__id*8
 
 __unknown_file (
 
 %16weka.core.Instances «
 
-Í Í(X
+ˆ ˆ(X
 %17int[]"Zcontrollertwo.CalculateMetricController#calculateDefectStatistics(Lweka/core/Instances;)[I*S
 
 __unknown_file (7
@@ -542,7 +542,7 @@ metricCalc'controllertwo.CalculateMetricController*H
 *
 balancedTrainingSetweka.core.Instances20calculateDefectStatistics(Lweka/core/Instances;)¡æ
 
-Î$ Î(T
+˜$ ˜(T
 %18int[]"Zcontrollertwo.CalculateMetricController#calculateDefectStatistics(Lweka/core/Instances;)[I*S
 
 __unknown_file (7
@@ -556,7 +556,7 @@ metricCalc'controllertwo.CalculateMetricController*?
 testingSetweka.core.Instances20calculateDefectStatistics(Lweka/core/Instances;)Ø
 ¨
 
-Ì Ì(?
+˘ ˘(?
 %19void"2entitiestwo.VariableModel#setBuggyTrainingSet([I)V*9
 
 __unknown_file ("
@@ -566,7 +566,7 @@ testingSetweka.core.Instances20calculateDefectStatistics(Lweka/core/Instances;
 ""Æ
 ´
 
-Ó Ó(=
+˙ ˙(=
 %20void"1entitiestwo.VariableModel#setBuggyTestingSet([I)V*9
 
 __unknown_file ("
@@ -578,15 +578,15 @@ testingSetweka.core.Instances20calculateDefectStatistics(Lweka/core/Instances;
 10
 0:/
 
-Œ7 Œ(L!
+⁄7 ⁄(L!
 
 testingSetweka.core.Instances:0
 
-ŒM Œ(c"
+⁄M ⁄(c"
 trainingSetweka.core.Instances: 
 
 __unknown_file (
 "":>
-Œu Œ(ï/
+⁄u ⁄(ï/
 selectedProjectentitiestwo.ProjectToAnalyzeB"
 controllertwo.Launcher2

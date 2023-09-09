@@ -1,7 +1,7 @@
 organization=tizianotaglienti
 projectKey=tizianotaglienti_proj-isw2
 serverUrl=https://sonarcloud.io
-serverVersion=8.0.0.42599
+serverVersion=8.0.0.42664
 dashboardUrl=https://sonarcloud.io/dashboard?id=tizianotaglienti_proj-isw2
-ceTaskId=AYi0BeZcUn3qE5jLkGjX
-ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AYi0BeZcUn3qE5jLkGjX
+ceTaskId=AYi6Vd2FQlkxE4dtjLQU
+ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AYi6Vd2FQlkxE4dtjLQU

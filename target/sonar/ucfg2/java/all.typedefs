@@ -699,14 +699,53 @@ nanoTime()java.lang.System#nanoTime()J¢
 setCsvFile(Ljava/lang/String;)<entitiestwo.ProjectToAnalyze#setCsvFile(Ljava/lang/String;)Vh
 #setFirstRelease(Ljava/lang/String;)Aentitiestwo.ProjectToAnalyze#setFirstRelease(Ljava/lang/String;)VX
 setPath(Ljava/lang/String;)9entitiestwo.ProjectToAnalyze#setPath(Ljava/lang/String;)Vf
-"setProjectName(Ljava/lang/String;)@entitiestwo.ProjectToAnalyze#setProjectName(Ljava/lang/String;)Võ
+"setProjectName(Ljava/lang/String;)@entitiestwo.ProjectToAnalyze#setProjectName(Ljava/lang/String;)Vå
 controllertwo.MLcsvControllerjava.lang.Object3
 <init>()'controllertwo.MLcsvController#<init>()Vù
 =addAttribute(IILjava/io/FileWriter;Ljava/lang/StringBuilder;)\controllertwo.MLcsvController#addAttribute(IILjava/io/FileWriter;Ljava/lang/StringBuilder;)Is
 (addFirstRow(IILjava/lang/StringBuilder;)Gcontrollertwo.MLcsvController#addFirstRow(IILjava/lang/StringBuilder;)IÅ
-/addRow([Ljava/lang/String;Ljava/io/FileWriter;)Ncontrollertwo.MLcsvController#addRow([Ljava/lang/String;Ljava/io/FileWriter;)V|
-#createOutputCSV(Ljava/lang/String;)Ucontrollertwo.MLcsvController#createOutputCSV(Ljava/lang/String;)Ljava/io/FileWriter;õ
-<split(Ljava/lang/String;Ljava/util/List;Ljava/lang/String;I)[controllertwo.MLcsvController#split(Ljava/lang/String;Ljava/util/List;Ljava/lang/String;I)V*
+/addRow([Ljava/lang/String;Ljava/io/FileWriter;)Ncontrollertwo.MLcsvController#addRow([Ljava/lang/String;Ljava/io/FileWriter;)Vm
+%createOutputCSV(Ljava/io/FileWriter;)Dcontrollertwo.MLcsvController#createOutputCSV(Ljava/io/FileWriter;)Võ
+<split(Ljava/lang/String;Ljava/util/List;Ljava/lang/String;I)[controllertwo.MLcsvController#split(Ljava/lang/String;Ljava/util/List;Ljava/lang/String;I)V(
+java.lang.Appendablejava.lang.Object+
+java.lang.AutoCloseablejava.lang.Object>
+java.io.Closeablejava.lang.AutoCloseablejava.lang.Object%
+java.io.Flushablejava.lang.ObjectÚ
+java.io.Writerjava.io.Closeablejava.io.Flushablejava.lang.Appendablejava.lang.Object$
+<init>()java.io.Writer#<init>()VH
+<init>(Ljava/lang/Object;)*java.io.Writer#<init>(Ljava/lang/Object;)V5
+	append(C)(java.io.Writer#append(C)Ljava/io/Writer;c
+ append(Ljava/lang/CharSequence;)?java.io.Writer#append(Ljava/lang/CharSequence;)Ljava/io/Writer;g
+"append(Ljava/lang/CharSequence;II)Ajava.io.Writer#append(Ljava/lang/CharSequence;II)Ljava/io/Writer;;
+nullWriter()+java.io.Writer#nullWriter()Ljava/io/Writer;$
+write(I)java.io.Writer#write(I)VF
+write(Ljava/lang/String;))java.io.Writer#write(Ljava/lang/String;)VJ
+write(Ljava/lang/String;II)+java.io.Writer#write(Ljava/lang/String;II)V&
+	write([C)java.io.Writer#write([C)V“	
+java.io.OutputStreamWriterjava.io.Writer\
+<init>(Ljava/io/OutputStream;):java.io.OutputStreamWriter#<init>(Ljava/io/OutputStream;)VÄ
+0<init>(Ljava/io/OutputStream;Ljava/lang/String;)Ljava.io.OutputStreamWriter#<init>(Ljava/io/OutputStream;Ljava/lang/String;)Vê
+8<init>(Ljava/io/OutputStream;Ljava/nio/charset/Charset;)Tjava.io.OutputStreamWriter#<init>(Ljava/io/OutputStream;Ljava/nio/charset/Charset;)Vû
+?<init>(Ljava/io/OutputStream;Ljava/nio/charset/CharsetEncoder;)[java.io.OutputStreamWriter#<init>(Ljava/io/OutputStream;Ljava/nio/charset/CharsetEncoder;)Vo
+ append(Ljava/lang/CharSequence;)Kjava.io.OutputStreamWriter#append(Ljava/lang/CharSequence;)Ljava/io/Writer;s
+"append(Ljava/lang/CharSequence;II)Mjava.io.OutputStreamWriter#append(Ljava/lang/CharSequence;II)Ljava/io/Writer;.
+close()#java.io.OutputStreamWriter#close()V.
+flush()#java.io.OutputStreamWriter#flush()V:
+flushBuffer())java.io.OutputStreamWriter#flushBuffer()VK
+getEncoding():java.io.OutputStreamWriter#getEncoding()Ljava/lang/String;0
+write(I)$java.io.OutputStreamWriter#write(I)VV
+write(Ljava/lang/String;II)7java.io.OutputStreamWriter#write(Ljava/lang/String;II)V6
+write([CII)'java.io.OutputStreamWriter#write([CII)V¥
+java.io.FileWriterjava.io.OutputStreamWriterD
+<init>(Ljava/io/File;)*java.io.FileWriter#<init>(Ljava/io/File;)Vx
+0<init>(Ljava/io/File;Ljava/nio/charset/Charset;)Djava.io.FileWriter#<init>(Ljava/io/File;Ljava/nio/charset/Charset;)Vz
+1<init>(Ljava/io/File;Ljava/nio/charset/Charset;Z)Ejava.io.FileWriter#<init>(Ljava/io/File;Ljava/nio/charset/Charset;Z)VF
+<init>(Ljava/io/File;Z)+java.io.FileWriter#<init>(Ljava/io/File;Z)VX
+ <init>(Ljava/io/FileDescriptor;)4java.io.FileWriter#<init>(Ljava/io/FileDescriptor;)VL
+<init>(Ljava/lang/String;).java.io.FileWriter#<init>(Ljava/lang/String;)VÄ
+4<init>(Ljava/lang/String;Ljava/nio/charset/Charset;)Hjava.io.FileWriter#<init>(Ljava/lang/String;Ljava/nio/charset/Charset;)VÇ
+5<init>(Ljava/lang/String;Ljava/nio/charset/Charset;Z)Ijava.io.FileWriter#<init>(Ljava/lang/String;Ljava/nio/charset/Charset;Z)VN
+<init>(Ljava/lang/String;Z)/java.io.FileWriter#<init>(Ljava/lang/String;Z)V*
 java.util.RandomAccessjava.lang.Objectù&
 java.util.ArrayListjava.io.Serializablejava.lang.Cloneablejava.util.AbstractListjava.util.Listjava.util.RandomAccess)
 <init>()java.util.ArrayList#<init>()V+
@@ -1567,46 +1606,7 @@ dwrite(Ljava/nio/file/Path;Ljava/lang/Iterable;Ljava/nio/charset/Charset;[Ljava/
 Jwrite(Ljava/nio/file/Path;Ljava/lang/Iterable;[Ljava/nio/file/OpenOption;)rjava.nio.file.Files#write(Ljava/nio/file/Path;Ljava/lang/Iterable;[Ljava/nio/file/OpenOption;)Ljava/nio/file/Path;ú
 8write(Ljava/nio/file/Path;[B[Ljava/nio/file/OpenOption;)`java.nio.file.Files#write(Ljava/nio/file/Path;[B[Ljava/nio/file/OpenOption;)Ljava/nio/file/Path;â
 nwriteString(Ljava/nio/file/Path;Ljava/lang/CharSequence;Ljava/nio/charset/Charset;[Ljava/nio/file/OpenOption;)ñjava.nio.file.Files#writeString(Ljava/nio/file/Path;Ljava/lang/CharSequence;Ljava/nio/charset/Charset;[Ljava/nio/file/OpenOption;)Ljava/nio/file/Path;‘
-TwriteString(Ljava/nio/file/Path;Ljava/lang/CharSequence;[Ljava/nio/file/OpenOption;)|java.nio.file.Files#writeString(Ljava/nio/file/Path;Ljava/lang/CharSequence;[Ljava/nio/file/OpenOption;)Ljava/nio/file/Path;(
-java.lang.Appendablejava.lang.Object+
-java.lang.AutoCloseablejava.lang.Object>
-java.io.Closeablejava.lang.AutoCloseablejava.lang.Object%
-java.io.Flushablejava.lang.ObjectÚ
-java.io.Writerjava.io.Closeablejava.io.Flushablejava.lang.Appendablejava.lang.Object$
-<init>()java.io.Writer#<init>()VH
-<init>(Ljava/lang/Object;)*java.io.Writer#<init>(Ljava/lang/Object;)V5
-	append(C)(java.io.Writer#append(C)Ljava/io/Writer;c
- append(Ljava/lang/CharSequence;)?java.io.Writer#append(Ljava/lang/CharSequence;)Ljava/io/Writer;g
-"append(Ljava/lang/CharSequence;II)Ajava.io.Writer#append(Ljava/lang/CharSequence;II)Ljava/io/Writer;;
-nullWriter()+java.io.Writer#nullWriter()Ljava/io/Writer;$
-write(I)java.io.Writer#write(I)VF
-write(Ljava/lang/String;))java.io.Writer#write(Ljava/lang/String;)VJ
-write(Ljava/lang/String;II)+java.io.Writer#write(Ljava/lang/String;II)V&
-	write([C)java.io.Writer#write([C)V“	
-java.io.OutputStreamWriterjava.io.Writer\
-<init>(Ljava/io/OutputStream;):java.io.OutputStreamWriter#<init>(Ljava/io/OutputStream;)VÄ
-0<init>(Ljava/io/OutputStream;Ljava/lang/String;)Ljava.io.OutputStreamWriter#<init>(Ljava/io/OutputStream;Ljava/lang/String;)Vê
-8<init>(Ljava/io/OutputStream;Ljava/nio/charset/Charset;)Tjava.io.OutputStreamWriter#<init>(Ljava/io/OutputStream;Ljava/nio/charset/Charset;)Vû
-?<init>(Ljava/io/OutputStream;Ljava/nio/charset/CharsetEncoder;)[java.io.OutputStreamWriter#<init>(Ljava/io/OutputStream;Ljava/nio/charset/CharsetEncoder;)Vo
- append(Ljava/lang/CharSequence;)Kjava.io.OutputStreamWriter#append(Ljava/lang/CharSequence;)Ljava/io/Writer;s
-"append(Ljava/lang/CharSequence;II)Mjava.io.OutputStreamWriter#append(Ljava/lang/CharSequence;II)Ljava/io/Writer;.
-close()#java.io.OutputStreamWriter#close()V.
-flush()#java.io.OutputStreamWriter#flush()V:
-flushBuffer())java.io.OutputStreamWriter#flushBuffer()VK
-getEncoding():java.io.OutputStreamWriter#getEncoding()Ljava/lang/String;0
-write(I)$java.io.OutputStreamWriter#write(I)VV
-write(Ljava/lang/String;II)7java.io.OutputStreamWriter#write(Ljava/lang/String;II)V6
-write([CII)'java.io.OutputStreamWriter#write([CII)V¥
-java.io.FileWriterjava.io.OutputStreamWriterD
-<init>(Ljava/io/File;)*java.io.FileWriter#<init>(Ljava/io/File;)Vx
-0<init>(Ljava/io/File;Ljava/nio/charset/Charset;)Djava.io.FileWriter#<init>(Ljava/io/File;Ljava/nio/charset/Charset;)Vz
-1<init>(Ljava/io/File;Ljava/nio/charset/Charset;Z)Ejava.io.FileWriter#<init>(Ljava/io/File;Ljava/nio/charset/Charset;Z)VF
-<init>(Ljava/io/File;Z)+java.io.FileWriter#<init>(Ljava/io/File;Z)VX
- <init>(Ljava/io/FileDescriptor;)4java.io.FileWriter#<init>(Ljava/io/FileDescriptor;)VL
-<init>(Ljava/lang/String;).java.io.FileWriter#<init>(Ljava/lang/String;)VÄ
-4<init>(Ljava/lang/String;Ljava/nio/charset/Charset;)Hjava.io.FileWriter#<init>(Ljava/lang/String;Ljava/nio/charset/Charset;)VÇ
-5<init>(Ljava/lang/String;Ljava/nio/charset/Charset;Z)Ijava.io.FileWriter#<init>(Ljava/lang/String;Ljava/nio/charset/Charset;Z)VN
-<init>(Ljava/lang/String;Z)/java.io.FileWriter#<init>(Ljava/lang/String;Z)V&
+TwriteString(Ljava/nio/file/Path;Ljava/lang/CharSequence;[Ljava/nio/file/OpenOption;)|java.nio.file.Files#writeString(Ljava/nio/file/Path;Ljava/lang/CharSequence;[Ljava/nio/file/OpenOption;)Ljava/nio/file/Path;&
 java.lang.Readablejava.lang.Objectú
 java.io.Readerjava.io.Closeablejava.lang.Objectjava.lang.Readable$
 <init>()java.io.Reader#<init>()VH
